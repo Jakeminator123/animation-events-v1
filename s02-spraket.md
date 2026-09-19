@@ -1,187 +1,150 @@
-# animation-events-v1-s02 · språket
+# Animation events V3 · s02 språket
 
-> Inofficiellt utkast. Partner-API, shoe-regler och koden som körs är sanningen. Gäller först efter att Jakob pratat med Kevin och Kevin accepterat. Inget av det här byter kod.
+> **V3.** Språket på den här sidan ska göra Kevins befintliga Croupier-motor lättare att diskutera. Det skapar inte en ny RNG, döper inte om runtime och blir inte ett kontrakt förrän motsvarande symbol är verifierad och Kevin har accepterat förändringen.
 
-Facit-namn så Kevin, Jakob och Emil menar samma sak. rng är fakta. show är event. Linjen, variant, take, trigger ligger under varje show-event (s03) och används aldrig i event-namn.
+Grundregeln är enkel: **kodens exakta namn är canonical; våra svenska ord förklarar vad namnen betyder.** Ett praktiskt alias i ett diagram får aldrig presenteras som om servern redan emitterar det.
 
-|  |  |
+## Statusmarkeringar
+
+| Markering | Användning |
 | --- | --- |
-| **65** | facit-namn |
-| **29** | rng |
-| **36** | show |
-| **21** | bara Kevin |
-| **9** | bara Jakob |
-| **7** | bara Emil |
+| **BESLUTAT** | Roll, arbetsgräns eller riktning beslutad i mötet. |
+| **VERIFIERAT** | Exakt symbol eller beteende bekräftat i aktuell Croupier-kod. |
+| **VERIFIERAS** | Kandidat från äldre dokumentation som ännu inte är bekräftad i aktuell branch. |
+| **JAKOBS FÖRSLAG** | Dokumentationsord eller adapterbegrepp ovanpå Kevins motor. |
+| **BESLUT KRÄVS** | Föreslagen ändring som Kevin behöver ta ställning till vid en etapp. |
 
-## Regeln
+Statusen ska stå bredvid saken den gäller. En hel sida får inte kallas “verifierad” bara för att några av dess ord finns i koden.
 
-> **Namnregeln.** lager.ämne.verb och ibland ett fjärde led för riktning eller rad. rng = dåtid (dealt, settled). show = infinitiv (deal, nod, idle); tal via show.line.*. Ordet variant används inte i event-namn — det är motorns ord för en triggad gren, t.ex. show.line.lose → variant otur.
+## Källhierarkin
 
-- Är det ett faktum spelet redan räknat? → rng.*
-- Är det något dealern ska spela upp? → show.*
-- Tal? → alltid show.line.<id>
-- Deal-riktning? → show.deal.left|centre|right|dealer|hole
-- Resultat-reaktion? → show.line.* för tal, show.react.big för extra gest
-- Hitta inte på ett tredje lager. Inte cue, inte clip, inte event ensamt.
+När två namn säger olika saker gäller följande ordning:
 
-| Säg | Inte | Varför |
-| --- | --- | --- |
-| faktum (rng.*) | game event / domain event | Något servern räknat |
-| event (show.*) | presentation / cue / clip | Vad dealern ska göra |
-| linjen | standard / default / grund | Poolen som alltid får spelas |
-| variant | mood / stämning / 4.2 | En triggad gren, döpt efter triggern |
-| take | clip / video / mening | En hel inspelning |
-| trigger | villkor / regel / flag | Det som öppnar en variant |
-| command | action (löst) | action är både hit och CLIP.deal |
-| box 0–6 | seat (i Croupier) | Emil/Jakob säger seat |
-| line | mening / prompt | Exakt id, inte AI-text |
-| collect | settle (om pengar) | settle = räknat, collect = bokat |
-| landning | ungefär när det ser klart ut | Det en variant måste ärva |
+1. Körbar kod på den uttryckligen verifierade revisionen av Kevins Croupier-branch.
+2. Partner API:s faktiska request-, response- och SSE-form.
+3. Aktuella manifest/index och kalibreringsdata för media.
+4. Tester och reproducerbar rehearsal-evidens.
+5. Den här V3-dokumentationen.
+6. V2, spelsajt och Emils äldre repo som referenser — aldrig som Croupier-runtime.
 
-## rng.*
+## Verifierade runtimeord
 
-### rng.* — fakta (29)
+Tabellen nedan använder bara symboler som finns på revisionen som anges i `RUNTIME-EVIDENCE.md`. Betydelsen är sammanfattad; koden är fortfarande facit och kontrollen ska göras om när Kevin uppdaterar sin branch.
 
-| Facit | Betyder | Kevin | Jakob | Emil |
-| --- | --- | --- | --- | --- |
-| rng.round.prepared | Bord nollställt, ingen insats än | — | round.prepared | — |
-| rng.round.started | Rundan är igång, kort kommer | op start (implicite) | round.started | — |
-| rng.bet.accepted | En huvudinsats är tagen | placeBet, sen start | blackjack.bet.accepted | bet på state |
-| rng.card.dealt | Ett kort lämnade shoen | card.dealt + shoeDraw | blackjack.card.dealt | deal i clip-payload |
-| rng.hole.dealt | Hålkort draget, ingen rank ute | holeDraw face-down | card.dealt faceDown | finns ej (europeisk) |
-| rng.hole.revealed | Hålets rank är nu sann | dealer.reveal | blackjack.card.revealed | — |
-| rng.dealer.peeked | Dealer tittade på hål (ess/tio) | dealer.peek | — | — |
-| rng.dealer.blackjack | Hål + up = BJ, runda död | dealer.blackjack | resolve utan player turn | — |
-| rng.dealer.drew | Dealer tog extra kort (S17) | dealer.draw | card.dealt dealer | deal_self |
-| rng.hand.thinking | Den här handen ska agera | hand.thinking | turn.changed phase=player | PLAYER_TURNS |
-| rng.hand.split | En box blev två händer | hand.split | blackjack.hand.split | split i table |
-| rng.hand.busted | Hand över 21 | flagga busted, inget emit | följer card.dealt | — |
-| rng.action.accepted | hit/stand/double/split giltig | op act (inget emit) | action.accepted (ignore show) | action() |
-| rng.turn.changed | Vems tur + legal actions | phase + partner turn | blackjack.turn.changed | turnFor |
-| rng.insurance.offered | Dealer ess, fönster öppet | insurance.offered | — | — |
-| rng.insurance.resolved | take true/false räknat | op insurance | — | — |
-| rng.side.settled | PP / 21+3 uträknat vid deal | settleSideBets | — | — |
-| rng.hand.settled | En hands resultat + payout | hand.result i snapshot | blackjack.hand.settled | — |
-| rng.round.settled | Hela rundan är räknad | round.settled | round.settled win/loss/push/mixed | PAYOUT |
-| rng.wallet.collected | Pengar bokförda, runda paid | op collect | ledger payout | balance på state |
-| rng.shoe.shuffled | Ny shoe efter cut | out.shuffled | — | draw/cut |
-| rng.seat.taken | Någon satte sig | — | — | playerSat (3D) |
-| rng.seat.left | Någon lämnade stolen | — | — | playerLeftSeat (3D) |
-| rng.bets.opened | Bord tar roulette-insatser | — | roulette.betting.opened | — |
-| rng.bet.placed | En roulette-markör accepterad | — | roulette.bet.placed | — |
-| rng.bets.locked | Inga fler roulette-insatser | — | roulette.bets.locked | — |
-| rng.wheel.spun | Hjul + kula i rörelse | — | roulette.spin.started | — |
-| rng.wheel.landed | Serverns pocket är känd | — | roulette.result | — |
-| rng.roulette.settled | En roulette-insats avgjord | — | roulette.bet.settled | — |
-
-## show.*
-
-### show.* — bild och röst (36)
-
-show.chip.payout är med medvetet — ingen har godkänd live-flyg, men luckan har ett namn.
-
-| Facit | Betyder | Kevin | Jakob | Emil |
-| --- | --- | --- | --- | --- |
-| show.line.greeting | Välkomst-tal | greeting | — | greet_new (om idle) |
-| show.line.placebets | Be om insatser | placebets | — | place_bets (saknas i manifest) |
-| show.line.goodluck | Bets stängda, lycka till | goodluck | round-start “Cards coming out.” | — |
-| show.line.insurance | Försäkring öppen | insurance | — | — |
-| show.line.peek | Tittar på hålet | peek (bank, oanvänd live) | — | — |
-| show.line.double | Doubling down | double | action-double (okopplad) | — |
-| show.line.bust | Spelaren sprack | bust | — | — |
-| show.line.blackjack | Spelare naturlig 21 | blackjack | — | react_blackjack |
-| show.line.dealerbust | Dealer sprack | dealerbust | — | react_dealer_bust |
-| show.line.dealerblackjack | Dealer har BJ | dealerblackjack | — | — |
-| show.line.win | Spelaren vann | win | react-win | react_win |
-| show.line.lose | Huset tog | lose | react-loss | react_lose |
-| show.line.push | Oavgjort, stake tillbaka | push | react-push | react_push |
-| show.line.sidebet | PP/21+3 träff | sidebet | — | — |
-| show.line.chatter | Smalltalk, inte rundstyrd | chatter1 / chatter2 | — | LLM-chat / MuseTalk |
-| show.line.farewell | Hejdå | farewell (bank) | — | goodbye (aldrig spelad) |
-| show.deal.left | Kort till box 0–1 | deal-left | deal-player | deal_player (alla säten) |
-| show.deal.centre | Kort till box 2–4 | deal-centre | deal-player | deal_player |
-| show.deal.right | Kort till box 5–6 | deal-right | deal-player | deal_player |
-| show.deal.dealer | Kort till dealer | deal-dealer | deal-self | deal_self |
-| show.deal.hole | Hål delas framsida ner | deal-dealer faceDown | deal faceDown | — |
-| show.hole.flip | Vänd hålet på filten | reveal / .flip | reveal-hole | — |
-| show.hand.think | Väntar på beslut | CLIP.think | wait-decision | lokal idle |
-| show.hand.nod | Bekräfta stand | — | action-stand (okopplad) | nod_confirm |
-| show.hand.split | Visa fläkt till två händer | animateSplit | split-hand | samma deal_player |
-| show.chip.fly | Chip från bricka till spot | chip-fly 480 ms | chipMotion place (3D död) | statisk .betchip |
-| show.chip.payout | Chip tillbaka vid vinst | saknas | chipMotion payout (oanvänd) | saknas |
-| show.bets.open | Öppna betting-fönster i bild | — | — | bets_open |
-| show.bets.close | Inga fler bets i bild | goodluck täcker talet | — | no_more_bets |
-| show.table.clear | Sopa bort kort efter payout | bara i rigged-review | clear-table (blockad) | clear_table |
-| show.table.idle | Vänteloop, ingen handling | CLIP.idle | idle-neutral | wait_decision_a/b lokal |
-| show.shoe.shuffle | Visa shoe-byte | banner 1800 ms | — | shuffle om idle |
-| show.react.big | Stor vinst-reaktion | sfx.bigwin | — | react_win_big (≥100) |
-| show.gest.tilt | Huvudlutning, inte tal | CLIP.headTilt | — | — |
-| show.gest.hand | Gesticulera | CLIP.gest | — | — |
-| show.deal.watch | Titta på deal, inte bära kort | CLIP.dealWatch | — | — |
-
-## Bara en av oss
-
-### Finns bara hos en (37)
-
-| Facit | Vem | Deras namn | Betyder |
+| Lager | Canonical symbol | Betydelse i aktuell kod | Status |
 | --- | --- | --- | --- |
-| rng.round.prepared | Jakob | round.prepared | Bord nollställt, ingen insats än |
-| rng.dealer.peeked | Kevin | dealer.peek | Dealer tittade på hål (ess/tio) |
-| rng.dealer.blackjack | Kevin | dealer.blackjack | Hål + up = BJ, runda död |
-| rng.hand.busted | Kevin | flagga busted, inget emit | Hand över 21 |
-| rng.action.accepted | Jakob | action.accepted (ignore show) | hit/stand/double/split giltig |
-| rng.insurance.offered | Kevin | insurance.offered | Dealer ess, fönster öppet |
-| rng.insurance.resolved | Kevin | op insurance | take true/false räknat |
-| rng.side.settled | Kevin | settleSideBets | PP / 21+3 uträknat vid deal |
-| rng.hand.settled | Jakob | blackjack.hand.settled | En hands resultat + payout |
-| rng.seat.taken | Emil | playerSat (3D) | Någon satte sig |
-| rng.seat.left | Emil | playerLeftSeat (3D) | Någon lämnade stolen |
-| rng.bets.opened | Jakob | roulette.betting.opened | Bord tar roulette-insatser |
-| rng.bet.placed | Jakob | roulette.bet.placed | En roulette-markör accepterad |
-| rng.bets.locked | Jakob | roulette.bets.locked | Inga fler roulette-insatser |
-| rng.wheel.spun | Jakob | roulette.spin.started | Hjul + kula i rörelse |
-| rng.wheel.landed | Jakob | roulette.result | Serverns pocket är känd |
-| rng.roulette.settled | Jakob | roulette.bet.settled | En roulette-insats avgjord |
-| show.line.placebets | Kevin | placebets | Be om insatser |
-| show.line.goodluck | Kevin | goodluck | Bets stängda, lycka till |
-| show.line.insurance | Kevin | insurance | Försäkring öppen |
-| show.line.peek | Kevin | peek (bank, oanvänd live) | Tittar på hålet |
-| show.line.double | Kevin | double | Doubling down |
-| show.line.bust | Kevin | bust | Spelaren sprack |
-| show.line.dealerblackjack | Kevin | dealerblackjack | Dealer har BJ |
-| show.line.sidebet | Kevin | sidebet | PP/21+3 träff |
-| show.deal.left | Kevin | deal-left | Kort till box 0–1 |
-| show.deal.centre | Kevin | deal-centre | Kort till box 2–4 |
-| show.deal.right | Kevin | deal-right | Kort till box 5–6 |
-| show.hand.nod | Emil | nod_confirm | Bekräfta stand |
-| show.chip.fly | Kevin | chip-fly 480 ms | Chip från bricka till spot |
-| show.bets.open | Emil | bets_open | Öppna betting-fönster i bild |
-| show.bets.close | Emil | no_more_bets | Inga fler bets i bild |
-| show.table.clear | Emil | clear_table | Sopa bort kort efter payout |
-| show.react.big | Emil | react_win_big (≥100) | Stor vinst-reaktion |
-| show.gest.tilt | Kevin | CLIP.headTilt | Huvudlutning, inte tal |
-| show.gest.hand | Kevin | CLIP.gest | Gesticulera |
-| show.deal.watch | Kevin | CLIP.dealWatch | Titta på deal, inte bära kort |
+| Table-command | `state` | Läs publik table view utan att ändra rundan. | **VERIFIERAT** |
+| Table-command | `start` | Starta en ny runda efter validering av insatser och saldo. | **VERIFIERAT** |
+| Table-command | `act` | Utför en legal handling i aktuell decision-fas. | **VERIFIERAT** |
+| Table-command | `insurance` | Ta eller avstå försäkring när den är tillgänglig. | **VERIFIERAT** |
+| Table-command | `collect` | Boka resultatet efter att rundan är settled. | **VERIFIERAT** |
+| Publicerad vy | `phase` | Rundans aktuella publika fas. | **VERIFIERAT** |
+| Publicerad vy | `hands`, `dealer`, `active`, `holeDraw`, `legalActions` | Det publika underlaget för spelare och presentation. | **VERIFIERAT** |
+| Presentation | `speak` | Spela en verifierad talrad. | **VERIFIERAT** |
+| Presentation | `deal` | Visa ett redan serverbestämt kort till publicerat mål. | **VERIFIERAT** |
+| Presentation | `reveal` | Visa ett tidigare dolt dealerkort när publiceringsgränsen passerats. | **VERIFIERAT** |
+| Presentation | `settle` | Beskriv publicerade handresultat för presentationen. | **VERIFIERAT** |
+| Presentation | `turn` | Visa aktiv box/hand och publicerade legal actions. | **VERIFIERAT** |
+| Presentation | `idle` | Återgå till väntande presentation. | **VERIFIERAT** |
+| Partner response | `presentation[]` | Ordnad lista av presentationshändelser för ett command-resultat. | **VERIFIERAT** |
+| Media | `takes[].id`, `action`, `status`, `media`, `events` | Fält som används i Astrids performance-manifest. | **VERIFIERAT** |
+| Kalibrering | `events.land` / härledd `landAtMs` | Landningsdata som Partner API:s assetmanifest räknar fram. | **VERIFIERAT** |
 
-## Betyg
+Källorna för tabellen är sammanställda i `RUNTIME-EVIDENCE.md` och pekar vidare till `web/shoe-game.mjs`, `web/partner-api.mjs`, `web/partner-presentation.mjs` och `web/public/dealers/astrid/performance/manifest.json`.
 
-### Betyg på namnen
+## Gemensamma förklaringsord
 
-- **7 / 10** — Kevin · namnhygien
-- **8 / 10** — Jakob · namnhygien
-- **5 / 10** — Emil · namnhygien
-- **65 / 65** — facit-täckning
-- **8 / 10** — facit som språk
+De här orden hjälper oss att rita och granska systemet. Kolumnen “nivå” hindrar ett dokumentationsord från att smyga in som ett påstått API.
 
-| Vem | Betyg | Så här |
+| Ord | Betyder i V3 | Nivå | Exempel |
+| --- | --- | --- | --- |
+| motor | Kevins auktoritativa Croupier-kod för shoe, regler, state, saldo och payout. | **BESLUTAT** | Motorn validerar `act`; videon gör det inte. |
+| RNG | Den del av Kevins spelmotor som bestämmer spelutfall. Presentationens variation är inte RNG. | **BESLUTAT** | Ett klippval får aldrig dra nästa kort. |
+| command | En begäran till table-endpointen. Använd exakt `state`, `start`, `act`, `insurance` eller `collect` när det är den symbolen som avses. | **VERIFIERAT** | `act` med en handling. |
+| publicerad vy | Den information motorn avsiktligt lämnar ut efter ett command. | **VERIFIERAT** | `phase` och `legalActions`. |
+| presentationsevent | Ett objekt i `presentation[]` som säger vad klienten ska presentera. | **VERIFIERAT** | `deal` eller `turn`. |
+| faktum | Mänskligt samlingsord för något motorn redan har avgjort och publicerat. Inte ett nytt `rng.*`-namespace. | **JAKOBS FÖRSLAG** | “Ett kort har publicerats till boxen.” |
+| semantisk nod | Jakobs dokumentations-/adapternod som pekar tillbaka på en exakt verifierad källa. | **JAKOBS FÖRSLAG** | `sourceRef` till ett `deal`-objekt. |
+| linjen | En föreslagen baspool av godkända takes som alltid kan användas för samma presentationsbehov. | **JAKOBS FÖRSLAG** | Tre likvärdiga godkända takes. |
+| variant | En föreslagen undergren som bara är valbar när ett verifierbart villkor är sant. | **JAKOBS FÖRSLAG** | En lugnare resultattake när publicerad data räcker för villkoret. |
+| trigger | Villkoret som gör en variant valbar. Den får bara läsa publicerade fält. | **JAKOBS FÖRSLAG** | Ett publicerat `outcome`, inte dolt hålkort. |
+| take | En sammanhållen, identifierad mediaprestation med video, ljud, hash, frame-/eventdata och granskningsstatus. | Gemensamt mediaord | Ett objekt i performance-manifestet. |
+| landning | Det kalibrerade ögonblick då den visuella handlingen når sitt mål. | Gemensamt mediaord | `events.land` och härledd `landAtMs`. |
+| fallback | En redan säker presentation som används när en föreslagen take eller variant inte kan spelas. | Gemensamt säkerhetsord | Befintlig slide/DOM eller godkänd bastake. |
+| katalog | Kevins publicerade manifest/index över katalogiserade assets, status och metadata. | **VERIFIERAT** | Assetmanifest byggt från branchens filer. |
+| statuspolicy | Regeln för vilka katalogstatusar som får användas i review, rehearsal respektive live. | **BESLUT KRÄVS** | `draft` eller `review` är inte automatiskt visuellt godkänd. |
+| etapp | En avgränsad leverans som Jakob går igenom med Kevin innan nästa integrationssteg. | **BESLUTAT** | Verklighetskarta → eventträd → rehearsal. |
+
+## Namnregler för V3
+
+1. Skriv den exakta runtime-symbolen i kodstil när den är verifierad: exempelvis `presentation[]` eller `deal`.
+2. Sätt **VERIFIERAS** efter ett namn som kommer från V2, minnet eller en extern referens.
+3. Skapa inte ett parallellt `rng.*`- eller `show.*`-kontrakt i dokumentationen.
+4. Om ett svenskt namn behövs i ett diagram ska noden även ha en `sourceRef` till canonical symbol eller texten “källa ej verifierad”.
+5. Asset-/take-id:n hör hemma i katalogen. Servern ska inte ta emot ett videonamn som spelbeslut.
+6. En trigger får aldrig förutsätta shoe-ordning, kommande kort, privat hålkort eller saldo som inte redan publicerats för rätt mottagare.
+7. Ett namn blir inte canonical för att det låter bättre. Kevin accepterar ändringen och kod/kontrakt/test följer med.
+
+## Semantiska familjer att verifiera
+
+Detta är en arbetslista för Jakobs kartläggning, inte en lista över verkliga eventnamn.
+
+| Semantiskt behov | Verifierad källa i dag | Vad som återstår | Status |
+| --- | --- | --- | --- |
+| Runda startar | Command `start` och resulterande publik vy/presentation. | Dokumentera exakt sekvens och stabila payloadfält. | **VERIFIERAS** |
+| Kort visas | Presentationstyp `deal`. | Kontrollera mål, face-down-regel, ordning och fallback för varje väg. | **VERIFIERAS** |
+| Hålkort visas | Presentationstyp `reveal`. | Lås publiceringsgräns och verifiera att ingen tidigare nod läcker rank/suit. | **VERIFIERAS** |
+| Spelaren ska agera | Presentationstyp `turn`. | Kontrollera dubletter, timing och hur aktiv hand byts. | **VERIFIERAS** |
+| Försäkring öppnas | `phase === "insurance"` ger en `speak`-rad i nuvarande presentation. | Avgör om den första avgränsade etappen behöver en egen visuell familj eller bara befintligt tal. | **BESLUT KRÄVS** |
+| Resultat presenteras | `settle` följt av `speak` i nuvarande mappning. | Fastställ vilka variationer som kan väljas enbart från publicerad settle-data. | **VERIFIERAS** |
+| Ny bettingcykel | Command `collect` ger i dag `speak` och `idle`. | Kontrollera önskad ordning och visuell återställning. | **VERIFIERAS** |
+| Shoe byts | Publik shoe view har shufflefält. | Avgör om en presentation behövs i den första V3-leveransen. | **BESLUT KRÄVS** |
+
+## Mall för varje eventrad
+
+Använd följande fält när s03-eventträdet fylls i:
+
+| Fält | Krav |
+| --- | --- |
+| `sourceRef` | Exakt fil/funktion/symbol eller kontraktsfält i aktuell Croupier-kod. |
+| `sourceStatus` | **VERIFIERAT** eller **VERIFIERAS**. |
+| `publicPayload` | Bara fält som är publicerade för rätt mottagare vid den tidpunkten. |
+| `semanticNeed` | Kort mänsklig beskrivning av vad spelaren behöver se/höra. |
+| `baseline` | Befintlig säker presentation eller godkänd takepool. |
+| `variants` | Noll eller flera förslag med tydlig trigger och fallback. |
+| `mediaOwner` | Kevin + Emil. |
+| `logicOwner` | Jakob för förslaget; Kevin för eventuell produktintegration. |
+| `decision` | Accepterad, ändras, avstår eller ännu ej granskad. |
+
+## Säg så här
+
+| Undvik | Säg i V3 | Varför |
 | --- | --- | --- |
-| Kevin | 7 | Två familjer blandas: server-emit och CLIP/speech-id. Speech-id:n är exakta. |
-| Jakob | 8 | domän.ämne.verb rakt igenom, dåtid, Zod. Cue-namnen bryter mönstret. |
-| Emil | 5 | Läsbart men ingen regel. deal_pos1–7 aldrig i körning. |
-| Facit | 8 | 65 namn täcker allt vi hittat. Minus: många show.line.*. |
+| “Jakobs RNG är bättre.” | “Jakobs adapterförslag använder Kevins RNG-resultat utan att ändra dem.” | Roller och auktoritet blir rätt. |
+| “Facit-eventet är `rng.card.dealt`.” | “Semantiskt behov: kort utdelat; exakt Croupier-källa verifieras.” | V2-alias får inte låtsas vara runtime. |
+| “Emils klipp ska in i Jakobs index.” | “Kevin och Emil lägger godkänd media i Kevins branch; Jakob läser kataloghandoffen.” | Den tunna samarbetsgränsen bevaras. |
+| “Videon avgör vilken händelse det blev.” | “Motorn avgör händelsen; presentationen väljer en tillåten take.” | Backend förblir auktoritativ. |
+| “Det här gäller eftersom wikin säger det.” | “Det här är verifierat i aktuell kod” eller “det här är ett förslag”. | Dokumentation och runtime blandas inte. |
+| “OpenClaw väljer.” | “Den första V3-leveransen använder en kodad, verifierbar policy; AI-regissör ligger utanför kärnan.” | Leveransen hålls avgränsad. |
 
-> **Vad betyget inte säger.** Namnhygien är inte kvalitet på dealern. Emils klipp är bäst i bild trots sämst namn.
+## Ord som bevaras från V2
+
+`linjen`, `variant`, `trigger`, `take`, `landning` och `fallback` är användbara, men deras status har ändrats:
+
+- `take`, `landning` och manifestmetadata har stöd i nuvarande mediaflöde.
+- `linjen`, `variant` och `trigger` är Jakobs modell för att organisera en möjlig utvidgning.
+- Ingen av dem får ändra spelmotorns utfall.
+- Cooldown, budget och deterministiskt urval är möjliga regler, inte verifierad Croupier-runtime; de kräver separat beslut.
+
+## Utanför språkets kärna för den första V3-leveransen
+
+- personbetyg och vinnare mellan Kevin, Jakob och Emil,
+- ett nytt “ultimativt” RNG-språk,
+- rouletteord som bara kommer från ett annat repo,
+- OpenClaw-kontrakt och agentlanes,
+- känslo- eller stämningsevents,
+- namn som inte kan spåras till kod, kontrakt, manifest eller uttryckligt beslut.
 
 ---
 
-s00 helheten · s01 kartan · s02 språket · s03 motorn · s04 OpenClaw · s05 ordlistan · s06 10 dagar. Inofficiellt. Inget byter kod förrän Kevin accepterat.
+V3 · s02 språket · koden behåller sina namn · förslag märks som förslag · Kevin avgör kontraktsändringar.
