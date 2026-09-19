@@ -27,6 +27,17 @@ V3-varianter. `buildAssetsManifest(...)` utesluter `rejected` men skickar inte
 status i `deals[]`; att en take finns där innebär inte att den är godkänd.
 Den inbyggda kontaktspelarens staged-/review-kontroller är ett separat skydd.
 
+### Separat labb finns — produktintegration återstår
+
+Under denna dokumentationsleverans publicerades ett separat
+[OpenClaw-labb](https://gitlab.com/scout-gg/croupier/-/blob/7ea67587730014b60d027f4602ecbb46d8fb7422/open-claw/lab/README.md)
+på Jakobs branch av den agent som äger det arbetet. Labbet har scenarier,
+editor och animationskatalog. Det är inte inkopplat i den vanliga spelaren,
+spelarchatten eller livevideobanken, och verklig Gateway/Render-acceptans
+återstår enligt dess handoff. Att labbet finns ändrar inte V3:s integrationsgräns:
+Kevin avgör vad som förs in i produkten. GitLab-inboxen för IDE-agenter är
+ett separat samarbetssystem och har ingen OpenClaw-koppling.
+
 ## Gränsen som inte får flyttas
 
 | Motorn äger | Presentationen får göra | Presentationen får aldrig göra |

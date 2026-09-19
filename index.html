@@ -175,7 +175,7 @@ tbody tr:hover { background: var(--accent-soft); }
 }
 </style>
 </head>
-<body data-content-version="fa0b6f271098">
+<body data-content-version="3e80ffa048df">
   <header class="site-header">
     <div class="header-inner">
       <div>
@@ -563,6 +563,8 @@ alla vägar ──► [KEVIN + EMIL] katalogkontroll, kalibrering, review
 <p>Status för delarna:</p>
 <div class="table-scroll"><table><thead><tr><th scope="col">Status</th><th scope="col">Del</th></tr></thead><tbody><tr><td><strong>[VERIFIERAT I REPOT]</strong></td><td><code>web/partner-presentation.mjs</code> skapar presentations-events av en tabellrespons. Nuvarande eventtyper omfattar <code>speak</code>, <code>deal</code>, <code>reveal</code>, <code>settle</code>, <code>turn</code> och <code>idle</code>.</td></tr><tr><td><strong>[VERIFIERAT I REPOT]</strong></td><td><code>web/public/dealer-engine.mjs</code> läser ett klippindex och spelar klipp, och <code>web/public/performance-player.mjs</code> validerar media och kalibrering innan kontakt-takes spelas.</td></tr><tr><td><strong>[VERIFIERAT I REPOT]</strong></td><td>Vanliga <code>web/public/app.mjs</code> använder <code>/api/table</code>, inte Partner-API:ets <code>presentation[]</code>. API-kontrakt och befintlig spelarväg är skilda ytor.</td></tr><tr><td><strong>[BESLUTAT FÖR V3]</strong></td><td>V3 ska utgå från dessa befintliga flöden och Kevins RNG/events, inte bygga en konkurrerande “bästa RNG”.</td></tr><tr><td><strong>[JAKOBS FÖRSLAG]</strong></td><td>En liten, testbar mappning läggs mellan befintliga presentations-events och godkända videovarianter. Fältnamnen på den här sidan är arbetsord tills Kevin har verifierat dem mot runtime.</td></tr><tr><td><strong>[SENARE, EJ FÖRSTA ETAPP]</strong></td><td>OpenClaw kan utvärderas efter den första etappen. Det får i så fall bara föreslå presentation inom en redan godkänd mängd och får aldrig påverka spelutfall.</td></tr></tbody></table></div>
 <p>Den exakta anslutningspunkten och urvalspolicyn är <strong>[BESLUT KRÄVS]</strong>. Vi har inte verifierat en befintlig generell ”motorregel” som redan väljer V3-varianter. <code>buildAssetsManifest(...)</code> utesluter <code>rejected</code> men skickar inte status i <code>deals[]</code>; att en take finns där innebär inte att den är godkänd. Den inbyggda kontaktspelarens staged-/review-kontroller är ett separat skydd.</p>
+<h3>Separat labb finns — produktintegration återstår</h3>
+<p>Under denna dokumentationsleverans publicerades ett separat <a href="https://gitlab.com/scout-gg/croupier/-/blob/7ea67587730014b60d027f4602ecbb46d8fb7422/open-claw/lab/README.md" target="_blank" rel="noreferrer">OpenClaw-labb</a> på Jakobs branch av den agent som äger det arbetet. Labbet har scenarier, editor och animationskatalog. Det är inte inkopplat i den vanliga spelaren, spelarchatten eller livevideobanken, och verklig Gateway/Render-acceptans återstår enligt dess handoff. Att labbet finns ändrar inte V3:s integrationsgräns: Kevin avgör vad som förs in i produkten. GitLab-inboxen för IDE-agenter är ett separat samarbetssystem och har ingen OpenClaw-koppling.</p>
     </section>
 <section class="doc-section" id="s04-gransen-som-inte-far-flyttas" data-section="gransen-som-inte-far-flyttas" role="tabpanel">
       <h2>Gränsen som inte får flyttas</h2>
@@ -681,7 +683,7 @@ alla vägar ──► [KEVIN + EMIL] katalogkontroll, kalibrering, review
 <aside class="callout"><p>Synkad presentationskopia. Redigera <a href="https://gitlab.com/scout-gg/croupier/-/blob/jakeminator123/work/docs/animation-events/v3-9-days-mvp/s06-plan.md" target="_blank" rel="noreferrer">källfilen i Croupier</a> och kör <code>tools/sync-docs.mjs</code> i canvas-repot. Denna kopia är inte en separat besluts- eller runtimekälla.</p></aside>
     </section></div>
   </article></main>
-  <footer class="site-footer"><div class="footer-inner"><span>V3 · innehåll fa0b6f271098 · <a href="https://animation-events-v1.vercel.app/archive/v2/">V2-arkiv</a> · <a href="https://gitlab.com/scout-gg/croupier/-/wikis/animation-events/v3-9-days-mvp/DECISIONS">Beslutslogg</a> · <a href="https://gitlab.com/scout-gg/croupier/-/wikis/animation-events/v3-9-days-mvp/RUNTIME-EVIDENCE">Tekniskt kvitto</a></span><span>Förslag är märkta som förslag och ändrar ingen branch automatiskt.</span></div></footer>
+  <footer class="site-footer"><div class="footer-inner"><span>V3 · innehåll 3e80ffa048df · <a href="https://animation-events-v1.vercel.app/archive/v2/">V2-arkiv</a> · <a href="https://gitlab.com/scout-gg/croupier/-/wikis/animation-events/v3-9-days-mvp/DECISIONS">Beslutslogg</a> · <a href="https://gitlab.com/scout-gg/croupier/-/wikis/animation-events/v3-9-days-mvp/RUNTIME-EVIDENCE">Tekniskt kvitto</a></span><span>Förslag är märkta som förslag och ändrar ingen branch automatiskt.</span></div></footer>
   <script>
 (function () {
   var pageLinks = Array.prototype.slice.call(document.querySelectorAll(".page-link"));
