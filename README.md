@@ -1,59 +1,81 @@
 # Animation events · V3
 
-Interaktiv presentationscanvas för arbetssättet efter beslutsrundan mellan
-Jakob, Emil och Kevin.
+[Öppna webbcanvasen](https://animation-events-v1.vercel.app/) · [Gemensam wiki](https://gitlab.com/scout-gg/croupier/-/wikis/home) · [Teamets inbox](https://gitlab.com/scout-gg/croupier/-/wikis/agent-inbox) · [V2-arkiv](https://animation-events-v1.vercel.app/archive/v2/)
 
-V3 utgår från Kevins befintliga Croupier-motor, RNG och events. Den beskriver
-hur Jakob kan arbeta med backend och logik ovanpå den grunden, hur Emil arbetar
-med video nära Kevin och hur Kevin fattar beslut vid tydliga etapper.
+Samma sjusidiga canvas som tidigare, uppdaterad efter beslutsrundan mellan
+Kevin, Jakob och Emil. Kevin leder och äger Croupier-motorn. Jakob arbetar med
+backend, logik och etappvisa underlag till Kevin. Emil arbetar nära Kevin med
+video; kopplingen till Jakob är tunn och går via tydliga artefakter.
 
-## Källor med olika ansvar
+**Namnet `animation-events-v1` är en historisk repo-adress, inte aktuell
+version. Innehållet på `main` och den vanliga Vercel-adressen är V3.**
+GitHub visar källfiler; Vercel visar den körbara webbcanvasen. GitLab-wikins
+HTML-filer är nedladdningsbara kopior och kan visas som kod i webbläsaren.
+
+## En sakmodell, flera läsvyer
 
 | Yta | Ansvar |
 | --- | --- |
-| GitLab `scout-gg/croupier` | Runtimekälla för kod, motor, kort, shoe, wallet, events och media. |
-| GitLab-wikin | Gemensamma beslut, workflow och handoff. |
-| GitHub `Jakeminator123/animation-events-v1` | Källrepo för den interaktiva canvasen och dess publika presentationsversion. |
-| Vercel | Renderad publicering av den granskade GitHub-versionen. |
+| [Croupier på GitLab](https://gitlab.com/scout-gg/croupier/-/tree/jakeminator123/work) | Motor, RNG, kort, shoe, wallet, events och media. V3:s sakunderlag redigeras i `docs/animation-events/v3-9-days-mvp/`. |
+| [GitLab-wikin](https://gitlab.com/scout-gg/croupier/-/wikis/home) | Gemensam läsyta, beslut, workflow, handoff och namngivna agenter. |
+| Detta GitHub-repo | Synkade V3-texter och källkod till webbcanvasens presentation. |
+| [Vercel](https://animation-events-v1.vercel.app/) | Den publicerade webbcanvasen, byggd från GitHub. |
+| Jira CAC | Aktiv arbets- och QA-status; dokumentens statusord ersätter inte Jira. |
 
-GitHub-canvasen förklarar systemet men skapar inga spelregler. Vid konflikt om
-runtime vinner alltid verifierad Croupier-kod på angiven revision.
+GitHub/Vercel är inte en andra spelmotor. Sakändringar görs i Croupier och
+speglas hit med synkverktyget; presentationsändringar görs här. Ändra inte
+kopior åt olika håll utan att föra tillbaka ändringen till sakunderlaget.
 
-## Öppna och bygga
+## Läs V3
 
-- Öppna `index.html` direkt i en webbläsare. Den innehåller alla sju sidor,
-  navigation, avsnittsflikar, sökning och inga externa beroenden.
-- Bygg om den genererade filen med `node build-static.mjs`.
-- Verifiera att den är reproducerbar med `node build-static.mjs --check`.
-
-`index.html` genereras från Markdown-filerna och ska inte handredigeras.
-
-## Sidor
-
-| Fil | Fokus |
+| Sida | Fokus |
 | --- | --- |
-| [s00-helheten.md](s00-helheten.md) | Beslutad helhet, roller och dokumentationsytor. |
-| [s01-kartan.md](s01-kartan.md) | Kevins runtime som grund och arbetsytorna runt den. |
-| [s02-spraket.md](s02-spraket.md) | Verifierade runtimeord kontra gemensamma ord och förslag. |
-| [s03-motorn.md](s03-motorn.md) | Föreslaget eventträd ovanpå Kevins motor. |
-| [s04-openclaw.md](s04-openclaw.md) | Säker presentation; OpenClaw är ett möjligt senare förslag. |
-| [s05-ordlista.md](s05-ordlista.md) | Gemensam ordlista med status och ägarskap. |
-| [s06-plan.md](s06-plan.md) | Föreslagna etapper utan kalenderlöfte. |
+| [s00 · Helheten](s00-helheten.md) | Roller, beslut och ansvar. |
+| [s01 · Kartan](s01-kartan.md) | Verifierade kodvägar och föreslagna kopplingar. |
+| [s02 · Språket](s02-spraket.md) | Runtimeord och det gemensamma eventspråket. |
+| [s03 · Eventträdet](s03-motorn.md) | Kevins språkbesked, föreslaget träd och adapter. |
+| [s04 · Säker presentation](s04-openclaw.md) | Guardrails, statuskontroll och fallback. |
+| [s05 · Ordlistan](s05-ordlista.md) | Ett ord, en betydelse och tydligt ägarskap. |
+| [s06 · Etapper](s06-plan.md) | Avgränsade steg med Kevin-avstämningar. |
 
-Teknisk revisionsverifiering och beslutslogg finns nära runtimekoden i
-[`docs/animation-events/v3-9-days-mvp`](https://gitlab.com/scout-gg/croupier/-/tree/jakeminator123/work/docs/animation-events/v3-9-days-mvp).
-Katalognamnet är historiskt och innebär varken nio kalenderdagar eller ett
-beslutat MVP-omfång.
+[Beslutslogg](docs/DECISIONS.md) · [Tekniskt kvitto](docs/RUNTIME-EVIDENCE.md) ·
+[Publiceringsflöde](docs/CANVAS.md) · [Fullständigt V3-underlag](docs/README.md)
 
-## Statusgräns
+Katalognamnet `v3-9-days-mvp` och filnamnen `s03-motorn`/`s04-openclaw`
+är historiska. De innebär inte ett nio-dagarslöfte, en ny motor eller att
+OpenClaw är beslutad produktarkitektur.
 
-- Roller, Kevins motor som grund, Kevin–Emil-videoflödet, den tunna
-  Jakob–Emil-kopplingen och etappvisa Kevin-samtal är mötesbeslut.
-- Den exakta formen på eventträdet, en niostegsindelning och OpenClaw är
-  arbetsförslag tills rätt ägare uttryckligen har godkänt dem.
-- V2 är tills vidare bevarad i den nu publicerade versionen på GitHub `main`
-  och i GitLab-wikins V2-arkiv. V3-arbetet förutsätter ingen remote-tagg och
-  ska inte skriva om arkivet.
+## Synka och kontrollera
 
-Inga dokument eller diagram ändrar Kevins branch, agentregler eller runtime
-automatiskt.
+Kräver Node.js 22 eller senare, inga installerade paket.
+
+```sh
+node tools/sync-docs.mjs --croupier /path/to/croupier --wiki /path/to/croupier-wiki --write
+node build-static.mjs
+node tools/sync-docs.mjs --croupier /path/to/croupier --wiki /path/to/croupier-wiki --write
+node tools/sync-docs.mjs --croupier /path/to/croupier --wiki /path/to/croupier-wiki
+node --test test/*.test.mjs
+node build-static.mjs --check
+```
+
+Första steget importerar Markdown. Det andra bygger HTML. Det tredje speglar
+den färdiga HTML-filen och registrerar filhashar i `docs/sync-manifest.json`.
+Utan `--write` kontrolleras bara innehållet. Utan källvägar kan
+`node tools/sync-docs.mjs` verifiera GitHub-kopian offline.
+
+Verktyget gör inga commits eller pushar. Publicera den granskade ändringen i
+Croupier, GitHub och wiki i samma leverans. GitHub Actions och Vercel-bygget
+stoppar en inaktuell HTML-fil eller en bruten lokal synkmanifestkontroll.
+De kontrollerna påstår **inte** att GitLab har hämtats eller pushats automatiskt.
+Kör kontrollen med `--croupier` och `--wiki` för att verifiera alla tre kloner.
+
+## Publicering och historik
+
+- GitHub `main` är V3:s publiceringsbranch. Vercel bygger produktion därifrån.
+- `v3-9-days-mvp` ger en separat förhandsvisning, som kan kräva Vercel-inloggning.
+- Endast `public/` distribueras: V3 samt den oförändrade V2-HTML-filen under
+  `archive/v2/`. `node tools/build-site.mjs` skapar den katalogen.
+- V2 är bevarad från commit `871bd7c` i [arkivet](archive/v2/README.md),
+  Git-taggen `archive-v2` och GitLab-wikins tidigare V2-arkiv.
+- Ladda ned `index.html` och öppna den lokalt för en offlinekopia.
+- Inga dokument eller diagram ändrar Kevins branch eller spelregler.

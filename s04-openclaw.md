@@ -6,7 +6,9 @@
 
 Kevins befintliga motor avgör spelutfall och publicerar de fakta eller events som presentationen behöver. Presentationslagret väljer därefter en redan godkänd video. En trasig eller saknad video får aldrig ändra, fördröja eller räkna om spelet.
 
-`Kevins motor och events` → `presentationstabell` → `tillåtna videovarianter` → `val med befintlig motorregel` → `validerad uppspelning` → `säker fallback`
+Föreslagen målbild, inte en redan verifierad end-to-end-kedja:
+
+`Kevins motor och publicerade fakta` → `vald integrationsyta` → `tillåtna videovarianter` → `kodad urvalspolicy` → `validerad uppspelning` → `säker fallback`
 
 Status för delarna:
 
@@ -14,9 +16,16 @@ Status för delarna:
 | --- | --- |
 | **[VERIFIERAT I REPOT]** | `web/partner-presentation.mjs` skapar presentations-events av en tabellrespons. Nuvarande eventtyper omfattar `speak`, `deal`, `reveal`, `settle`, `turn` och `idle`. |
 | **[VERIFIERAT I REPOT]** | `web/public/dealer-engine.mjs` läser ett klippindex och spelar klipp, och `web/public/performance-player.mjs` validerar media och kalibrering innan kontakt-takes spelas. |
+| **[VERIFIERAT I REPOT]** | Vanliga `web/public/app.mjs` använder `/api/table`, inte Partner-API:ets `presentation[]`. API-kontrakt och befintlig spelarväg är skilda ytor. |
 | **[BESLUTAT FÖR V3]** | V3 ska utgå från dessa befintliga flöden och Kevins RNG/events, inte bygga en konkurrerande “bästa RNG”. |
 | **[JAKOBS FÖRSLAG]** | En liten, testbar mappning läggs mellan befintliga presentations-events och godkända videovarianter. Fältnamnen på den här sidan är arbetsord tills Kevin har verifierat dem mot runtime. |
 | **[SENARE, EJ FÖRSTA ETAPP]** | OpenClaw kan utvärderas efter den första etappen. Det får i så fall bara föreslå presentation inom en redan godkänd mängd och får aldrig påverka spelutfall. |
+
+Den exakta anslutningspunkten och urvalspolicyn är **[BESLUT KRÄVS]**. Vi
+har inte verifierat en befintlig generell ”motorregel” som redan väljer
+V3-varianter. `buildAssetsManifest(...)` utesluter `rejected` men skickar inte
+status i `deals[]`; att en take finns där innebär inte att den är godkänd.
+Den inbyggda kontaktspelarens staged-/review-kontroller är ett separat skydd.
 
 ## Gränsen som inte får flyttas
 
@@ -50,7 +59,12 @@ settle-event från runtime
                                                   └─ UI visar resultatet utan video
 ```
 
-Flera triggers kan vara sanna samtidigt. Den första etappen ska därför ha en enkel och dokumenterad prioritet eller låta Kevins befintliga urvalsregel avgöra bland den redan filtrerade mängden. Jakob ska inte lägga till en andra, fristående RNG. Samma indata ska kunna följas i en logg: vilket event kom, vilka varianter var tillåtna, vilket klipp valdes och om fallback användes.
+Flera triggers kan vara sanna samtidigt. Den första etappen behöver därför
+en enkel och dokumenterad prioritet eller annan kodad policy som Kevin
+godkänner. Finns en återanvändbar regel ska den först beläggas i den valda
+kodvägen. Jakob ska inte lägga till en konkurrerande spel-RNG. Samma indata
+ska kunna följas i en logg: vilket event kom, vilka varianter var tillåtna,
+vilket klipp valdes och om fallback användes.
 
 ## Fallback-kedjan
 
@@ -75,13 +89,18 @@ Följande fel ska gå genom kedjan och lämna spår i loggen: okänt klipp-id, s
 - **[KRAV]** Varje event i den valda etappytan har en baspresentation eller en dokumenterad UI-only-fallback.
 - **[KRAV]** En variant kan bara väljas när dess trigger bygger på publicerade fakta och är sann.
 - **[KRAV]** En videofil är katalogiserad och godkänd innan den kan väljas.
+- **[KRAV]** Status, mediahash och granskningsunderlag kan följas över hela den valda kodvägen; förekomst i Partner-API:ets katalog räcker inte som godkännande.
 - **[KRAV]** Ett videofel påverkar inte spelutfall, settlement eller fortsättningen av rundan.
 - **[KRAV]** Loggen visar event, tillåtna kandidater, val och fallback utan att exponera hemlig speldata.
 - **[KRAV]** Tester bevisar minst: normal kandidat, alternativ kandidat, saknad kandidat, trasig media och full UI-only-fallback.
-- **[ATT VERIFIERA MED KEVIN]** Exakta runtime-event, nuvarande urvalsregel och var mappningen bäst kopplas in.
+- **[ATT VERIFIERA MED KEVIN]** Exakta runtime-event, val av kodväg, eventuell återanvändbar urvalsregel och var mappningen bäst kopplas in.
 
 ## OpenClaw efter den första etappen
 
 OpenClaw är **[SENARE, VALFRITT]**. Ett framtida experiment kan få rekommendera ett take-id ur den mängd som kod redan har godkänt. Basval och fallback ska alltid finnas, svaret ska ha deadline och ett sent eller ogiltigt svar ska ignoreras. Första läget ska vara loggning/skugga; ingen spelare ser valet innan Kevin uttryckligen har godkänt en integration.
 
 OpenClaw får aldrig se eller påverka seed, shoe-ordning, kommande kort, privata kort, saldo, payout eller lagliga handlingar. Den första V3-leveransen ska vara komplett utan OpenClaw.
+
+---
+
+> Synkad presentationskopia. Redigera [källfilen i Croupier](https://gitlab.com/scout-gg/croupier/-/blob/jakeminator123/work/docs/animation-events/v3-9-days-mvp/s04-saker-presentation.md) och kör `tools/sync-docs.mjs` i canvas-repot. Denna kopia är inte en separat besluts- eller runtimekälla.

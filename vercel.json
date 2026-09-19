@@ -1,5 +1,7 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
+  "buildCommand": "node build-static.mjs --check && node tools/sync-docs.mjs && node tools/build-site.mjs",
+  "outputDirectory": "public",
   "cleanUrls": true,
   "trailingSlash": false
 }

@@ -1,4 +1,5 @@
 import { readFileSync, writeFileSync } from "node:fs";
+import { createHash } from "node:crypto";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -17,6 +18,13 @@ const PAGES = [
 ];
 
 const PAGE_LINKS = new Map(PAGES.map((page) => [page.file, `#${page.id}`]));
+const WIKI = "https://gitlab.com/scout-gg/croupier/-/wikis/";
+for (const file of ["README", "CANVAS", "DECISIONS", "RUNTIME-EVIDENCE"]) {
+  PAGE_LINKS.set(`docs/${file}.md`, `${WIKI}animation-events/v3-9-days-mvp/${file}`);
+}
+const contentVersion = createHash("sha256").update(PAGES.map(page =>
+  readFileSync(join(ROOT, page.file), "utf8").replaceAll("\r\n", "\n")
+).join("\n")).digest("hex").slice(0, 12);
 
 function escapeHtml(value) {
   return String(value)
@@ -522,7 +530,7 @@ const browserScript = `
     search.value = "";
     applySearch();
     showSection(page, parts[1]);
-    document.title = page.querySelector("h1").textContent + " · Animation events V3";
+    document.title = "Animation events V3 · " + page.querySelector(".eyebrow").textContent;
     window.scrollTo({ top: 0, behavior: "auto" });
   }
 
@@ -565,16 +573,18 @@ const documentHtml = `<!doctype html>
   <title>Animation events V3</title>
   <style>${css}</style>
 </head>
-<body>
+<body data-content-version="${contentVersion}">
   <header class="site-header">
     <div class="header-inner">
       <div>
-        <p class="kicker">Interaktiv dokumentationscanvas · V3</p>
+        <p class="kicker">Animation events · Webbcanvas V3</p>
         <h1 class="site-title">Kevins motor är grunden</h1>
         <p class="site-lead">Jakob sorterar backend och logik runt Croupier. Emil bygger video nära Kevin. Kevin avgör vid varje avgränsad etapp vad som införlivas.</p>
         <div class="source-line">
-          <span class="source-chip"><strong>Runtime:</strong> GitLab Croupier</span>
-          <span class="source-chip"><strong>Canvas:</strong> GitHub animation-events-v1</span>
+          <a class="source-chip" href="https://gitlab.com/scout-gg/croupier/-/tree/jakeminator123/work">Motor och kod · GitLab</a>
+          <a class="source-chip" href="${WIKI}home">Gemensam wiki</a>
+          <a class="source-chip" href="${WIKI}agent-inbox">Kevin · Jakob · Emil: inbox och agenter</a>
+          <a class="source-chip" href="https://github.com/Jakeminator123/animation-events-v1">Canvasens källkod · GitHub</a>
           <span class="source-chip"><strong>Omfång:</strong> ${PAGES.length} sidor · ${totalSections} avsnitt</span>
         </div>
       </div>
@@ -587,7 +597,7 @@ const documentHtml = `<!doctype html>
     <nav class="page-nav" aria-label="V3-sidor">${navigation}</nav>
   </header>
   <main>${pages.map(renderPage).join("\n")}</main>
-  <footer class="site-footer"><div class="footer-inner"><span>Presentationskälla: GitHub · Runtimekälla: scout-gg/croupier</span><span>Förslag är märkta som förslag och ändrar ingen branch automatiskt.</span></div></footer>
+  <footer class="site-footer"><div class="footer-inner"><span>V3 · innehåll ${contentVersion} · <a href="https://animation-events-v1.vercel.app/archive/v2/">V2-arkiv</a> · <a href="${WIKI}animation-events/v3-9-days-mvp/DECISIONS">Beslutslogg</a> · <a href="${WIKI}animation-events/v3-9-days-mvp/RUNTIME-EVIDENCE">Tekniskt kvitto</a></span><span>Förslag är märkta som förslag och ändrar ingen branch automatiskt.</span></div></footer>
   <script>${browserScript}</script>
 </body>
 </html>
