@@ -3,10 +3,10 @@ import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const root = dirname(dirname(fileURLToPath(import.meta.url)));
-// Publish only the two reviewed HTML artifacts, not repository tools or metadata.
-for (const file of ["index.html", "archive/v2/index.html"]) {
+// Publish only reviewed HTML artifacts, not repository tools or metadata.
+for (const file of ["index.html", "archive/v2/index.html", "archive/v3/index.html"]) {
   const target = join(root, "public", file);
-  for (const relative of ["public", "public/archive", "public/archive/v2"]) {
+  for (const relative of ["public", "public/archive", "public/archive/v2", "public/archive/v3"]) {
     const path = join(root, relative);
     if (existsSync(path) && lstatSync(path).isSymbolicLink()) throw new Error(`Refusing symlink: ${relative}`);
   }
@@ -14,4 +14,4 @@ for (const file of ["index.html", "archive/v2/index.html"]) {
   mkdirSync(dirname(target), { recursive: true });
   copyFileSync(join(root, file), target);
 }
-console.log("Built public/index.html and preserved public/archive/v2/index.html");
+console.log("Built V4 public/index.html and preserved V2/V3 HTML history");

@@ -1,0 +1,759 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Animation events V3: Kevins Croupier-motor som grund, Jakobs backend- och logikarbete samt Kevin och Emils videoflöde.">
+  <title>Animation events V3</title>
+  <style>
+:root {
+  color-scheme: light dark;
+  --bg: #f4f3ef;
+  --surface: #ffffff;
+  --surface-muted: #ebe9e3;
+  --text: #17211c;
+  --muted: #5d6962;
+  --line: #d4d7d2;
+  --accent: #135f46;
+  --accent-soft: #d9ebe3;
+  --proposal: #8a5a12;
+  --proposal-soft: #f5e8cf;
+  --reference: #315b7d;
+  --reference-soft: #dce9f2;
+  --code: #18241e;
+  --code-text: #e5eee9;
+  --max: 1180px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #111714;
+    --surface: #18201c;
+    --surface-muted: #202a25;
+    --text: #e7ede9;
+    --muted: #aebbb3;
+    --line: #34433b;
+    --accent: #72c7a4;
+    --accent-soft: #1f4838;
+    --proposal: #e0b36b;
+    --proposal-soft: #49391f;
+    --reference: #8db8d7;
+    --reference-soft: #233c4d;
+    --code: #0b100d;
+    --code-text: #dce8e1;
+  }
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font: 15px/1.58 Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+a { color: var(--accent); text-underline-offset: 3px; }
+button, input { font: inherit; }
+
+.site-header {
+  border-bottom: 1px solid var(--line);
+  background: var(--surface);
+}
+.header-inner {
+  max-width: var(--max);
+  margin: 0 auto;
+  padding: 28px 24px 20px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(260px, 370px);
+  gap: 28px;
+  align-items: end;
+}
+.kicker {
+  margin: 0 0 6px;
+  color: var(--accent);
+  font-size: 12px;
+  font-weight: 750;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+}
+.site-title { margin: 0; font-size: clamp(25px, 4vw, 42px); line-height: 1.08; letter-spacing: -.03em; }
+.site-lead { max-width: 720px; margin: 12px 0 0; color: var(--muted); font-size: 16px; }
+.source-line { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 15px; }
+.source-chip { padding: 5px 9px; border: 1px solid var(--line); color: var(--muted); font-size: 12px; }
+.source-chip strong { color: var(--text); }
+
+.search-box label { display: block; margin-bottom: 7px; color: var(--muted); font-size: 12px; font-weight: 700; }
+.search-row { display: flex; border: 1px solid var(--line); background: var(--bg); }
+.search-row:focus-within { outline: 2px solid var(--accent); outline-offset: 2px; }
+.search-row input { min-width: 0; flex: 1; border: 0; padding: 10px 12px; color: var(--text); background: transparent; outline: 0; }
+.search-row button { border: 0; border-left: 1px solid var(--line); padding: 0 12px; color: var(--muted); background: transparent; cursor: pointer; }
+.search-result { min-height: 20px; margin: 6px 0 0; color: var(--muted); font-size: 12px; }
+
+.page-nav {
+  max-width: var(--max);
+  margin: 0 auto;
+  padding: 12px 24px;
+  display: flex;
+  gap: 6px;
+  overflow-x: auto;
+}
+.page-link {
+  flex: 0 0 auto;
+  padding: 8px 11px;
+  border: 1px solid transparent;
+  color: var(--muted);
+  text-decoration: none;
+  white-space: nowrap;
+}
+.page-link span { margin-right: 6px; color: var(--accent); font-size: 11px; font-weight: 800; text-transform: uppercase; }
+.page-link:hover { border-color: var(--line); color: var(--text); }
+.page-link.is-active { border-color: var(--accent); background: var(--accent-soft); color: var(--text); }
+
+main { max-width: var(--max); margin: 0 auto; padding: 30px 24px 72px; }
+.page { display: none; }
+.page.is-active { display: block; }
+.page-header { max-width: 930px; }
+.eyebrow { margin-bottom: 6px; color: var(--accent); font-size: 12px; font-weight: 800; letter-spacing: .09em; text-transform: uppercase; }
+.title-row { display: flex; gap: 14px; align-items: center; flex-wrap: wrap; }
+h1 { margin: 0; font-size: 26px; line-height: 1.2; letter-spacing: -.02em; }
+h2 { margin: 0 0 18px; font-size: 21px; line-height: 1.25; }
+h3 { margin: 30px 0 10px; font-size: 17px; }
+h4 { margin: 24px 0 8px; font-size: 15px; }
+p { margin: 0 0 14px; }
+.intro { margin-top: 13px; color: var(--muted); font-size: 16px; }
+.intro .callout { color: var(--text); }
+.status { padding: 4px 8px; border: 1px solid currentColor; font-size: 11px; font-weight: 750; letter-spacing: .04em; text-transform: uppercase; }
+.status.decision { color: var(--accent); background: var(--accent-soft); }
+.status.proposal { color: var(--proposal); background: var(--proposal-soft); }
+.status.reference { color: var(--reference); background: var(--reference-soft); }
+
+.section-tabs { display: flex; gap: 7px; margin: 28px 0 20px; padding-bottom: 10px; overflow-x: auto; border-bottom: 1px solid var(--line); }
+.section-tab { flex: 0 0 auto; border: 1px solid var(--line); padding: 7px 10px; color: var(--muted); background: var(--surface); cursor: pointer; }
+.section-tab:hover { color: var(--text); border-color: var(--accent); }
+.section-tab.is-active { color: var(--surface); border-color: var(--accent); background: var(--accent); }
+.doc-section { display: none; max-width: 1040px; }
+.doc-section.is-active { display: block; }
+.doc-section > p, .doc-section > ul, .doc-section > ol, .doc-section > .callout { max-width: 880px; }
+ul, ol { margin: 0 0 18px; padding-left: 23px; }
+li { margin: 5px 0; }
+hr { margin: 32px 0; border: 0; border-top: 1px solid var(--line); }
+.callout { margin: 16px 0 20px; padding: 12px 15px; border-left: 4px solid var(--accent); background: var(--accent-soft); }
+.callout p:last-child { margin-bottom: 0; }
+code { padding: 1px 5px; background: var(--surface-muted); font: .9em/1.5 ui-monospace, SFMono-Regular, Consolas, monospace; }
+pre { position: relative; margin: 16px 0 22px; padding: 30px 17px 16px; overflow-x: auto; border: 1px solid var(--line); background: var(--code); color: var(--code-text); }
+pre::before { content: attr(data-language); position: absolute; top: 7px; left: 17px; color: #9eb0a6; font: 10px/1.2 ui-monospace, SFMono-Regular, Consolas, monospace; letter-spacing: .08em; text-transform: uppercase; }
+pre code { padding: 0; background: transparent; color: inherit; }
+.table-scroll { margin: 14px 0 24px; overflow-x: auto; border: 1px solid var(--line); }
+table { width: 100%; border-collapse: collapse; background: var(--surface); font-size: 13px; }
+th, td { padding: 10px 11px; border-bottom: 1px solid var(--line); text-align: left; vertical-align: top; }
+th { color: var(--muted); background: var(--surface-muted); font-size: 11px; letter-spacing: .04em; text-transform: uppercase; }
+tr:last-child td { border-bottom: 0; }
+tbody tr:hover { background: var(--accent-soft); }
+
+.searching .doc-section { display: none; }
+.searching .doc-section.search-match { display: block; margin-bottom: 34px; }
+.searching .section-tabs { display: none; }
+.searching .doc-section.search-match h2::after { content: " · träff"; color: var(--accent); font-size: 11px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; }
+
+.site-footer { border-top: 1px solid var(--line); color: var(--muted); background: var(--surface); }
+.footer-inner { max-width: var(--max); margin: 0 auto; padding: 18px 24px 28px; display: flex; justify-content: space-between; gap: 20px; flex-wrap: wrap; font-size: 12px; }
+
+@media (max-width: 760px) {
+  .header-inner { grid-template-columns: 1fr; padding-top: 22px; }
+  .site-title { font-size: 28px; }
+  main { padding-top: 24px; }
+  th, td { min-width: 150px; }
+}
+
+@media print {
+  .search-box, .page-nav, .section-tabs { display: none !important; }
+  body { background: #fff; color: #000; }
+  .site-header, .site-footer { background: #fff; }
+  .page, .doc-section { display: block !important; break-inside: avoid; }
+  .page { margin-bottom: 48px; }
+  a { color: #000; }
+}
+</style>
+</head>
+<body data-content-version="3e80ffa048df">
+  <header class="site-header">
+    <div class="header-inner">
+      <div>
+        <p class="kicker">Animation events · Webbcanvas V3</p>
+        <h1 class="site-title">Kevins motor är grunden</h1>
+        <p class="site-lead">Jakob sorterar backend och logik runt Croupier. Emil bygger video nära Kevin. Kevin avgör vid varje avgränsad etapp vad som införlivas.</p>
+        <div class="source-line">
+          <a class="source-chip" href="https://gitlab.com/scout-gg/croupier/-/tree/jakeminator123/work">Motor och kod · GitLab</a>
+          <a class="source-chip" href="https://gitlab.com/scout-gg/croupier/-/wikis/home">Gemensam wiki</a>
+          <a class="source-chip" href="https://gitlab.com/scout-gg/croupier/-/wikis/agent-inbox">Kevin · Jakob · Emil: inbox och agenter</a>
+          <a class="source-chip" href="https://github.com/Jakeminator123/animation-events-v1">Canvasens källkod · GitHub</a>
+          <span class="source-chip"><strong>Omfång:</strong> 7 sidor · 57 avsnitt</span>
+        </div>
+      </div>
+      <div class="search-box">
+        <label for="search">Sök på den öppna sidan</label>
+        <div class="search-row"><input id="search" type="search" autocomplete="off" placeholder="Till exempel: Kevin, fallback, OpenClaw"><button id="clear-search" type="button">Rensa</button></div>
+        <p class="search-result" id="search-result">Söker på den öppna sidan</p>
+      </div>
+    </div>
+    <nav class="page-nav" aria-label="V3-sidor"><a class="page-link is-active" href="#s00" data-page="s00" aria-current="page"><span>s00</span>Helheten</a><a class="page-link" href="#s01" data-page="s01" aria-current="false"><span>s01</span>Kartan</a><a class="page-link" href="#s02" data-page="s02" aria-current="false"><span>s02</span>Språket</a><a class="page-link" href="#s03" data-page="s03" aria-current="false"><span>s03</span>Eventträdet</a><a class="page-link" href="#s04" data-page="s04" aria-current="false"><span>s04</span>Säker presentation</a><a class="page-link" href="#s05" data-page="s05" aria-current="false"><span>s05</span>Ordlistan</a><a class="page-link" href="#s06" data-page="s06" aria-current="false"><span>s06</span>Etapper</a></nav>
+  </header>
+  <main><article class="page is-active" id="page-s00" data-page="s00">
+    <header class="page-header">
+      <div class="eyebrow">s00 · Helheten</div>
+      <div class="title-row">
+        <h1>S00 · helheten</h1>
+        <span class="status decision">Mötesbeslut</span>
+      </div>
+      <div class="intro"><aside class="callout"><p><strong>Mötesbeslut:</strong> Kevin leder projektet och äger Croupier-repot, spelmotorn och integrationsbesluten. Jakob och Emil bistår som konsulter med olika ansvarsområden.</p></aside></div>
+    </header>
+    <div class="section-tabs" role="tablist" aria-label="Avsnitt på Helheten"><button class="section-tab is-active" type="button" role="tab" aria-selected="true" data-section="den-nya-helheten">Den nya helheten</button><button class="section-tab" type="button" role="tab" aria-selected="false" data-section="roller">Roller</button><button class="section-tab" type="button" role="tab" aria-selected="false" data-section="det-som-andras-fran-v2">Det som ändras från V2</button><button class="section-tab" type="button" role="tab" aria-selected="false" data-section="dokumentationsytorna">Dokumentationsytorna</button><button class="section-tab" type="button" role="tab" aria-selected="false" data-section="en-gemensam-inbox-flera-tydliga-agentnamn">En gemensam inbox, flera tydliga agentnamn</button><button class="section-tab" type="button" role="tab" aria-selected="false" data-section="arbetsprincip">Arbetsprincip</button></div>
+    <div class="sections"><section class="doc-section is-active" id="s00-den-nya-helheten" data-section="den-nya-helheten" role="tabpanel">
+      <h2>Den nya helheten</h2>
+      <p><code>Kevins motor, RNG och events</code> → <code>Jakobs backend-/logikarbete</code> → <code>avgränsad etapp</code> → <code>samtal med Kevin</code> → <code>införliva, justera eller håll separat</code></p>
+<p>Samtidigt arbetar Kevin nära Emil med videogenerering, nya takes och variationer. När media är redo går den till den branch och det flöde Kevin har valt. Jakob har en tunn koppling till Emil genom färdiga artefakter och deras metadata, inte genom ett separat gemensamt utvecklingsspår.</p>
+    </section>
+<section class="doc-section" id="s00-roller" data-section="roller" role="tabpanel">
+      <h2>Roller</h2>
+      <div class="table-scroll"><table><thead><tr><th scope="col">Part</th><th scope="col">Roll</th><th scope="col">Äger eller levererar</th><th scope="col">Gräns</th></tr></thead><tbody><tr><td>Kevin</td><td>Projektledare och produktägare</td><td>GitLab-repot, motor, RNG/events, videoarbetsflöde och integrationsbeslut</td><td>V3 ändrar inte hans branch eller agentregler automatiskt.</td></tr><tr><td>Jakob</td><td>Backend-/logikkonsult</td><td>Sortering av spellogik, eventträd, verifiering och integrationsunderlag på <code>jakeminator123/work</code></td><td>Bygger ovanpå Kevins motor och skapar inte en konkurrerande RNG.</td></tr><tr><td>Emil</td><td>Videokonsult nära Kevin</td><td>Generering, takes, variationer och mediahandoff i Kevins valda flöde</td><td>Har endast en tunn artefaktkoppling till Jakobs spår.</td></tr><tr><td>Bettalotto</td><td>Backoffice</td><td>Behörig data- och mediaåtkomst</td><td>Hemligheter och produktionsdata hålls utanför Git, wiki och canvas.</td></tr></tbody></table></div>
+    </section>
+<section class="doc-section" id="s00-det-som-andras-fran-v2" data-section="det-som-andras-fran-v2" role="tabpanel">
+      <h2>Det som ändras från V2</h2>
+      <ul><li>V3 jämför inte tre motorer för att hitta den ”bästa” lösningen.</li><li><code>spelsajt</code> och Emils äldre GitHub-repo är historiska referenser, inte integrationsbas.</li><li>Kevins redan existerande Croupier-motor är teknisk grund.</li><li>Jakob arbetar utanför Kevins branch mellan avstämningarna.</li><li>Emil arbetar i första hand med Kevin, inte i ett separat Jakob–Emil-spår.</li><li>OpenClaw, en ny RNG och andra större arkitekturidéer är möjliga framtida förslag, inte förutsättningar för V3.</li></ul>
+    </section>
+<section class="doc-section" id="s00-dokumentationsytorna" data-section="dokumentationsytorna" role="tabpanel">
+      <h2>Dokumentationsytorna</h2>
+      <div class="table-scroll"><table><thead><tr><th scope="col">Yta</th><th scope="col">Ansvar</th></tr></thead><tbody><tr><td>Croupier på GitLab</td><td>Produktkod och runtime.</td></tr><tr><td>Croupier <code>docs/animation-events/</code></td><td>Redigerbar V3-sakmodell nära koden.</td></tr><tr><td>GitLab-wikin</td><td>Läsbar V3-spegel, gemensam inbox, beslutskällor och handoff.</td></tr><tr><td>GitHub <code>animation-events-v1</code></td><td>Samma V3-texter och källkod för HTML-generatorn. <code>v1</code> är ett historiskt reponamn.</td></tr><tr><td>Vercel</td><td>Den klickbara webcanvasen, byggd från GitHub. Branchpreview är automatisk; produktionspublicering är ett medvetet steg.</td></tr></tbody></table></div>
+<p><a href="https://animation-events-v1.vercel.app/" target="_blank" rel="noreferrer">Öppna webcanvasen</a> eller <a href="https://gitlab.com/scout-gg/croupier/-/wikis/home" target="_blank" rel="noreferrer">öppna wikin</a>. En <code>.html</code>-länk i GitLab-wikin kan visa källkod; den är inte den körbara canvasen.</p>
+    </section>
+<section class="doc-section" id="s00-en-gemensam-inbox-flera-tydliga-agentnamn" data-section="en-gemensam-inbox-flera-tydliga-agentnamn" role="tabpanel">
+      <h2>En gemensam inbox, flera tydliga agentnamn</h2>
+      <p>Varje ansluten chatt använder ett stabilt namn, exempelvis <code>Agent-granska-andringar, Jakob</code>, och ett eget läsminne. Vid en ny användartur gör den en snabb kontroll i <a href="https://gitlab.com/scout-gg/croupier/-/wikis/agent-inbox" target="_blank" rel="noreferrer">den gemensamma inboxen</a>. Inget relevant nytt: fortsätt tyst med användarens uppgift. Relevant fråga: kontrollera mottagare och mandat, svara inom uppdraget och återge samma besked i den lokala chatten. Inga kontrollkvitton eller polling mellan turerna.</p>
+<p>Kevin och Emil kan ansluta sina egna agenter med samma upplägg. En annan agents meddelande är samordningsunderlag, inte automatisk behörighet att ändra motor, godkänna media eller integrera en branch.</p>
+    </section>
+<section class="doc-section" id="s00-arbetsprincip" data-section="arbetsprincip" role="tabpanel">
+      <h2>Arbetsprincip</h2>
+      <p>Jakob når en tydligt definierad etapp, verifierar vad som är runtime och vad som är förslag och tar sedan ett nytt samtal med Kevin. Kevin beslutar om arbetet ska införlivas, justeras eller ligga kvar separat.</p>
+<hr>
+<p><strong>V3 i en mening:</strong> Kevins motor är grunden, Jakob sorterar backend och logik runt den, Emil bygger video nära Kevin och Kevin avgör vad som går in.</p>
+<hr>
+<aside class="callout"><p>Synkad presentationskopia. Redigera <a href="https://gitlab.com/scout-gg/croupier/-/blob/jakeminator123/work/docs/animation-events/v3-9-days-mvp/s00-helheten.md" target="_blank" rel="noreferrer">källfilen i Croupier</a> och kör <code>tools/sync-docs.mjs</code> i canvas-repot. Denna kopia är inte en separat besluts- eller runtimekälla.</p></aside>
+    </section></div>
+  </article>
+<article class="page" id="page-s01" data-page="s01">
+    <header class="page-header">
+      <div class="eyebrow">s01 · Kartan</div>
+      <div class="title-row">
+        <h1>Animation events V3 · s01 kartan</h1>
+        <span class="status reference">Karta</span>
+      </div>
+      <div class="intro"><aside class="callout"><p><strong>V3.</strong> Kevins Croupier-runtime, Partner API och den kod som faktiskt körs är teknisk sanning. Verifierade påståenden på den här sidan är förankrade i revisionerna som anges i <code>RUNTIME-EVIDENCE.md</code>; de ska kontrolleras på nytt när någon av brancherna flyttar sig. Sidan ändrar inte Kevins motor, branch eller agentregler.</p></aside>
+<p>Kartan har en ryggrad: <strong>Kevins spelmotor avgör spelet och publicerar det som presentationen får känna till.</strong> Jakob kartlägger ett eventträd ovanpå den ryggraden. Kevin och Emil producerar och granskar videovarianter som motorn kan använda. Ingen dokumentationsmodell ersätter Croupiers RNG eller regler.</p></div>
+    </header>
+    <div class="section-tabs" role="tablist" aria-label="Avsnitt på Kartan"><button class="section-tab is-active" type="button" role="tab" aria-selected="true" data-section="statusmarkeringar">Statusmarkeringar</button><button class="section-tab" type="button" role="tab" aria-selected="false" data-section="helheten">Helheten</button><button class="section-tab" type="button" role="tab" aria-selected="false" data-section="det-som-ar-verifierat-i-den-forankrade-croupier-revisionen">Det som är verifierat i den förankrade Croupier-revisionen</button><button class="section-tab" type="button" role="tab" aria-selected="false" data-section="det-som-fortfarande-maste-verifieras">Det som fortfarande måste verifieras</button><button class="section-tab" type="button" role="tab" aria-selected="false" data-section="ansvar-och-arbetsytor">Ansvar och arbetsytor</button><button class="section-tab" type="button" role="tab" aria-selected="false" data-section="v3-kartan-for-etappbaserat-arbete">V3-kartan för etappbaserat arbete</button><button class="section-tab" type="button" role="tab" aria-selected="false" data-section="regler-som-galler-hela-kartan">Regler som gäller hela kartan</button></div>
+    <div class="sections"><section class="doc-section is-active" id="s01-statusmarkeringar" data-section="statusmarkeringar" role="tabpanel">
+      <h2>Statusmarkeringar</h2>
+      <div class="table-scroll"><table><thead><tr><th scope="col">Markering</th><th scope="col">Betydelse</th></tr></thead><tbody><tr><td><strong>BESLUTAT</strong></td><td>Beslutat i mötet och grund för V3-arbetssättet.</td></tr><tr><td><strong>GEMENSAMT SPRÅK</strong></td><td>Begrepp som Kevin har bekräftat i inboxen, utan att det gör dem till kodnamn.</td></tr><tr><td><strong>VERIFIERAT</strong></td><td>Bekräftat i aktuell kod på Croupier-branchen.</td></tr><tr><td><strong>VERIFIERAS</strong></td><td>Rimlig kandidat från V2 eller äldre dokumentation, men måste kontrolleras mot aktuell kod innan den får kallas canonical.</td></tr><tr><td><strong>JAKOBS FÖRSLAG</strong></td><td>Adapter, nod, regel eller visualisering som Jakob arbetar med utanför Kevins motor.</td></tr><tr><td><strong>BESLUT KRÄVS</strong></td><td>Kevin avgör vid en etappavstämning om delen ska ändras, införlivas eller lämnas utanför.</td></tr></tbody></table></div>
+    </section>
+<section class="doc-section" id="s01-helheten" data-section="helheten" role="tabpanel">
+      <h2>Helheten</h2>
+      <pre data-language="text"><code>[BESLUTAT] Kevin äger GitLab-repot och Croupier-motorn
+        │
+        ▼
+[VERIFIERAT] serverägd shoe, spelstatus, saldo och payout
+        │
+        ▼
+[VERIFIERAT] publicerad gameView
+        ├──► /api/table ──► vanlig webbklient och befintlig uppspelning
+        └──► Partner API ──► presentation[] för en partnerbyggd klient
+
+[JAKOBS FÖRSLAG] välj integrationsyta ovan + läsande adapter/eventträd
+        │              kopplingen är ännu inte införd
+        │              inga nya spelutfall, ingen ny RNG
+        ▼
+presentationens behov: baslinje, tillåtna variationer och fallback
+        │
+        ▼
+[BESLUTAT] Kevin + Emil producerar och granskar video
+        │
+        ▼
+Kevins branch, manifest/index, kalibrering och rehearsal
+        │
+        ▼
+[BESLUT KRÄVS] Kevin avgör vad som införlivas i produkten</code></pre>
+<p>Jakobs arbete ligger alltså <strong>efter</strong> att Kevins motor har bestämt utfallet och <strong>före</strong> eller bredvid presentationens val. Adaptern får läsa publicerad information men får aldrig bli en alternativ spelmotor.</p>
+<p><code>presentation[]</code> är ett verifierat Partner-API-kontrakt. Den vanliga <code>web/public/app.mjs</code> använder <code>/api/table</code>, inte denna presentationslista. Pilen från en framtida adapter till den befintliga spelaren är därför ett integrationsarbete, inte något som dokumentationen redan har bevisat fungerar.</p>
+    </section>
+<section class="doc-section" id="s01-det-som-ar-verifierat-i-den-forankrade-croupier-revisionen" data-section="det-som-ar-verifierat-i-den-forankrade-croupier-revisionen" role="tabpanel">
+      <h2>Det som är verifierat i den förankrade Croupier-revisionen</h2>
+      <p>Följande symboler är canonical för den revision som är dokumenterad i <code>RUNTIME-EVIDENCE.md</code>. Om Kevin ändrar koden ska evidensankaret och sidan uppdateras; dokumentationen får inte hålla fast vid äldre namn.</p>
+<div class="table-scroll"><table><thead><tr><th scope="col">Del</th><th scope="col">Verifierad symbol eller väg</th><th scope="col">Vad den gör</th><th scope="col">Källa</th></tr></thead><tbody><tr><td>Table-command</td><td><code>state</code></td><td>Läser aktuell publik vy utan att mutera rundan.</td><td><code>web/shoe-game.mjs</code></td></tr><tr><td>Table-command</td><td><code>start</code></td><td>Validerar insatser, skapar rundan och genomför opening deal.</td><td><code>web/shoe-game.mjs</code></td></tr><tr><td>Table-command</td><td><code>act</code></td><td>Validerar och utför en legal spelarhandling.</td><td><code>web/shoe-game.mjs</code></td></tr><tr><td>Table-command</td><td><code>insurance</code></td><td>Löser försäkringsval när fasen tillåter det.</td><td><code>web/shoe-game.mjs</code></td></tr><tr><td>Table-command</td><td><code>collect</code></td><td>Bokar rundans återbetalning när rundan är settled.</td><td><code>web/shoe-game.mjs</code></td></tr><tr><td>Publik round view</td><td><code>phase</code>, <code>hands</code>, <code>dealer</code>, <code>active</code>, <code>holeDraw</code>, <code>legalActions</code></td><td>Det publicerade underlag som klient och Partner API får använda.</td><td><code>web/shoe-game.mjs</code></td></tr><tr><td>Presentationstyper</td><td><code>speak</code>, <code>deal</code>, <code>reveal</code>, <code>settle</code>, <code>turn</code>, <code>idle</code></td><td>Ordnade presentationshändelser som byggs från föregående och ny publik vy.</td><td><code>web/partner-presentation.mjs</code></td></tr><tr><td>Partnertransport</td><td><code>presentation[]</code></td><td>Returneras från <code>/api/v1/table</code> och publiceras även i SSE-objektet <code>round</code>.</td><td><code>web/partner-api.mjs</code></td></tr><tr><td>Assetkatalog</td><td><code>buildAssetsManifest(...)</code></td><td>Bygger streams, deal-takes, speech och viss kalibreringsdata. Filtrerar bort <code>rejected</code>; skickar inte med take-status i <code>deals[]</code>.</td><td><code>web/partner-presentation.mjs</code></td></tr><tr><td>Befintlig kontaktuppspelning</td><td><code>selectContactTake(...)</code>, <code>PerformancePlayer</code></td><td>Har egna staged-/review-/godkännandekontroller som inte följer automatiskt av att en take finns i Partner-katalogen.</td><td><code>web/public/performance-contact.mjs</code>, <code>web/public/performance-player.mjs</code></td></tr><tr><td>Astrid-performance</td><td><code>web/public/dealers/astrid/performance/manifest.json</code></td><td>Har status, take-id, action, mediahash, bilddata och event-/landningsdata.</td><td>aktuell branch</td></tr></tbody></table></div>
+<h3>Verifierad säkerhetsgräns</h3>
+<p><code>gameView(...)</code> publicerar inte shoe-ordning, burn, privat hålkort eller interna eventpayloads. Partnerpresentationen arbetar på den publika vyn och beskriver <strong>hur</strong> ett redan avgjort spel ska visas. Den gränsen ska finnas kvar oavsett hur eventträdet utvecklas.</p>
+<h3>Gemensamt språk, ännu inte färdig adapter</h3>
+<p>Kevin har <a href="https://gitlab.com/scout-gg/croupier/-/work_items/1#note_3869829140" target="_blank" rel="noreferrer">bekräftat  0 / 1  samt linje, variant, trigger och take</a>. De orden är alltså inte enbart Jakobs påhitt eller något V3 ska kasta bort. Kevins förslag till dealerträd, YAML och <code>want</code>/<code>no</code>-intag tas vidare som arbetsförslag i s03. Exakt schema, urvalspolicy och spelarkoppling återstår.</p>
+    </section>
+<section class="doc-section" id="s01-det-som-fortfarande-maste-verifieras" data-section="det-som-fortfarande-maste-verifieras" role="tabpanel">
+      <h2>Det som fortfarande måste verifieras</h2>
+      <p>V2 använde många egna namn och jämförde tre repon. De namnen är inte automatiskt Croupier-kontrakt.</p>
+<div class="table-scroll"><table><thead><tr><th scope="col">Kandidat att kontrollera</th><th scope="col">Fråga till aktuell branch</th><th scope="col">Status efter kontroll</th></tr></thead><tbody><tr><td>Interna round-events</td><td>Vilka verifierade interna events ska bli stabila publika kontrakt, om några?</td><td><strong>BESLUT KRÄVS</strong></td></tr><tr><td>Exakta phase-transitioner</td><td>Vilka övergångar kan presentationen observera utan att härleda dold information?</td><td><strong>VERIFIERAS</strong></td></tr><tr><td><code>presentation[]</code>-ordningen</td><td>Vilka kombinationer av <code>reveal</code>, <code>settle</code>, <code>speak</code> och <code>turn</code> är stabila kontrakt?</td><td><strong>VERIFIERAS</strong></td></tr><tr><td>Adapterns integrationsyta</td><td>Ska första etappen ansluta till Partner-API:et eller till den vanliga webbklientens befintliga kodväg?</td><td><strong>BESLUT KRÄVS</strong></td></tr><tr><td>Assetval per event</td><td>Vilka val gör spelaren i dag och vilka finns bara i review/staging?</td><td><strong>VERIFIERAS</strong></td></tr><tr><td>Flera takes per presentationsläge</td><td>Har live-indexet redan pooler eller krävs en ny kompatibel katalogform?</td><td><strong>VERIFIERAS</strong></td></tr><tr><td>Video från Bettalotto</td><td>Vilket generation-id, godkännandestatus och manifest-id ska följa med in i Kevins branch?</td><td><strong>VERIFIERAS</strong></td></tr></tbody></table></div>
+<p>Ett namn från V2 får bara flyttas till tabellen över verifierade symboler när det finns en aktuell kodrad, ett kontrakt eller ett manifest som stödjer det.</p>
+    </section>
+<section class="doc-section" id="s01-ansvar-och-arbetsytor" data-section="ansvar-och-arbetsytor" role="tabpanel">
+      <h2>Ansvar och arbetsytor</h2>
+      <div class="table-scroll"><table><thead><tr><th scope="col">Person</th><th scope="col">Ansvar i V3</th><th scope="col">Arbetar främst i</th><th scope="col">Ska inte antas göra</th></tr></thead><tbody><tr><td>Kevin</td><td>Chef, repoägare, motorägare och slutlig verifierare. Arbetar nära Emil med videor och avgör införlivande.</td><td>Kevins Croupier-branch, motor, Partner API, manifest och Bettalotto-backoffice.</td><td>Följa Jakobs dokument som om de vore automatiska instruktioner.</td></tr><tr><td>Jakob</td><td>Backend/logik, verklighetskarta och separat eventträd ovanpå publicerade Croupier-events. Förbereder avgränsade etappförslag.</td><td><code>jakeminator123/work</code> och dokumentation/prototyp som inte ersätter motorn.</td><td>Ändra RNG, payout eller Kevins branch utan godkänd integration.</td></tr><tr><td>Emil</td><td>Hjälper Kevin med videoproduktion, variationer, visuell kvalitet och granskningsunderlag.</td><td>Kevins video-/assetflöde och nya filer i Kevins branch.</td><td>Synka tätt eller dagligen med Jakob.</td></tr></tbody></table></div>
+<h3>Den tunna länken mellan Jakob och Emil</h3>
+<p>Jakob och Emil behöver dela ett litet, stabilt underlag — inte arbeta i samma implementation.</p>
+<div class="table-scroll"><table><thead><tr><th scope="col">Jakob lämnar</th><th scope="col">Kevin och Emil lämnar</th><th scope="col">Gemensam kontrollpunkt</th></tr></thead><tbody><tr><td>Semantiskt behov: exempelvis “ett kort ska visas till en viss måltyp”.</td><td>Godkända take-id:n, action, status och kalibreringsdata.</td><td>Exakt event/payload är verifierat och videon har en säker fallback.</td></tr><tr><td>Förslag till vilka publicerade fält en variation får läsa.</td><td>Vilka variationer som faktiskt går att producera och kalibrera.</td><td>Varianten påverkar aldrig kort, saldo, payout eller turordning.</td></tr><tr><td>Testfall och förväntad fallback.</td><td>Rehearsal-/reviewresultat och kvarvarande visuella fel.</td><td>Kevin avgör om kopplingen går vidare.</td></tr></tbody></table></div>
+    </section>
+<section class="doc-section" id="s01-v3-kartan-for-etappbaserat-arbete" data-section="v3-kartan-for-etappbaserat-arbete" role="tabpanel">
+      <h2>V3-kartan för etappbaserat arbete</h2>
+      <div class="table-scroll"><table><thead><tr><th scope="col">Etapp</th><th scope="col">Kartans resultat</th><th scope="col">Ägare</th><th scope="col">Grind</th></tr></thead><tbody><tr><td>Verklighetsbild</td><td>Verifierad karta över commands, publicerad view, <code>presentation[]</code> och assetvägar.</td><td>Jakob kartlägger; Kevin är källa.</td><td>Inga kandidatnamn presenteras som canonical.</td></tr><tr><td>Första förslag</td><td>Separat eventträd med source reference, publik payload, presentationsbehov och fallback.</td><td>Jakob.</td><td>Ingen alternativ RNG och ingen dold data.</td></tr><tr><td>Avstämning</td><td>Samtal med Kevin om kartan och trädet.</td><td>Kevin + Jakob.</td><td>Kevin väljer fortsätt, justera eller avstå.</td></tr><tr><td>Mediahandoff</td><td>Videovarianter och katalogkoppling för den avgränsade leveransen.</td><td>Kevin + Emil; Jakob läser handoffen.</td><td>Nya videor finns i Kevins valda flöde och är granskningsbara.</td></tr><tr><td>Rehearsal</td><td>Fel-/gapplista mot faktisk spelare.</td><td>Alla i sina respektive spår.</td><td>Spelutfall och befintlig fallback är oförändrade.</td></tr><tr><td>Integrationsbeslut</td><td>Granskad patch/MR och dokumenterad nästa etapp.</td><td>Kevin beslutar; Jakob dokumenterar.</td><td>Ingen automatisk merge eller ändring av main.</td></tr></tbody></table></div>
+    </section>
+<section class="doc-section" id="s01-regler-som-galler-hela-kartan" data-section="regler-som-galler-hela-kartan" role="tabpanel">
+      <h2>Regler som gäller hela kartan</h2>
+      <ul><li>Kevins motor, inte dokumentationen, avgör RNG, shoe, legal actions, saldo och payout.</li><li>Exakta runtime-symboler används bara när de är verifierade i aktuell branch.</li><li>Jakobs noder är ett läsande förslag ovanpå publicerade events, inte ett nytt eventkontrakt förrän Kevin accepterat det.</li><li>Emil och Kevin äger videoflödet; videon kan uttrycka ett utfall men aldrig skapa det.</li><li>Ett nytt video-/take-id får inte bli spelregel eller skickas in som beslut till motorn.</li><li>Hålkort och annan dold information får inte läcka före den befintliga publiceringsgränsen.</li><li>En saknad eller underkänd video ska falla tillbaka till en redan säker presentation.</li><li>Inga personbetyg används i V3. Sidorna bedömer evidens, risk och integrationsmognad.</li></ul>
+<hr>
+<p>V3 · <code>v3-9-days-mvp</code> · s01 kartan · Kevins runtime är ryggraden · Jakobs eventträd är ett separat förslag · Kevin och Emil äger videoflödet.</p>
+<hr>
+<aside class="callout"><p>Synkad presentationskopia. Redigera <a href="https://gitlab.com/scout-gg/croupier/-/blob/jakeminator123/work/docs/animation-events/v3-9-days-mvp/s01-kartan.md" target="_blank" rel="noreferrer">källfilen i Croupier</a> och kör <code>tools/sync-docs.mjs</code> i canvas-repot. Denna kopia är inte en separat besluts- eller runtimekälla.</p></aside>
+    </section></div>
+  </article>
+<article class="page" id="page-s02" data-page="s02">
+    <header class="page-header">
+      <div class="eyebrow">s02 · Språket</div>
+      <div class="title-row">
+        <h1>Animation events V3 · s02 språket</h1>
+        <span class="status reference">Verifiering</span>
+      </div>
+      <div class="intro"><aside class="callout"><p><strong>V3.</strong> Språket på den här sidan ska göra Kevins befintliga Croupier-motor lättare att diskutera. Det skapar inte en ny RNG, döper inte om runtime och blir inte ett kontrakt förrän motsvarande symbol är verifierad och Kevin har accepterat förändringen.</p></aside>
+<p>Grundregeln är enkel: <strong>kodens exakta namn är canonical; våra svenska ord förklarar vad namnen betyder.</strong> Ett praktiskt alias i ett diagram får aldrig presenteras som om servern redan emitterar det.</p></div>
+    </header>
+    <div class="section-tabs" role="tablist" aria-label="Avsnitt på Språket"><button class="section-tab is-active" type="button" role="tab" aria-selected="true" data-section="statusmarkeringar">Statusmarkeringar</button><button class="section-tab" type="button" role="tab" aria-selected="false" data-section="kallhierarkin">Källhierarkin</button><button class="section-tab" type="button" role="tab" aria-selected="false" data-section="verifierade-runtimeord">Verifierade runtimeord</button><button class="section-tab" type="button" role="tab" aria-selected="false" data-section="gemensamma-forklaringsord">Gemensamma förklaringsord</button><button class="section-tab" type="button" role="tab" aria-selected="false" data-section="namnregler-for-v3">Namnregler för V3</button><button class="section-tab" type="button" role="tab" aria-selected="false" data-section="semantiska-familjer-att-verifiera">Semantiska familjer att verifiera</button><button class="section-tab" type="button" role="tab" aria-selected="false" data-section="mall-for-varje-eventrad">Mall för varje eventrad</button><button class="section-tab" type="button" role="tab" aria-selected="false" data-section="sag-sa-har">Säg så här</button><button class="section-tab" type="button" role="tab" aria-selected="false" data-section="ord-som-bevaras-fran-v2">Ord som bevaras från V2</button><button class="section-tab" type="button" role="tab" aria-selected="false" data-section="utanfor-sprakets-karna-for-den-forsta-v3-leveransen">Utanför språkets kärna för den första V3-leveransen</button></div>
+    <div class="sections"><section class="doc-section is-active" id="s02-statusmarkeringar" data-section="statusmarkeringar" role="tabpanel">
+      <h2>Statusmarkeringar</h2>
+      <div class="table-scroll"><table><thead><tr><th scope="col">Markering</th><th scope="col">Användning</th></tr></thead><tbody><tr><td><strong>BESLUTAT</strong></td><td>Roll, arbetsgräns eller riktning beslutad i mötet.</td></tr><tr><td><strong>GEMENSAMT SPRÅK</strong></td><td>Begrepp som Kevin har bekräftat i inboxen; inte automatiskt ett runtimefält.</td></tr><tr><td><strong>VERIFIERAT</strong></td><td>Exakt symbol eller beteende bekräftat i aktuell Croupier-kod.</td></tr><tr><td><strong>VERIFIERAS</strong></td><td>Kandidat från äldre dokumentation som ännu inte är bekräftad i aktuell branch.</td></tr><tr><td><strong>JAKOBS FÖRSLAG</strong></td><td>Dokumentationsord eller adapterbegrepp ovanpå Kevins motor.</td></tr><tr><td><strong>KEVINS FÖRSLAG</strong></td><td>Kevins föreslagna träd-/metadataform; ännu inte verifierad implementation.</td></tr><tr><td><strong>BESLUT KRÄVS</strong></td><td>Föreslagen ändring som Kevin behöver ta ställning till vid en etapp.</td></tr></tbody></table></div>
+<p>Statusen ska stå bredvid saken den gäller. En hel sida får inte kallas “verifierad” bara för att några av dess ord finns i koden.</p>
+    </section>
+<section class="doc-section" id="s02-kallhierarkin" data-section="kallhierarkin" role="tabpanel">
+      <h2>Källhierarkin</h2>
+      <p>När två namn säger olika saker gäller följande ordning:</p>
+<ol><li>Körbar kod på den uttryckligen verifierade revisionen av Kevins Croupier-branch.</li><li>Partner API:s faktiska request-, response- och SSE-form.</li><li>Aktuella manifest/index och kalibreringsdata för media.</li><li>Tester och reproducerbar rehearsal-evidens.</li><li>Den här V3-dokumentationen.</li><li>V2, spelsajt och Emils äldre repo som referenser — aldrig som Croupier-runtime.</li></ol>
+    </section>
+<section class="doc-section" id="s02-verifierade-runtimeord" data-section="verifierade-runtimeord" role="tabpanel">
+      <h2>Verifierade runtimeord</h2>
+      <p>Tabellen nedan använder bara symboler som finns på revisionen som anges i <code>RUNTIME-EVIDENCE.md</code>. Betydelsen är sammanfattad; koden är fortfarande facit och kontrollen ska göras om när Kevin uppdaterar sin branch.</p>
+<div class="table-scroll"><table><thead><tr><th scope="col">Lager</th><th scope="col">Canonical symbol</th><th scope="col">Betydelse i aktuell kod</th><th scope="col">Status</th></tr></thead><tbody><tr><td>Table-command</td><td><code>state</code></td><td>Läs publik table view utan att ändra rundan.</td><td><strong>VERIFIERAT</strong></td></tr><tr><td>Table-command</td><td><code>start</code></td><td>Starta en ny runda efter validering av insatser och saldo.</td><td><strong>VERIFIERAT</strong></td></tr><tr><td>Table-command</td><td><code>act</code></td><td>Utför en legal handling i aktuell decision-fas.</td><td><strong>VERIFIERAT</strong></td></tr><tr><td>Table-command</td><td><code>insurance</code></td><td>Ta eller avstå försäkring när den är tillgänglig.</td><td><strong>VERIFIERAT</strong></td></tr><tr><td>Table-command</td><td><code>collect</code></td><td>Boka resultatet efter att rundan är settled.</td><td><strong>VERIFIERAT</strong></td></tr><tr><td>Publicerad vy</td><td><code>phase</code></td><td>Rundans aktuella publika fas.</td><td><strong>VERIFIERAT</strong></td></tr><tr><td>Publicerad vy</td><td><code>hands</code>, <code>dealer</code>, <code>active</code>, <code>holeDraw</code>, <code>legalActions</code></td><td>Det publika underlaget för spelare och presentation.</td><td><strong>VERIFIERAT</strong></td></tr><tr><td>Presentation</td><td><code>speak</code></td><td>Anger en namngiven talrad som en klient ska spela; är inte i sig en uppspelning.</td><td><strong>VERIFIERAT</strong></td></tr><tr><td>Presentation</td><td><code>deal</code></td><td>Visa ett redan serverbestämt kort till publicerat mål.</td><td><strong>VERIFIERAT</strong></td></tr><tr><td>Presentation</td><td><code>reveal</code></td><td>Visa ett tidigare dolt dealerkort när publiceringsgränsen passerats.</td><td><strong>VERIFIERAT</strong></td></tr><tr><td>Presentation</td><td><code>settle</code></td><td>Beskriv publicerade handresultat för presentationen.</td><td><strong>VERIFIERAT</strong></td></tr><tr><td>Presentation</td><td><code>turn</code></td><td>Visa aktiv box/hand och publicerade legal actions.</td><td><strong>VERIFIERAT</strong></td></tr><tr><td>Presentation</td><td><code>idle</code></td><td>Återgå till väntande presentation.</td><td><strong>VERIFIERAT</strong></td></tr><tr><td>Partner response</td><td><code>presentation[]</code></td><td>Ordnad lista av presentationshändelser för ett command-resultat.</td><td><strong>VERIFIERAT</strong></td></tr><tr><td>Media</td><td><code>takes[].id</code>, <code>action</code>, <code>status</code>, <code>media</code>, <code>events</code></td><td>Fält som används i Astrids performance-manifest.</td><td><strong>VERIFIERAT</strong></td></tr><tr><td>Kalibrering</td><td><code>events.land</code> / härledd <code>landAtMs</code></td><td>Landningsdata som Partner API:s assetmanifest räknar fram.</td><td><strong>VERIFIERAT</strong></td></tr></tbody></table></div>
+<p>Källorna för tabellen är sammanställda i <code>RUNTIME-EVIDENCE.md</code> och pekar vidare till <code>web/shoe-game.mjs</code>, <code>web/partner-api.mjs</code>, <code>web/partner-presentation.mjs</code> och <code>web/public/dealers/astrid/performance/manifest.json</code>.</p>
+<p>Partner-API:ets <code>presentation[]</code> och den vanliga webbklientens <code>/api/table</code> är olika kodvägar. Att ett presentationsobjekt finns i API:et betyder inte att det redan driver <code>web/public/app.mjs</code>. På samma sätt är <code>takes[].status</code> i råmanifestet inte ett fält i Partner-API:ets publicerade <code>deals[]</code>.</p>
+    </section>
+<section class="doc-section" id="s02-gemensamma-forklaringsord" data-section="gemensamma-forklaringsord" role="tabpanel">
+      <h2>Gemensamma förklaringsord</h2>
+      <p>De här orden hjälper oss att rita och granska systemet. Kolumnen “nivå” hindrar ett dokumentationsord från att smyga in som ett påstått API.</p>
+<div class="table-scroll"><table><thead><tr><th scope="col">Ord</th><th scope="col">Betyder i V3</th><th scope="col">Nivå</th><th scope="col">Exempel</th></tr></thead><tbody><tr><td>motor</td><td>Kevins auktoritativa Croupier-kod för shoe, regler, state, saldo och payout.</td><td><strong>BESLUTAT</strong></td><td>Motorn validerar <code>act</code>; videon gör det inte.</td></tr><tr><td>RNG</td><td>Den del av Kevins spelmotor som bestämmer spelutfall. Presentationens variation är inte RNG.</td><td><strong>BESLUTAT</strong></td><td>Ett klippval får aldrig dra nästa kort.</td></tr><tr><td>command</td><td>En begäran till table-endpointen. Använd exakt <code>state</code>, <code>start</code>, <code>act</code>, <code>insurance</code> eller <code>collect</code> när det är den symbolen som avses.</td><td><strong>VERIFIERAT</strong></td><td><code>act</code> med en handling.</td></tr><tr><td>publicerad vy</td><td>Den information motorn avsiktligt lämnar ut efter ett command.</td><td><strong>VERIFIERAT</strong></td><td><code>phase</code> och <code>legalActions</code>.</td></tr><tr><td>presentationsevent</td><td>Ett objekt i <code>presentation[]</code> som säger vad klienten ska presentera.</td><td><strong>VERIFIERAT</strong></td><td><code>deal</code> eller <code>turn</code>.</td></tr><tr><td><code>rng</code> / <code>show</code></td><td>Gemensam uppdelning mellan spelauktoritet och presentation. Inte ett påstående att servern redan emitterar alla namn med dessa prefix.</td><td><strong>GEMENSAMT SPRÅK</strong></td><td>Motorn avgör; show beskriver vad som visas.</td></tr><tr><td>faktum</td><td>Mänskligt samlingsord för något motorn redan har avgjort och publicerat.</td><td>Förklaringsord</td><td>“Ett kort har publicerats till boxen.”</td></tr><tr><td>semantisk nod</td><td>Jakobs dokumentations-/adapternod som pekar tillbaka på en exakt verifierad källa.</td><td><strong>JAKOBS FÖRSLAG</strong></td><td><code>sourceRef</code> till ett <code>deal</code>-objekt.</td></tr><tr><td>linjen</td><td>Baspresentationen eller baspoolen för samma presentationsbehov; exakt pool/schema återstår att fastställa.</td><td><strong>GEMENSAMT SPRÅK</strong></td><td>Likvärdiga, godkända takes för ett grundläge.</td></tr><tr><td>variant</td><td>En alternativ undergren som bara ska vara valbar när dess dokumenterade villkor är sant.</td><td><strong>GEMENSAMT SPRÅK</strong></td><td>En lugnare resultattake när publicerad data räcker för villkoret.</td></tr><tr><td>trigger</td><td>Villkoret som gör en variant valbar. Den får bara läsa tillåten publicerad information.</td><td><strong>GEMENSAMT SPRÅK</strong></td><td>Ett publicerat <code>outcome</code>, inte dolt hålkort.</td></tr><tr><td>take</td><td>En identifierad mediaprestation med tillhörande metadata; statusen avgör om den bara är råmaterial, review eller godkänd.</td><td><strong>GEMENSAMT SPRÅK</strong></td><td>Ett objekt i performance-manifestet.</td></tr><tr><td>landning</td><td>Det kalibrerade ögonblick då den visuella handlingen når sitt mål.</td><td>Gemensamt mediaord</td><td><code>events.land</code> och härledd <code>landAtMs</code>.</td></tr><tr><td>fallback</td><td>En redan säker presentation som används när en föreslagen take eller variant inte kan spelas.</td><td>Gemensamt säkerhetsord</td><td>Befintlig slide/DOM eller godkänd bastake.</td></tr><tr><td>katalog</td><td>Ett manifest/index över assets. Råmanifestet och det publicerade Partner-manifestet innehåller olika metadata.</td><td><strong>VERIFIERAT</strong></td><td><code>buildAssetsManifest(...)</code> utelämnar status i <code>deals[]</code>; förekomst är inte godkännande.</td></tr><tr><td>statuspolicy</td><td>Regeln för vilka katalogstatusar som får användas i review, rehearsal respektive live.</td><td><strong>BESLUT KRÄVS</strong></td><td><code>draft</code> eller <code>review</code> är inte automatiskt visuellt godkänd.</td></tr><tr><td>etapp</td><td>En avgränsad leverans som Jakob går igenom med Kevin innan nästa integrationssteg.</td><td><strong>BESLUTAT</strong></td><td>Verklighetskarta → eventträd → rehearsal.</td></tr></tbody></table></div>
+    </section>
+<section class="doc-section" id="s02-namnregler-for-v3" data-section="namnregler-for-v3" role="tabpanel">
+      <h2>Namnregler för V3</h2>
+      <ol><li>Skriv den exakta runtime-symbolen i kodstil när den är verifierad: exempelvis <code>presentation[]</code> eller <code>deal</code>.</li><li>Sätt <strong>VERIFIERAS</strong> efter ett namn som kommer från V2, minnet eller en extern referens.</li><li>Använd gärna det överenskomna <code>rng</code>/<code>show</code>-språket i diagram. Märk exakta alias som exempel eller föreslagna katalognamn tills de har en kod-/schemamappning; kalla dem inte befintliga serverevents.</li><li>Om ett svenskt namn behövs i ett diagram ska noden även ha en <code>sourceRef</code> till canonical symbol eller texten “källa ej verifierad”.</li><li>Asset-/take-id:n hör hemma i katalogen. Servern ska inte ta emot ett videonamn som spelbeslut.</li><li>En trigger får aldrig förutsätta shoe-ordning, kommande kort, privat hålkort eller saldo som inte redan publicerats för rätt mottagare.</li><li>Ett namn blir inte canonical för att det låter bättre. Kevin accepterar ändringen och kod/kontrakt/test följer med.</li></ol>
+    </section>
+<section class="doc-section" id="s02-semantiska-familjer-att-verifiera" data-section="semantiska-familjer-att-verifiera" role="tabpanel">
+      <h2>Semantiska familjer att verifiera</h2>
+      <p>Detta är en arbetslista för Jakobs kartläggning, inte en lista över verkliga eventnamn.</p>
+<div class="table-scroll"><table><thead><tr><th scope="col">Semantiskt behov</th><th scope="col">Verifierad källa i dag</th><th scope="col">Vad som återstår</th><th scope="col">Status</th></tr></thead><tbody><tr><td>Runda startar</td><td>Command <code>start</code> och resulterande publik vy/presentation.</td><td>Dokumentera exakt sekvens och stabila payloadfält.</td><td><strong>VERIFIERAS</strong></td></tr><tr><td>Kort visas</td><td>Presentationstyp <code>deal</code>.</td><td>Kontrollera mål, face-down-regel, ordning och fallback för varje väg.</td><td><strong>VERIFIERAS</strong></td></tr><tr><td>Hålkort visas</td><td>Presentationstyp <code>reveal</code>.</td><td>Lås publiceringsgräns och verifiera att ingen tidigare nod läcker rank/suit.</td><td><strong>VERIFIERAS</strong></td></tr><tr><td>Spelaren ska agera</td><td>Presentationstyp <code>turn</code>.</td><td>Kontrollera dubletter, timing och hur aktiv hand byts.</td><td><strong>VERIFIERAS</strong></td></tr><tr><td>Försäkring öppnas</td><td><code>phase === &quot;insurance&quot;</code> ger en <code>speak</code>-rad i nuvarande presentation.</td><td>Avgör om den första avgränsade etappen behöver en egen visuell familj eller bara befintligt tal.</td><td><strong>BESLUT KRÄVS</strong></td></tr><tr><td>Resultat presenteras</td><td><code>settle</code> följt av <code>speak</code> i nuvarande mappning.</td><td>Fastställ vilka variationer som kan väljas enbart från publicerad settle-data.</td><td><strong>VERIFIERAS</strong></td></tr><tr><td>Ny bettingcykel</td><td>Command <code>collect</code> ger i dag <code>speak</code> och <code>idle</code>.</td><td>Kontrollera önskad ordning och visuell återställning.</td><td><strong>VERIFIERAS</strong></td></tr><tr><td>Shoe byts</td><td>Publik shoe view har shufflefält.</td><td>Avgör om en presentation behövs i den första V3-leveransen.</td><td><strong>BESLUT KRÄVS</strong></td></tr></tbody></table></div>
+    </section>
+<section class="doc-section" id="s02-mall-for-varje-eventrad" data-section="mall-for-varje-eventrad" role="tabpanel">
+      <h2>Mall för varje eventrad</h2>
+      <p>Använd följande fält när s03-eventträdet fylls i:</p>
+<div class="table-scroll"><table><thead><tr><th scope="col">Fält</th><th scope="col">Krav</th></tr></thead><tbody><tr><td><code>sourceRef</code></td><td>Exakt fil/funktion/symbol eller kontraktsfält i aktuell Croupier-kod.</td></tr><tr><td><code>sourceStatus</code></td><td><strong>VERIFIERAT</strong> eller <strong>VERIFIERAS</strong>.</td></tr><tr><td><code>publicPayload</code></td><td>Bara fält som är publicerade för rätt mottagare vid den tidpunkten.</td></tr><tr><td><code>semanticNeed</code></td><td>Kort mänsklig beskrivning av vad spelaren behöver se/höra.</td></tr><tr><td><code>baseline</code></td><td>Befintlig säker presentation eller godkänd takepool.</td></tr><tr><td><code>variants</code></td><td>Noll eller flera förslag med tydlig trigger och fallback.</td></tr><tr><td><code>mediaOwner</code></td><td>Kevin + Emil.</td></tr><tr><td><code>logicOwner</code></td><td>Jakob för förslaget; Kevin för eventuell produktintegration.</td></tr><tr><td><code>decision</code></td><td>Accepterad, ändras, avstår eller ännu ej granskad.</td></tr></tbody></table></div>
+    </section>
+<section class="doc-section" id="s02-sag-sa-har" data-section="sag-sa-har" role="tabpanel">
+      <h2>Säg så här</h2>
+      <div class="table-scroll"><table><thead><tr><th scope="col">Undvik</th><th scope="col">Säg i V3</th><th scope="col">Varför</th></tr></thead><tbody><tr><td>“Jakobs RNG är bättre.”</td><td>“Jakobs adapterförslag använder Kevins RNG-resultat utan att ändra dem.”</td><td>Roller och auktoritet blir rätt.</td></tr><tr><td>“Facit-eventet är <code>rng.card.dealt</code>.”</td><td>“Semantiskt behov: kort utdelat; exakt Croupier-källa verifieras.”</td><td>V2-alias får inte låtsas vara runtime.</td></tr><tr><td>“Emils klipp ska in i Jakobs index.”</td><td>“Kevin och Emil lägger godkänd media i Kevins branch; Jakob läser kataloghandoffen.”</td><td>Den tunna samarbetsgränsen bevaras.</td></tr><tr><td>“Videon avgör vilken händelse det blev.”</td><td>“Motorn avgör händelsen; presentationen väljer en tillåten take.”</td><td>Backend förblir auktoritativ.</td></tr><tr><td>“Det här gäller eftersom wikin säger det.”</td><td>“Det här är verifierat i aktuell kod” eller “det här är ett förslag”.</td><td>Dokumentation och runtime blandas inte.</td></tr><tr><td>“OpenClaw väljer.”</td><td>“Den första V3-leveransen använder en kodad, verifierbar policy; AI-regissör ligger utanför kärnan.”</td><td>Leveransen hålls avgränsad.</td></tr></tbody></table></div>
+    </section>
+<section class="doc-section" id="s02-ord-som-bevaras-fran-v2" data-section="ord-som-bevaras-fran-v2" role="tabpanel">
+      <h2>Ord som bevaras från V2</h2>
+      <p><code>linjen</code>, <code>variant</code>, <code>trigger</code>, <code>take</code>, <code>landning</code> och <code>fallback</code> bevaras. <a href="https://gitlab.com/scout-gg/croupier/-/work_items/1#note_3869829140" target="_blank" rel="noreferrer">Kevin bekräftade  6 / 7  och linje/variant/trigger/take den 19 september</a>. Vi skiljer därför på bekräftade begrepp och den implementation som återstår:</p>
+<ul><li><code>take</code>, <code>landning</code> och manifestmetadata har stöd i nuvarande mediaflöde.</li><li><code>linjen</code>, <code>variant</code>, <code>trigger</code> och <code>take</code> är gemensamt accepterat språk, inte enbart Jakobs förslag.</li><li>Kevins dealerträd och YAML per event/take är ett konkret arbetsförslag; exakt schema och integration återstår.</li><li>Ingen av dem får ändra spelmotorns utfall.</li><li>Cooldown finns med i Kevins metadataförslag. Budget och deterministiskt urval är möjliga regler; ingen av dem blir verifierad runtime enbart genom dokumentationen.</li></ul>
+    </section>
+<section class="doc-section" id="s02-utanfor-sprakets-karna-for-den-forsta-v3-leveransen" data-section="utanfor-sprakets-karna-for-den-forsta-v3-leveransen" role="tabpanel">
+      <h2>Utanför språkets kärna för den första V3-leveransen</h2>
+      <ul><li>personbetyg och vinnare mellan Kevin, Jakob och Emil,</li><li>ett nytt “ultimativt” RNG-språk,</li><li>rouletteord som bara kommer från ett annat repo,</li><li>OpenClaw-kontrakt och agentlanes,</li><li>känslo- eller stämningsevents,</li><li>namn som inte kan spåras till kod, kontrakt, manifest eller uttryckligt beslut.</li></ul>
+<hr>
+<p>V3 · <code>v3-9-days-mvp</code> · s02 språket · koden behåller sina namn · förslag märks som förslag · Kevin avgör kontraktsändringar.</p>
+<hr>
+<aside class="callout"><p>Synkad presentationskopia. Redigera <a href="https://gitlab.com/scout-gg/croupier/-/blob/jakeminator123/work/docs/animation-events/v3-9-days-mvp/s02-spraket.md" target="_blank" rel="noreferrer">källfilen i Croupier</a> och kör <code>tools/sync-docs.mjs</code> i canvas-repot. Denna kopia är inte en separat besluts- eller runtimekälla.</p></aside>
+    </section></div>
+  </article>
+<article class="page" id="page-s03" data-page="s03">
+    <header class="page-header">
+      <div class="eyebrow">s03 · Eventträdet</div>
+      <div class="title-row">
+        <h1>Animation events V3 · s03 eventträdet</h1>
+        <span class="status proposal">Arbetsförslag</span>
+      </div>
+      <div class="intro"><aside class="callout"><p><strong>V3.</strong> Här samlas Jakobs adapterförslag och Kevins träd-/metadataförslag ovanpå Kevins befintliga Croupier-motor. Språket linje/variant/trigger/take är bekräftat gemensamt. Schema och integration är inte färdiga bara för att de visas här. Kevins kod avgör spel, saldo och publiceringsgräns; Kevin avgör vad som införlivas.</p></aside>
+<p>Eventträdets uppgift är att svara på en begränsad fråga:</p>
+<aside class="callout"><p>När Croupier redan har publicerat en viss presentationshändelse, vilka godkända videor får presentera den — och vilken säker fallback gäller om inget extra val kan göras?</p></aside></div>
+    </header>
+    <div class="section-tabs" role="tablist" aria-label="Avsnitt på Eventträdet"><button class="section-tab is-active" type="button" role="tab" aria-selected="true" data-section="statusmarkeringar">Statusmarkeringar</button><button class="section-tab" type="button" role="tab" aria-selected="false" data-section="arkitekturen">Arkitekturen</button><button class="section-tab" type="button" role="tab" aria-selected="false" data-section="den-verifierade-ryggraden">Den verifierade ryggraden</button><button class="section-tab" type="button" role="tab" aria-selected="false" data-section="kevins-forslag-dealertrad-och-metadata">Kevins förslag: dealerträd och metadata</button><button class="section-tab" type="button" role="tab" aria-selected="false" data-section="verifierade-presentationstyper">Verifierade presentationstyper</button><button class="section-tab" type="button" role="tab" aria-selected="false" data-section="vad-en-foreslagen-nod-maste-innehalla">Vad en föreslagen nod måste innehålla</button><button class="section-tab" type="button" role="tab" aria-selected="false" data-section="forsta-arbetsexemplet-ett-litet-settle-trad">Första arbetsexemplet: ett litet settle-träd</button><button class="section-tab" type="button" role="tab" aria-selected="false" data-section="kandidattrad-for-den-forsta-avgransade-etappen">Kandidatträd för den första avgränsade etappen</button><button class="section-tab" type="button" role="tab" aria-selected="false" data-section="foreslagen-urvalspolicy">Föreslagen urvalspolicy</button><button class="section-tab" type="button" role="tab" aria-selected="false" data-section="video-och-takekontraktet">Video- och takekontraktet</button><button class="section-tab" type="button" role="tab" aria-selected="false" data-section="felfall">Felfall</button><button class="section-tab" type="button" role="tab" aria-selected="false" data-section="sakerhetsregler-som-bevaras">Säkerhetsregler som bevaras</button><button class="section-tab" type="button" role="tab" aria-selected="false" data-section="tester-for-forsta-vertikala-skivan">Tester för första vertikala skivan</button><button class="section-tab" type="button" role="tab" aria-selected="false" data-section="etappsekvensen-finns-pa-ett-stalle">Etappsekvensen finns på ett ställe</button><button class="section-tab" type="button" role="tab" aria-selected="false" data-section="beslutspunkter-for-kevin">Beslutspunkter för Kevin</button><button class="section-tab" type="button" role="tab" aria-selected="false" data-section="utanfor-karnan">Utanför kärnan</button></div>
+    <div class="sections"><section class="doc-section is-active" id="s03-statusmarkeringar" data-section="statusmarkeringar" role="tabpanel">
+      <h2>Statusmarkeringar</h2>
+      <div class="table-scroll"><table><thead><tr><th scope="col">Markering</th><th scope="col">Betydelse</th></tr></thead><tbody><tr><td><strong>VERIFIERAT</strong></td><td>Finns i aktuell Croupier-kod eller aktuellt manifest.</td></tr><tr><td><strong>VERIFIERAS</strong></td><td>Kandidat som måste kontrolleras mot aktuell branch och tester.</td></tr><tr><td><strong>JAKOBS FÖRSLAG</strong></td><td>Nod, trigger, urval eller test som ligger ovanpå runtime.</td></tr><tr><td><strong>KEVINS FÖRSLAG</strong></td><td>Diskträd och metadataidé från Kevins daterade inboxnotering, ännu inte färdig integration.</td></tr><tr><td><strong>GEMENSAMT SPRÅK</strong></td><td><code>rng</code>/<code>show</code> och linje/variant/trigger/take är bekräftade begrepp, inte automatiskt kodsymboler.</td></tr><tr><td><strong>KEVIN + EMIL</strong></td><td>Video-/takearbete, katalogstatus, kalibrering och visuell granskning.</td></tr><tr><td><strong>BESLUT KRÄVS</strong></td><td>Kevin avgör om förslaget ska in i produkten.</td></tr></tbody></table></div>
+    </section>
+<section class="doc-section" id="s03-arkitekturen" data-section="arkitekturen" role="tabpanel">
+      <h2>Arkitekturen</h2>
+      <pre data-language="text"><code>                 KEVINS AUKTORITATIVA RUNTIME
+
+command ──► shoe + Round + regler ──► publik gameView
+                     │                       │
+                     └── kort/saldo/payout   ├──► /api/table
+                         avgörs här          │    vanlig webbklient
+                                             └──► Partner API
+                                                  presentationEvents(...)
+                                                  presentation[]
+
+                 FÖRESLAGEN KOPPLING — INTE INFÖRD
+                 välj integrationsyta + sourceRef
+                 Jakobs läsande adapter/eventträd
+                              │
+                    ┌─────────┴─────────┐
+                    ▼                   ▼
+              säker baslinje      valbara varianter
+                    │             (bara sann trigger)
+                    └─────────┬─────────┘
+                              ▼
+              KEVIN + EMILS GODKÄNDA TAKE-KATALOG
+                              │
+                       kalibrering/fallback
+                              │
+                              ▼
+                 mål: kompatibel befintlig spelare</code></pre>
+<p>Det finns ingen pil tillbaka från video eller eventträd till shoe, <code>Round</code>, legal actions, saldo eller payout.</p>
+<p>Partner-API:ets lista är verifierad; en adapter som driver den vanliga webbklienten med den är det inte. <code>web/public/app.mjs</code> använder i dag <code>/api/table</code>. Kevin behöver avgöra anslutningspunkten innan något nytt flöde kan beskrivas som sammanhängande och körtestat.</p>
+    </section>
+<section class="doc-section" id="s03-den-verifierade-ryggraden" data-section="den-verifierade-ryggraden" role="tabpanel">
+      <h2>Den verifierade ryggraden</h2>
+      <p>Följande beteende är bekräftat mot revisionen i <code>RUNTIME-EVIDENCE.md</code> och kan användas som source references. Innan en integrations-MR ska samma kontroll göras mot Kevins då aktuella branch.</p>
+<div class="table-scroll"><table><thead><tr><th scope="col">Source reference</th><th scope="col">Verifierad roll</th><th scope="col">Eventträdets tillåtna läsning</th></tr></thead><tbody><tr><td><code>command(...)</code> i <code>web/shoe-game.mjs</code></td><td>Hanterar <code>state</code>, <code>start</code>, <code>act</code>, <code>insurance</code>, <code>collect</code>, versionskontroll och idempotens.</td><td>Ingen direkt mutation. Trädet får bara använda resultat som publiceras vidare.</td></tr><tr><td><code>gameView(...)</code> i <code>web/shoe-game.mjs</code></td><td>Publicerar säker table-/round-vy och döljer shoe-ordning, burn, privat hole card och interna payloads.</td><td>Publicerade fält efter att vyn skapats.</td></tr><tr><td><code>presentationEvents(...)</code> i <code>web/partner-presentation.mjs</code></td><td>Diffar föregående och ny publik vy och bygger en ordnad lista.</td><td>Eventobjektet och dess redan publicerade payload.</td></tr><tr><td><code>presentation[]</code> i <code>/api/v1/table</code>-svaret</td><td>Bär de presentationsevents som hör till command-resultatet.</td><td>Listordning, typ och publika fält.</td></tr><tr><td>SSE-objektet <code>round</code></td><td>Publicerar samma presentationslista med op, version och phase när listan inte är tom.</td><td>Endast mottagarens publicerade eventström.</td></tr><tr><td><code>web/public/dealers/astrid/performance/manifest.json</code></td><td>Beskriver review-takes med id, action, status, mediahash, camera och eventframes.</td><td>Bara poster som katalogpolicyn tillåter för aktuellt läge.</td></tr><tr><td><code>buildAssetsManifest(...)</code></td><td>Samlar streams, deal-takes, speech och härledd <code>landAtMs</code>.</td><td>Publicerad katalog, aldrig godtycklig filsökning i runtime.</td></tr></tbody></table></div>
+<p>Katalogbyggaren utesluter <code>rejected</code> men skickar inte take-status eller komplett granskningsunderlag i <code>deals[]</code>. Den befintliga kontaktspelaren har andra staged-/godkännandekontroller. Adapterförslaget behöver därför en egen uttrycklig metadata- och statuskoppling; ”finns i katalogen” räcker inte.</p>
+    </section>
+<section class="doc-section" id="s03-kevins-forslag-dealertrad-och-metadata" data-section="kevins-forslag-dealertrad-och-metadata" role="tabpanel">
+      <h2>Kevins förslag: dealerträd och metadata</h2>
+      <p>Källa: <a href="https://gitlab.com/scout-gg/croupier/-/work_items/1#note_3869829140" target="_blank" rel="noreferrer">Kevins notering 19 september, 20:31:39 UTC</a>. Kevin bekräftar språket <code>rng</code>/<code>show</code>, linje, variant, trigger och take, och föreslår följande diskbaserade organisering. Exemplet är <strong>KEVINS FÖRSLAG</strong>, inte en katalog som denna dokumentationsleverans skapar:</p>
+<pre data-language="text"><code>dealers/astrid/
+  show.deal.centre/
+    line/                 bastakes, exempelvis a.mp4
+    variant.attentive/    alternativa takes
+  show.line.lose/
+    line/
+    variant.near/
+    variant.unlucky/</code></pre>
+<p>YAML per event eller take kan enligt förslaget bära prompt, modell, Higgsfield-id, <code>landAt</code>, frame-index, kalibrering, trigger, cooldown och verdict. Fältnamn, enheter, schema och koppling till befintliga JSON-manifest behöver fastställas före implementation; inget gammalt index ska ersättas bara för att exemplet använder YAML.</p>
+<p>Backoffice-intaget är tänkt som <code>want</code>/<code>no</code>: utvalt material går vidare till trädet och metadata, övrigt stannar utanför. <code>want</code> betyder då ett urval till flödet, <strong>inte</strong> att filen är kalibrerad eller godkänd för liveuppspelning. Kevins read-only Generations-API är en befintlig byggsten på hans branch; hela intags-/trädflödet är fortfarande ett förslag. Kevin har bett Jakob ta ställning till schema/träd på arbetsbranchen för granskning, inte gett en automatisk mergeorder.</p>
+    </section>
+<section class="doc-section" id="s03-verifierade-presentationstyper" data-section="verifierade-presentationstyper" role="tabpanel">
+      <h2>Verifierade presentationstyper</h2>
+      <div class="table-scroll"><table><thead><tr><th scope="col">Typ</th><th scope="col">Nuvarande betydelse</th><th scope="col">Fråga för första etappen</th><th scope="col">Status</th></tr></thead><tbody><tr><td><code>speak</code></td><td>Spela en namngiven talrad; kan vara blocking.</td><td>Kan flera visuellt godkända takes höra till samma exakta line utan att talet ändras?</td><td><strong>BESLUT KRÄVS</strong></td></tr><tr><td><code>deal</code></td><td>Visa ett redan draget kort till publicerat mål, med action/prefer/fallback.</td><td>Vilka befintliga actionfamiljer kan få fler kalibrerade takes?</td><td><strong>VERIFIERAS</strong></td></tr><tr><td><code>reveal</code></td><td>Visa dealerns tidigare dolda kort när det blivit publikt.</td><td>Behövs mer än befintlig presentation i den första etappen?</td><td><strong>BESLUT KRÄVS</strong></td></tr><tr><td><code>settle</code></td><td>Publicera dealerresultat och handutfall för presentation.</td><td>Första kandidat för ett litet variantträd, eftersom payloaden är explicit.</td><td><strong>JAKOBS FÖRSLAG</strong></td></tr><tr><td><code>turn</code></td><td>Visa aktiv box/hand och legal actions.</td><td>Kan idle/think få variation utan att störa turordning eller deadline?</td><td><strong>VERIFIERAS</strong></td></tr><tr><td><code>idle</code></td><td>Återgå till väntande presentation.</td><td>Behövs variation i den första V3-leveransen eller räcker befintlig loop?</td><td><strong>BESLUT KRÄVS</strong></td></tr></tbody></table></div>
+    </section>
+<section class="doc-section" id="s03-vad-en-foreslagen-nod-maste-innehalla" data-section="vad-en-foreslagen-nod-maste-innehalla" role="tabpanel">
+      <h2>Vad en föreslagen nod måste innehålla</h2>
+      <p>Varje nod ska vara spårbar och möjlig att avslå utan följdeffekt på motorn.</p>
+<pre data-language="text"><code>node
+  sourceRef        exakt verifierad runtimekälla
+  sourceStatus     VERIFIERAT | VERIFIERAS
+  semanticNeed     vad spelaren ska se eller höra
+  publicPayload    minsta tillåtna publicerade fält
+  baseline         befintlig säker presentation / tillåtna bastakes
+  variants[]       trigger + tillåtna take-id:n + fallback
+  landing          kalibrering som alla relevanta takes måste respektera
+  owner            Jakob föreslår · Kevin integrerar · Kevin + Emil äger media
+  evidence         test, rehearsal och reviewresultat
+  decision         ej granskad | ändra | acceptera | avstå</code></pre>
+<p><code>sourceRef</code> får aldrig vara ett minne av ett äldre repo. Om en exakt källa saknas ska noden stå som <strong>VERIFIERAS</strong> och inte kopplas till produktion.</p>
+    </section>
+<section class="doc-section" id="s03-forsta-arbetsexemplet-ett-litet-settle-trad" data-section="forsta-arbetsexemplet-ett-litet-settle-trad" role="tabpanel">
+      <h2>Första arbetsexemplet: ett litet settle-träd</h2>
+      <p>Detta är uttryckligen ett <strong>JAKOBS FÖRSLAG</strong>. Bara källtypen <code>settle</code> och dess publicerade payload är verifierade. Poolstorlek, variantnamn och urvalsregel är inte befintlig Croupier-runtime.</p>
+<pre data-language="text"><code>[VERIFIERAT] presentation type = settle
+  public payload: dealerTotal, dealerBlackjack,
+                  hands[].box, stake, returned, outcome
+        │
+        ▼
+[JAKOBS FÖRSLAG] semantisk nod: round-result
+        │
+        ├── linjen / baseline pool
+        │     ├── result-a    video 1
+        │     ├── result-b    video 2
+        │     └── result-c    video 3
+        │
+        ├── variant: player-blackjack
+        │     trigger: publicerat hands[].outcome innehåller blackjack
+        │     ├── blackjack-a
+        │     └── blackjack-b
+        │
+        └── variant: dealer-bust
+              trigger: publicerat dealerTotal &gt; 21 och minst en vinnande hand
+              ├── dealer-bust-a
+              └── dealer-bust-b
+
+alla vägar ──► [KEVIN + EMIL] katalogkontroll, kalibrering, review
+           ──► saknad/underkänd take: befintlig säker presentation</code></pre>
+<p>Exemplet visar önskad form — ett event kan ha tre basvideor och två varianter med två videor vardera — men binder inte Kevin till just dessa antal eller namn. Etappavstämningen avgör om trädet är rätt avgränsat.</p>
+    </section>
+<section class="doc-section" id="s03-kandidattrad-for-den-forsta-avgransade-etappen" data-section="kandidattrad-for-den-forsta-avgransade-etappen" role="tabpanel">
+      <h2>Kandidatträd för den första avgränsade etappen</h2>
+      <div class="table-scroll"><table><thead><tr><th scope="col">Rot</th><th scope="col">Baslinje i dag</th><th scope="col">Minsta möjliga V3-utvidgning</th><th scope="col">Ägare</th><th scope="col">Status</th></tr></thead><tbody><tr><td><code>settle</code></td><td>Befintlig settle + vald <code>speak</code>-rad.</td><td>En begränsad takepool och högst två varianter som bara läser settle-payload.</td><td>Jakob föreslår; Kevin + Emil levererar media.</td><td><strong>BESLUT KRÄVS</strong></td></tr><tr><td><code>deal</code></td><td>Befintlig action/prefer/fallback och kalibrerade/review-takes.</td><td>Flera godkända takes inom samma action, utan ändrad målpunkt eller landning.</td><td>Kevin + Emil; Jakob dokumenterar urvalskrav.</td><td><strong>VERIFIERAS</strong></td></tr><tr><td><code>turn</code></td><td>Aktiv hand/box och legal actions publiceras.</td><td>En baspool för think/attention som aldrig blockerar spelarens command.</td><td>Jakob föreslår; Kevin beslutar.</td><td><strong>BESLUT KRÄVS</strong></td></tr><tr><td><code>speak</code></td><td>Exakt line väljs av befintlig kod.</td><td>Visuell variation för samma line och samma ljud/text, om kalibrering tillåter.</td><td>Kevin + Emil.</td><td><strong>VERIFIERAS</strong></td></tr></tbody></table></div>
+<p><code>reveal</code>, <code>idle</code>, shufflepresentation, långsessionstriggers, chatt och fler dealerpersonligheter ligger utanför kärnträdet tills den första vertikala skivan är verifierad.</p>
+    </section>
+<section class="doc-section" id="s03-foreslagen-urvalspolicy" data-section="foreslagen-urvalspolicy" role="tabpanel">
+      <h2>Föreslagen urvalspolicy</h2>
+      <p>Det här är inte implementerad runtime. Varje punkt behöver Kevin-beslut innan integration.</p>
+<ol><li>Motorn producerar sitt vanliga command-resultat. Om etappen väljer Partner-API:et finns också dess <code>presentation[]</code>; den vanliga webbklientens kodväg får inte antas vara samma.</li><li>Adaptern hittar en nod via exakt <code>sourceRef</code>; okänd källa ger omedelbart befintlig presentation.</li><li>Varianten är valbar bara om dess trigger kan avgöras från eventets publicerade payload.</li><li>Högst en variant väljs för eventet i den första avgränsade etappen.</li><li>Om ingen variant är valbar används linjen/baslinjen.</li><li>En take får bara väljas om dess katalogstatus och kalibrering tillåter det aktuella körläget.</li><li>Ett misslyckat assetval går tillbaka till befintlig presentation; eventet stoppas inte.</li><li>Hur takevalet görs — exakt nyckel, godkänd hash eller annan deterministisk metod — är <strong>BESLUT KRÄVS</strong>. Det får inte använda eller exponera hemlig shoe-ordning.</li><li>Samma publicerade input och samma godkända katalogrevision bör ge reproducerbart val om Kevin väljer determinism som krav.</li><li>Adaptern skickar aldrig tillbaka spelbeslut till <code>command(...)</code>.</li></ol>
+    </section>
+<section class="doc-section" id="s03-video-och-takekontraktet" data-section="video-och-takekontraktet" role="tabpanel">
+      <h2>Video- och takekontraktet</h2>
+      <p>Kevin och Emil äger materialet. Jakob behöver bara den information som krävs för att mappa och testa.</p>
+<div class="table-scroll"><table><thead><tr><th scope="col">Data</th><th scope="col">Varför trädet behöver den</th><th scope="col">Regel</th></tr></thead><tbody><tr><td>Stabilt take-id</td><td>Loggning, test och reproduktion.</td><td>Får inte återanvändas för andra bytes.</td></tr><tr><td>Action/presentationsfamilj</td><td>Säkerställer att taken hör till rätt rörelse.</td><td>Måste matcha nodens behov.</td></tr><tr><td>Review-/godkännandestatus</td><td>Hindrar råa generationer från att bli live.</td><td>Draft/review är inte automatiskt live.</td></tr><tr><td>Mediahash</td><td>Upptäcker att videon har bytts.</td><td>Ny hash ogiltigförklarar tidigare visuell acceptans.</td></tr><tr><td>Exakt text och ljud för speech</td><td>Håller mun, ljud och betydelse som en enhet.</td><td>Ingen ny mun ovanpå befintlig video.</td></tr><tr><td>Frame-/eventdata</td><td>Kalibrering och landning.</td><td>Variant får inte flytta kortets mål eller landning.</td></tr><tr><td>Fallback</td><td>Gör runtime robust när media saknas.</td><td>Befintlig säker presentation ska alltid finnas kvar.</td></tr><tr><td>Rehearsal-evidens</td><td>Visar faktisk playback, inte bara filvaliditet.</td><td>Testa i den riktiga spelaren, inklusive två följande uppspelningar.</td></tr></tbody></table></div>
+<p>Nya videor går genom Kevin och Emil och hamnar i Kevins branch. Jakob ska inte skapa ett konkurrerande live-index; han använder en handoff eller publicerad katalogrevision.</p>
+    </section>
+<section class="doc-section" id="s03-felfall" data-section="felfall" role="tabpanel">
+      <h2>Felfall</h2>
+      <div class="table-scroll"><table><thead><tr><th scope="col">Felfall</th><th scope="col">Krav i första etappen</th></tr></thead><tbody><tr><td>Okänd source reference</td><td>Använd befintlig presentation; logga att nod saknas.</td></tr><tr><td>Trigger kräver dolt fält</td><td>Varianten är ogiltig och får inte erbjudas.</td></tr><tr><td>Take saknas i katalogen</td><td>Välj annan tillåten take eller befintlig fallback.</td></tr><tr><td>Take har ny hash</td><td>Behandla tidigare kalibrering/acceptans som ogiltig tills ny review finns.</td></tr><tr><td>Take har en status som inte är tillåten för aktuellt körläge</td><td>Använd den inte. <code>rejected</code> ska alltid nekas; exakt allowlist för rehearsal och live är <strong>BESLUT KRÄVS</strong>.</td></tr><tr><td>Landningsdata saknas för en fysisk deal</td><td>Använd inte taken som kalibrerad dealvariant.</td></tr><tr><td>Adapterfel eller timeout</td><td>Låt befintligt flöde fortsätta; spelet väntar inte på V3-logik.</td></tr><tr><td>Två möjliga varianter</td><td>Använd dokumenterad prioritet eller baslinje; improvisera inte i klienten.</td></tr></tbody></table></div>
+    </section>
+<section class="doc-section" id="s03-sakerhetsregler-som-bevaras" data-section="sakerhetsregler-som-bevaras" role="tabpanel">
+      <h2>Säkerhetsregler som bevaras</h2>
+      <ul><li>Servern äger kort, shoe, legal actions, phase, saldo, collect och payout.</li><li>Frontend och video får inte räkna fram eller överstyra utfall.</li><li>Dold information blir inte tillgänglig för att ett presentationsförslag “behöver” den.</li><li>Välj aldrig en speaking-video efter ungefärlig längd.</li><li>Loopa aldrig en inspelad mening över fortsatt ljud och lägg inte en ny mun ovanpå.</li><li>Varje speechändring hålls som en enhet: exakt text, ljud, video, frame-index, kalibrering och acceptansanteckning.</li><li>En variant för fysisk handling måste ärva målpunkt och verifierad landning från sin familj.</li><li>Assetbaseline är regressionsskydd, inte bevis på korrekt lipsync.</li><li>En ny katalog eller take får inte slå ut en fungerande fallback.</li><li>Ingen AI-regissör är del av kärnan i den första V3-leveransen.</li></ul>
+    </section>
+<section class="doc-section" id="s03-tester-for-forsta-vertikala-skivan" data-section="tester-for-forsta-vertikala-skivan" role="tabpanel">
+      <h2>Tester för första vertikala skivan</h2>
+      <div class="table-scroll"><table><thead><tr><th scope="col">Test</th><th scope="col">Bevis som krävs</th></tr></thead><tbody><tr><td>Oförändrat spelutfall</td><td>Samma commandsekvens ger samma auktoritativa game view och delta med eventträdet av/på.</td></tr><tr><td>Ingen dold dataläcka</td><td>Eventträdets logg innehåller bara fält som redan fanns i rätt publicerad payload.</td></tr><tr><td>Canonical källa</td><td>Varje aktiv nod pekar på aktuell fil/funktion/symbol eller kontraktstest.</td></tr><tr><td>Baslinje alltid spelbar</td><td>Varje aktiv nod har en verifierad fallback till befintlig presentation.</td></tr><tr><td>Varianteligibility</td><td>Varje vald variant har ett sant, loggat villkor från publicerad payload.</td></tr><tr><td>Katalogskydd</td><td>Okänt id, fel status, ny hash eller saknad kalibrering avvisas.</td></tr><tr><td>Landning</td><td>Fysisk take granskas i riktig spelare och håller godkänd landning/frame.</td></tr><tr><td>Två följande spelningar</td><td>Ingen loop-, reset- eller restpose-regression mellan uppspelningar.</td></tr><tr><td>Adapter avstängd</td><td>Produkten beter sig som före V3-förslaget.</td></tr></tbody></table></div>
+    </section>
+<section class="doc-section" id="s03-etappsekvensen-finns-pa-ett-stalle" data-section="etappsekvensen-finns-pa-ett-stalle" role="tabpanel">
+      <h2>Etappsekvensen finns på ett ställe</h2>
+      <p><a href="#s06">S06 · etappplanen</a> beskriver ordningen från källkodskarta och avgränsning till adapter, media, fallback, rehearsal och Kevin-avstämning. Denna sida definierar trädets innehåll, inte en andra parallell tidsplan. Namnet <code>v3-9-days-mvp</code> innebär inget mötesbeslut om nio dagars leveranstid.</p>
+    </section>
+<section class="doc-section" id="s03-beslutspunkter-for-kevin" data-section="beslutspunkter-for-kevin" role="tabpanel">
+      <h2>Beslutspunkter för Kevin</h2>
+      <ol><li>Vilken presentationsfamilj är den första vertikala skivan: <code>settle</code>, <code>deal</code>, <code>turn</code> eller något annat?</li><li>Ska första adapteretappen använda Partner-API:ets <code>presentation[]</code> eller den vanliga webbklientens kodväg, och hur ska kopplingen verifieras?</li><li>Vilka katalogstatusar får användas i rehearsal respektive live?</li><li>Ska takevalet vara exakt, deterministiskt hashat eller en annan kodad policy?</li><li>Vilka triggers är tillåtna i den första etappen, och vilka publicerade fält får de läsa?</li><li>Ska flera visuella takes dela exakt samma speech-line och ljud, eller ska varje take vara ett komplett separat paket?</li><li>Vilken evidens krävs innan en video från Bettalotto flyttas från generation/review till Kevins produktbranch?</li><li>Ska förslaget integreras, fortsätta separat eller avslutas efter etappgenomgången?</li><li>Vilket minsta disk-/YAML-schema ska provas, och hur följer status och godkännande med från <code>want</code>-urval till manifest och spelare?</li></ol>
+    </section>
+<section class="doc-section" id="s03-utanfor-karnan" data-section="utanfor-karnan" role="tabpanel">
+      <h2>Utanför kärnan</h2>
+      <ul><li>en ny eller “bättre” spel-RNG,</li><li>nya spelregler eller alternativa payouts,</li><li>OpenClaw som realtidsregissör,</li><li>chatt-, känslo-, natt- och långtidsminnestriggers,</li><li>ett komplett bibliotek för alla dealers,</li><li>automatisk ändring av Kevins branch, wiki eller agentregler,</li><li>tätt dagligt samarbete mellan Jakob och Emil.</li></ul>
+<hr>
+<p>V3 · <code>v3-9-days-mvp</code> · s03 eventträdet · Kevins motor avgör · Jakobs adapter föreslår · Kevin och Emil äger media · Kevin avgör integration.</p>
+<hr>
+<aside class="callout"><p>Synkad presentationskopia. Redigera <a href="https://gitlab.com/scout-gg/croupier/-/blob/jakeminator123/work/docs/animation-events/v3-9-days-mvp/s03-eventtradet.md" target="_blank" rel="noreferrer">källfilen i Croupier</a> och kör <code>tools/sync-docs.mjs</code> i canvas-repot. Denna kopia är inte en separat besluts- eller runtimekälla.</p></aside>
+    </section></div>
+  </article>
+<article class="page" id="page-s04" data-page="s04">
+    <header class="page-header">
+      <div class="eyebrow">s04 · Säker presentation</div>
+      <div class="title-row">
+        <h1>V3 · säker presentation från event till video</h1>
+        <span class="status decision">Gräns</span>
+      </div>
+      <div class="intro"><aside class="callout"><p><strong>[BESLUTAT FÖR V3]</strong> GitLab-projektet <code>scout-gg/croupier</code>, dess wiki och den körbara koden är den gemensamma grunden. Den här sidan beskriver målbilden för Jakobs arbete på <code>jakeminator123/work</code>; den ändrar inte Kevins motor och är inte en automatisk instruktion till Kevins agenter.</p></aside></div>
+    </header>
+    <div class="section-tabs" role="tablist" aria-label="Avsnitt på Säker presentation"><button class="section-tab is-active" type="button" role="tab" aria-selected="true" data-section="malet-for-den-forsta-avgransade-etappen">Målet för den första avgränsade etappen</button><button class="section-tab" type="button" role="tab" aria-selected="false" data-section="gransen-som-inte-far-flyttas">Gränsen som inte får flyttas</button><button class="section-tab" type="button" role="tab" aria-selected="false" data-section="minsta-mappningsmodell">Minsta mappningsmodell</button><button class="section-tab" type="button" role="tab" aria-selected="false" data-section="fallback-kedjan">Fallback-kedjan</button><button class="section-tab" type="button" role="tab" aria-selected="false" data-section="videoleverans-och-ansvar">Videoleverans och ansvar</button><button class="section-tab" type="button" role="tab" aria-selected="false" data-section="acceptans-for-den-forsta-avgransade-etappen">Acceptans för den första avgränsade etappen</button><button class="section-tab" type="button" role="tab" aria-selected="false" data-section="openclaw-efter-den-forsta-etappen">OpenClaw efter den första etappen</button></div>
+    <div class="sections"><section class="doc-section is-active" id="s04-malet-for-den-forsta-avgransade-etappen" data-section="malet-for-den-forsta-avgransade-etappen" role="tabpanel">
+      <h2>Målet för den första avgränsade etappen</h2>
+      <p>Kevins befintliga motor avgör spelutfall och publicerar de fakta eller events som presentationen behöver. Presentationslagret väljer därefter en redan godkänd video. En trasig eller saknad video får aldrig ändra, fördröja eller räkna om spelet.</p>
+<p>Föreslagen målbild, inte en redan verifierad end-to-end-kedja:</p>
+<p><code>Kevins motor och publicerade fakta</code> → <code>vald integrationsyta</code> → <code>tillåtna videovarianter</code> → <code>kodad urvalspolicy</code> → <code>validerad uppspelning</code> → <code>säker fallback</code></p>
+<p>Status för delarna:</p>
+<div class="table-scroll"><table><thead><tr><th scope="col">Status</th><th scope="col">Del</th></tr></thead><tbody><tr><td><strong>[VERIFIERAT I REPOT]</strong></td><td><code>web/partner-presentation.mjs</code> skapar presentations-events av en tabellrespons. Nuvarande eventtyper omfattar <code>speak</code>, <code>deal</code>, <code>reveal</code>, <code>settle</code>, <code>turn</code> och <code>idle</code>.</td></tr><tr><td><strong>[VERIFIERAT I REPOT]</strong></td><td><code>web/public/dealer-engine.mjs</code> läser ett klippindex och spelar klipp, och <code>web/public/performance-player.mjs</code> validerar media och kalibrering innan kontakt-takes spelas.</td></tr><tr><td><strong>[VERIFIERAT I REPOT]</strong></td><td>Vanliga <code>web/public/app.mjs</code> använder <code>/api/table</code>, inte Partner-API:ets <code>presentation[]</code>. API-kontrakt och befintlig spelarväg är skilda ytor.</td></tr><tr><td><strong>[BESLUTAT FÖR V3]</strong></td><td>V3 ska utgå från dessa befintliga flöden och Kevins RNG/events, inte bygga en konkurrerande “bästa RNG”.</td></tr><tr><td><strong>[JAKOBS FÖRSLAG]</strong></td><td>En liten, testbar mappning läggs mellan befintliga presentations-events och godkända videovarianter. Fältnamnen på den här sidan är arbetsord tills Kevin har verifierat dem mot runtime.</td></tr><tr><td><strong>[SENARE, EJ FÖRSTA ETAPP]</strong></td><td>OpenClaw kan utvärderas efter den första etappen. Det får i så fall bara föreslå presentation inom en redan godkänd mängd och får aldrig påverka spelutfall.</td></tr></tbody></table></div>
+<p>Den exakta anslutningspunkten och urvalspolicyn är <strong>[BESLUT KRÄVS]</strong>. Vi har inte verifierat en befintlig generell ”motorregel” som redan väljer V3-varianter. <code>buildAssetsManifest(...)</code> utesluter <code>rejected</code> men skickar inte status i <code>deals[]</code>; att en take finns där innebär inte att den är godkänd. Den inbyggda kontaktspelarens staged-/review-kontroller är ett separat skydd.</p>
+<h3>Separat labb finns — produktintegration återstår</h3>
+<p>Under denna dokumentationsleverans publicerades ett separat <a href="https://gitlab.com/scout-gg/croupier/-/blob/7ea67587730014b60d027f4602ecbb46d8fb7422/open-claw/lab/README.md" target="_blank" rel="noreferrer">OpenClaw-labb</a> på Jakobs branch av den agent som äger det arbetet. Labbet har scenarier, editor och animationskatalog. Det är inte inkopplat i den vanliga spelaren, spelarchatten eller livevideobanken, och verklig Gateway/Render-acceptans återstår enligt dess handoff. Att labbet finns ändrar inte V3:s integrationsgräns: Kevin avgör vad som förs in i produkten. GitLab-inboxen för IDE-agenter är ett separat samarbetssystem och har ingen OpenClaw-koppling.</p>
+    </section>
+<section class="doc-section" id="s04-gransen-som-inte-far-flyttas" data-section="gransen-som-inte-far-flyttas" role="tabpanel">
+      <h2>Gränsen som inte får flyttas</h2>
+      <div class="table-scroll"><table><thead><tr><th scope="col">Motorn äger</th><th scope="col">Presentationen får göra</th><th scope="col">Presentationen får aldrig göra</th></tr></thead><tbody><tr><td>Kort, shoe, utfall, turordning, lagliga handlingar, saldo och settlement.</td><td>Välja mellan videor som redan är godkända för det publicerade eventet och dess offentliga kontext.</td><td>Dra om RNG, räkna fram ett eget resultat, ändra settlement eller hitta på ett event.</td></tr><tr><td>Eventets ordning och det faktum som ska visas.</td><td>Välja neutral, talad eller annan godkänd variant när dess trigger är sann.</td><td>Hårdkoda ett visuellt utfall som kan motsäga eventet.</td></tr><tr><td>När rundan får fortsätta.</td><td>Falla tillbaka till en enklare presentation.</td><td>Blockera spelet i väntan på video, AI eller nätverk.</td></tr></tbody></table></div>
+    </section>
+<section class="doc-section" id="s04-minsta-mappningsmodell" data-section="minsta-mappningsmodell" role="tabpanel">
+      <h2>Minsta mappningsmodell</h2>
+      <p>Nedanstående namn är <strong>[JAKOBS FÖRSLAG]</strong>, inte påståenden om färdiga runtime-kontrakt.</p>
+<div class="table-scroll"><table><thead><tr><th scope="col">Arbetsfält</th><th scope="col">Syfte</th><th scope="col">Regel</th></tr></thead><tbody><tr><td><code>sourceEvent</code></td><td>Pekar på ett eventnamn som faktiskt finns i Kevins runtime.</td><td>Får inte fyllas från gamla V2-exempel utan verifiering i kod eller logg.</td></tr><tr><td><code>presentationKey</code></td><td>Stabilt namn för det som ska visas, oberoende av fysisk fil.</td><td>Ska beskriva presentation, inte spelutfall som klienten själv räknat fram.</td></tr><tr><td><code>when</code></td><td>En trigger byggd av redan publicerade fakta.</td><td>Får aldrig läsa seed, kommande kort eller dold information.</td></tr><tr><td><code>candidates</code></td><td>Godkända take-/klipp-id:n för varianten.</td><td>Varje kandidat måste finnas i katalogen och ha rätt status.</td></tr><tr><td><code>base</code></td><td>Normal presentation för eventet.</td><td>Måste fungera utan specialtrigger och utan AI.</td></tr><tr><td><code>fallback</code></td><td>Nästa säkra presentationsnyckel.</td><td>Kedjan ska sluta i neutral rörelse eller UI utan dealer-video.</td></tr></tbody></table></div>
+<p>Ett schematiskt exempel, inte ett nytt API:</p>
+<pre data-language="text"><code>settle-event från runtime
+├─ nära resultat + godkända nära-varianter  → välj en nära-take
+├─ förlustsvit + godkända svit-varianter    → välj en svit-take
+└─ annars                                   → baspresentation för förlust
+                                              └─ neutral dealer-rörelse
+                                                  └─ UI visar resultatet utan video</code></pre>
+<p>Flera triggers kan vara sanna samtidigt. Den första etappen behöver därför en enkel och dokumenterad prioritet eller annan kodad policy som Kevin godkänner. Finns en återanvändbar regel ska den först beläggas i den valda kodvägen. Jakob ska inte lägga till en konkurrerande spel-RNG. Samma indata ska kunna följas i en logg: vilket event kom, vilka varianter var tillåtna, vilket klipp valdes och om fallback användes.</p>
+    </section>
+<section class="doc-section" id="s04-fallback-kedjan" data-section="fallback-kedjan" role="tabpanel">
+      <h2>Fallback-kedjan</h2>
+      <ol><li>Spela vald, godkänd kandidat för den sanna triggern.</li><li>Om kandidaten saknas eller underkänns: prova en annan godkänd kandidat i samma variant.</li><li>Om varianten saknar giltig kandidat: använd eventets baspresentation.</li><li>Om baspresentationen saknas: använd en neutral, godkänd idle-/gestpresentation.</li><li>Om även video är otillgänglig: visa spelets korrekta UI och fortsätt rundan utan dealer-video.</li></ol>
+<p>Följande fel ska gå genom kedjan och lämna spår i loggen: okänt klipp-id, saknad fil, fel hash, underkänd kalibrering, avbruten uppspelning och timeout. Fallback får inte skapa ett nytt spel-event eller byta resultat.</p>
+    </section>
+<section class="doc-section" id="s04-videoleverans-och-ansvar" data-section="videoleverans-och-ansvar" role="tabpanel">
+      <h2>Videoleverans och ansvar</h2>
+      <div class="table-scroll"><table><thead><tr><th scope="col">Person</th><th scope="col">V3-arbete</th><th scope="col">Gräns</th></tr></thead><tbody><tr><td>Kevin</td><td>Äger GitLab-repot, motorn, de verkliga eventnamnen och slutlig integration. Arbetet granskas med honom vid milstolpar.</td><td>V3-dokumenten ger inte hans agenter nya order och ändrar inte hans branch automatiskt.</td></tr><tr><td>Emil</td><td>Tar fram video och varianter tillsammans med Kevin. Nya videor landar i Kevins branch med de metadata och den granskning deras befintliga flöde kräver.</td><td>Jakob leder inte Emils produktion och kopierar inte råmedia mellan parallella sanningar.</td></tr><tr><td>Jakob</td><td>Arbetar på <code>jakeminator123/work</code> med backend/logik, eventträdet, förslagen till mappning, fallback och tester.</td><td>Integrerar först efter en milstolpegenomgång med Kevin. Kontakten med Emil sker främst via färdiga artefakter i Kevins branch.</td></tr></tbody></table></div>
+    </section>
+<section class="doc-section" id="s04-acceptans-for-den-forsta-avgransade-etappen" data-section="acceptans-for-den-forsta-avgransade-etappen" role="tabpanel">
+      <h2>Acceptans för den första avgränsade etappen</h2>
+      <ul><li><strong>[KRAV]</strong> Varje event i den valda etappytan har en baspresentation eller en dokumenterad UI-only-fallback.</li><li><strong>[KRAV]</strong> En variant kan bara väljas när dess trigger bygger på publicerade fakta och är sann.</li><li><strong>[KRAV]</strong> En videofil är katalogiserad och godkänd innan den kan väljas.</li><li><strong>[KRAV]</strong> Status, mediahash och granskningsunderlag kan följas över hela den valda kodvägen; förekomst i Partner-API:ets katalog räcker inte som godkännande.</li><li><strong>[KRAV]</strong> Ett videofel påverkar inte spelutfall, settlement eller fortsättningen av rundan.</li><li><strong>[KRAV]</strong> Loggen visar event, tillåtna kandidater, val och fallback utan att exponera hemlig speldata.</li><li><strong>[KRAV]</strong> Tester bevisar minst: normal kandidat, alternativ kandidat, saknad kandidat, trasig media och full UI-only-fallback.</li><li><strong>[ATT VERIFIERA MED KEVIN]</strong> Exakta runtime-event, val av kodväg, eventuell återanvändbar urvalsregel och var mappningen bäst kopplas in.</li></ul>
+    </section>
+<section class="doc-section" id="s04-openclaw-efter-den-forsta-etappen" data-section="openclaw-efter-den-forsta-etappen" role="tabpanel">
+      <h2>OpenClaw efter den första etappen</h2>
+      <p>OpenClaw är <strong>[SENARE, VALFRITT]</strong>. Ett framtida experiment kan få rekommendera ett take-id ur den mängd som kod redan har godkänt. Basval och fallback ska alltid finnas, svaret ska ha deadline och ett sent eller ogiltigt svar ska ignoreras. Första läget ska vara loggning/skugga; ingen spelare ser valet innan Kevin uttryckligen har godkänt en integration.</p>
+<p>OpenClaw får aldrig se eller påverka seed, shoe-ordning, kommande kort, privata kort, saldo, payout eller lagliga handlingar. Den första V3-leveransen ska vara komplett utan OpenClaw.</p>
+<hr>
+<aside class="callout"><p>Synkad presentationskopia. Redigera <a href="https://gitlab.com/scout-gg/croupier/-/blob/jakeminator123/work/docs/animation-events/v3-9-days-mvp/s04-saker-presentation.md" target="_blank" rel="noreferrer">källfilen i Croupier</a> och kör <code>tools/sync-docs.mjs</code> i canvas-repot. Denna kopia är inte en separat besluts- eller runtimekälla.</p></aside>
+    </section></div>
+  </article>
+<article class="page" id="page-s05" data-page="s05">
+    <header class="page-header">
+      <div class="eyebrow">s05 · Ordlistan</div>
+      <div class="title-row">
+        <h1>V3 · gemensam ordlista</h1>
+        <span class="status reference">Referens</span>
+      </div>
+      <div class="intro"><aside class="callout"><p><strong>V3:s läsregel:</strong> Vi skiljer på verifierade kodnamn, gemensamt presentationsspråk och förslagsord. Både Kevin och Jakob har förslag; bara den kodverifierade gruppen får citeras som befintliga runtime-symboler.</p></aside></div>
+    </header>
+    <div class="section-tabs" role="tablist" aria-label="Avsnitt på Ordlistan"><button class="section-tab is-active" type="button" role="tab" aria-selected="true" data-section="statusetiketter">Statusetiketter</button><button class="section-tab" type="button" role="tab" aria-selected="false" data-section="kevins-runtimeord">Kevins runtimeord</button><button class="section-tab" type="button" role="tab" aria-selected="false" data-section="gemensamma-presentationsord">Gemensamma presentationsord</button><button class="section-tab" type="button" role="tab" aria-selected="false" data-section="jakobs-forslagsord">Jakobs förslagsord</button><button class="section-tab" type="button" role="tab" aria-selected="false" data-section="foreslagna-katalognamn-ar-inte-serverevents">Föreslagna katalognamn är inte serverevents</button><button class="section-tab" type="button" role="tab" aria-selected="false" data-section="ord-fran-v2-som-inte-ar-runtime-sanning">Ord från V2 som inte är runtime-sanning</button></div>
+    <div class="sections"><section class="doc-section is-active" id="s05-statusetiketter" data-section="statusetiketter" role="tabpanel">
+      <h2>Statusetiketter</h2>
+      <div class="table-scroll"><table><thead><tr><th scope="col">Etikett</th><th scope="col">Betydelse</th></tr></thead><tbody><tr><td><strong>[RUNTIME-VERIFIERAT]</strong></td><td>Namnet har kontrollerats i den förankrade Kevin-revisionen som anges i <code>RUNTIME-EVIDENCE.md</code>.</td></tr><tr><td><strong>[GEMENSAMT BEGREPP]</strong></td><td>Ordet beskriver hur vi pratar om lösningen men är inte nödvändigtvis ett fält eller en symbol i koden.</td></tr><tr><td><strong>[JAKOBS FÖRSLAG]</strong></td><td>Arbetsnamn för designen på Jakobs branch. Det blir inte ett kontrakt förrän Kevin godkänt det och koden använder det.</td></tr><tr><td><strong>[KEVINS FÖRSLAG]</strong></td><td>Design som Kevin har föreslagit, men som ännu inte är verifierad implementation.</td></tr><tr><td><strong>[ATT VERIFIERA]</strong></td><td>Exakt namn eller beteende ska läsas ur Kevins aktuella branch innan implementation.</td></tr><tr><td><strong>[SENARE]</strong></td><td>Utanför den första V3-leveransen.</td></tr></tbody></table></div>
+    </section>
+<section class="doc-section" id="s05-kevins-runtimeord" data-section="kevins-runtimeord" role="tabpanel">
+      <h2>Kevins runtimeord</h2>
+      <p>De här exakta namnen är verifierade mot <code>origin/codex/restore-casino-environment</code> på revisionen som anges i <code>RUNTIME-EVIDENCE.md</code>. De ska kontrolleras på nytt när Kevins branch flyttar sig och vid integrationsmilstolpen.</p>
+<div class="table-scroll"><table><thead><tr><th scope="col">Exakt namn</th><th scope="col">Betyder i nuvarande kod</th><th scope="col">Verifierad källa</th></tr></thead><tbody><tr><td><code>presentationEvents</code></td><td>Bygger en ordnad lista av presentations-events från föregående och aktuell tabellvy.</td><td><code>web/partner-presentation.mjs</code></td></tr><tr><td><code>speak</code>, <code>deal</code>, <code>reveal</code>, <code>settle</code>, <code>turn</code>, <code>idle</code></td><td>Eventtyper som <code>presentationEvents</code> kan skapa i nuvarande flöde.</td><td><code>web/partner-presentation.mjs</code></td></tr><tr><td><code>line</code></td><td>Id för en talrad i ett <code>speak</code>-event; det är inte fri AI-text.</td><td><code>web/partner-presentation.mjs</code></td></tr><tr><td><code>DealerEngine</code></td><td>WebCodecs-baserad spelare för indexerade dealer-klipp.</td><td><code>web/public/dealer-engine.mjs</code></td></tr><tr><td><code>streams/index.json</code></td><td>Index som kopplar klippnycklar till media- och bildruteinformation.</td><td><code>web/public/dealer-engine.mjs</code>, <code>pipeline/build-index.mjs</code></td></tr><tr><td><code>PerformancePlayer</code></td><td>Spelar och validerar kontakt-/performance-takes, inklusive mediahash och kalibrering.</td><td><code>web/public/performance-player.mjs</code></td></tr><tr><td><code>SHOE_RULES</code></td><td>Nuvarande frysta shoe-parametrar i serverns shoe-spel.</td><td><code>web/shoe-game.mjs</code></td></tr><tr><td><code>state</code>, <code>start</code>, <code>act</code>, <code>insurance</code>, <code>collect</code></td><td>Nuvarande kommando-operationer i shoe-spelet.</td><td><code>web/shoe-game.mjs</code></td></tr><tr><td><code>decisions</code>, <code>insurance</code>, <code>settled</code></td><td>Faser som kontrolleras uttryckligen i nuvarande shoe-spel.</td><td><code>web/shoe-game.mjs</code></td></tr><tr><td><code>rehearsal</code></td><td>Repots granskningsläge för att prova den verkliga spelaren, inte en synonym för automatisk godkänd status.</td><td><code>AGENTS.md</code></td></tr><tr><td><code>baseline</code></td><td>Hash-/regressionsskydd mot oavsiktliga assetändringar; inte bevis på visuell kvalitet.</td><td><code>AGENTS.md</code></td></tr></tbody></table></div>
+<p><strong>[ATT VERIFIERA]</strong> Det kan finnas fler aktuella event, kommandon och faser på Kevins senaste branch. Den här listan är ett golv, inte ett nytt komplett kontrakt.</p>
+    </section>
+<section class="doc-section" id="s05-gemensamma-presentationsord" data-section="gemensamma-presentationsord" role="tabpanel">
+      <h2>Gemensamma presentationsord</h2>
+      <p>Kevin har <a href="https://gitlab.com/scout-gg/croupier/-/work_items/1#note_3869829140" target="_blank" rel="noreferrer">bekräftat  0 / 1  och linje/variant/trigger/take</a>. Bekräftat språk är värdefullt även innan ett schema eller en adapter finns.</p>
+<div class="table-scroll"><table><thead><tr><th scope="col">Ord</th><th scope="col">Gemensam betydelse</th><th scope="col">Inte samma sak som</th></tr></thead><tbody><tr><td><strong>rng / show</strong></td><td>Uppdelningen mellan spelets auktoritativa utfall och hur dessa presenteras.</td><td>Bevis på att alla <code>rng.*</code> eller <code>show.*</code>-alias finns som serverevents.</td></tr><tr><td><strong>event</strong></td><td>Ett redan producerat runtime-meddelande som presentationen reagerar på.</td><td>Ett nytt utfall som frontend räknar fram.</td></tr><tr><td><strong>trigger</strong></td><td>Ett kontrollerbart villkor från publicerade fakta som gör en variant tillåten.</td><td>Fri “stämning”, dold speldata eller ett nytt RNG-drag.</td></tr><tr><td><strong>variant</strong></td><td>En alternativ, godkänd presentation av samma spelhändelse.</td><td>Ett annat spelutfall.</td></tr><tr><td><strong>baspresentation</strong></td><td>Den normala presentation som fungerar utan specialtrigger.</td><td>En AI-rekommendation.</td></tr><tr><td><strong>linje</strong></td><td>Baspresentationen eller baspoolen; exakt pool- och katalogform återstår att fastställa.</td><td>En redan införd ny motorfunktion.</td></tr><tr><td><strong>take</strong></td><td>En identifierad medieprestation med tillhörande metadata och granskningsstatus.</td><td>Automatiskt godkänd video; en take kan fortfarande vara råmaterial eller review.</td></tr><tr><td><strong>kandidat</strong></td><td>Ett godkänt take-/klipp-id som får väljas i en viss variant.</td><td>En fil-URL som modellen hittar på.</td></tr><tr><td><strong>katalog</strong></td><td>Maskinläsbart manifest/index över media. Olika katalogvyer kan innehålla olika metadata.</td><td>Bevis på livegodkännande; Partner-API:ets <code>deals[]</code> utelämnar till exempel status.</td></tr><tr><td><strong>landning/kontakt</strong></td><td>Det synkroniserade ögonblick där visuell handling möter kort eller bord.</td><td>En ungefärlig videolängd.</td></tr><tr><td><strong>fallback</strong></td><td>Nästa säkra presentationsval när önskad media inte kan spelas.</td><td>Omdragning av spelutfall.</td></tr><tr><td><strong>eventträd</strong></td><td>Dokumenterad logik från runtime-event via triggers till möjliga presentationer.</td><td>En ny motor bredvid Kevins.</td></tr><tr><td><strong>milstolpe</strong></td><td>Punkt där Jakob visar bevis och frågar Kevin om nästa integrationssteg.</td><td>Automatisk order eller merge.</td></tr><tr><td><strong>Kevins branch</strong></td><td>Platsen där Kevin och Emil samlar integrerbar motor och ny video.</td><td>Jakobs arbetsbranch.</td></tr><tr><td><strong>Jakobs branch</strong></td><td><code>jakeminator123/work</code>, där backend-/logikförslag byggs och verifieras isolerat.</td><td><code>main</code> eller Kevins ägarbranch.</td></tr><tr><td><strong>tekniskt kvitto</strong></td><td>Commit, fil och symbol som stödjer ett specifikt kodpåstående; tidigare benämnt runtime-evidence.</td><td>En saknad motor, ett test av hela systemet eller ett visuellt godkännande.</td></tr><tr><td><strong>webcanvas</strong></td><td>Den klickbara HTML-presentation som byggs i GitHub-repot och visas på Vercel.</td><td>GitLab-wikins råa <code>.html</code>-text eller ett nytt spelrepo.</td></tr></tbody></table></div>
+    </section>
+<section class="doc-section" id="s05-jakobs-forslagsord" data-section="jakobs-forslagsord" role="tabpanel">
+      <h2>Jakobs förslagsord</h2>
+      <p>De här orden gör V3 lättare att diskutera men är <strong>inte</strong> verifierade runtimefält.</p>
+<div class="table-scroll"><table><thead><tr><th scope="col">Arbetsord</th><th scope="col">Avsedd betydelse</th><th scope="col">När det får bli ett exakt kodnamn</th></tr></thead><tbody><tr><td><code>presentationKey</code></td><td>Stabil länk mellan ett runtime-event och en presentation.</td><td>Efter att Kevin bekräftat var kopplingen hör hemma.</td></tr><tr><td><code>sourceEvent</code></td><td>Det verifierade runtime-event som en mappningsrad reagerar på.</td><td>När värdet hämtas från faktisk kod eller logg, inte V2-dokumentet.</td></tr><tr><td><code>eligibleVariants</code></td><td>De varianter vars triggers är sanna och vars media är godkänd.</td><td>När kontrakt och test finns i Croupier.</td></tr><tr><td><code>basePresentation</code></td><td>Standardvalet innan någon specialvariant övervägs.</td><td>När det mappats till nuvarande uppspelningsflöde.</td></tr><tr><td><code>selectionTrace</code></td><td>Loggrad som visar event, kandidater, val och fallback.</td><td>När loggens datagräns och format godkänts.</td></tr><tr><td><code>fallbackChain</code></td><td>Den ordnade kedjan variant → bas → neutral → UI-only.</td><td>När samtliga steg har testfall.</td></tr><tr><td><code>videoVariantSet</code></td><td>Samling utbytbara, godkända takes för samma presentationsbetydelse.</td><td>När Kevin och Emil har fastställt katalogmetadata.</td></tr></tbody></table></div>
+    </section>
+<section class="doc-section" id="s05-foreslagna-katalognamn-ar-inte-serverevents" data-section="foreslagna-katalognamn-ar-inte-serverevents" role="tabpanel">
+      <h2>Föreslagna katalognamn är inte serverevents</h2>
+      <p><code>show.deal.centre</code>, <code>show.line.lose</code>, <code>line</code>, <code>variant.near</code> och <code>variant.unlucky</code> förekommer i <strong>Kevins träd-/YAML-förslag</strong>. De får användas som tydligt märkta katalogexempel. De är inte automatiskt exakta runtime-events, och förslaget ersätter inte befintliga manifest utan en granskad schema- och integrationsändring.</p>
+<p><code>want</code>/<code>no</code> är Kevins föreslagna intagsurval. <code>want</code> innebär att materialet kan tas vidare, inte att visuella kontroller, kalibrering och livegodkännande redan är avklarade.</p>
+    </section>
+<section class="doc-section" id="s05-ord-fran-v2-som-inte-ar-runtime-sanning" data-section="ord-fran-v2-som-inte-ar-runtime-sanning" role="tabpanel">
+      <h2>Ord från V2 som inte är runtime-sanning</h2>
+      <p>Följande uttryck kan finnas kvar i det arkiverade V2-materialet men ska inte föras in som fakta i V3 utan ny verifiering:</p>
+<ul><li><code>rng.round.settled</code> och andra diagramalias utan verifierad koppling till den verkliga kodsymbolen, exempelvis interna <code>round.settled</code>.</li><li><code>PresentationOpportunityV2</code>, <code>DirectorAdviceV2</code>, <code>open[]</code>, tre OpenClaw-lanes och “13 grindkontroller”.</li><li>“ultimativ RNG”, “bästa RNG” eller en fristående presentations-RNG.</li><li>den gamla tiodagarsplanen och påståenden om att OpenClaw redan är en del av Croupier-runtime.</li></ul>
+<p><strong>[BESLUTAT FÖR V3]</strong> När ett gammalt ord och Kevins faktiska kod skiljer sig vinner koden. Wiki och dessa sidor uppdateras därefter. OpenClaw behandlas som <strong>[SENARE]</strong>, inte som en förutsättning för den första V3-etappen.</p>
+<hr>
+<aside class="callout"><p>Synkad presentationskopia. Redigera <a href="https://gitlab.com/scout-gg/croupier/-/blob/jakeminator123/work/docs/animation-events/v3-9-days-mvp/s05-ordlista.md" target="_blank" rel="noreferrer">källfilen i Croupier</a> och kör <code>tools/sync-docs.mjs</code> i canvas-repot. Denna kopia är inte en separat besluts- eller runtimekälla.</p></aside>
+    </section></div>
+  </article>
+<article class="page" id="page-s06" data-page="s06">
+    <header class="page-header">
+      <div class="eyebrow">s06 · Etapper</div>
+      <div class="title-row">
+        <h1>S06 · föreslagen etappplan</h1>
+        <span class="status proposal">Arbetsförslag</span>
+      </div>
+      <div class="intro"><aside class="callout"><p>Etapperna nedan är ett arbetsförslag för Jakobs spår, inte ett separat mötesbeslut och inte kalenderlöften. Kevin äger motor och integration. Emil arbetar nära Kevin med video.</p></aside>
+<p>Katalognamnet <code>v3-9-days-mvp</code> är historiskt. Nio etapper är inte nio dagar och inget mötesbeslut om leveransdatum. Tabellen beskriver en arbetsordning, inte ett påstående att stegen redan är genomförda.</p></div>
+    </header>
+    <div class="section-tabs" role="tablist" aria-label="Avsnitt på Etapper"><button class="section-tab is-active" type="button" role="tab" aria-selected="true" data-section="status-och-jira-cac">Status och Jira CAC</button><button class="section-tab" type="button" role="tab" aria-selected="false" data-section="etapper">Etapper</button><button class="section-tab" type="button" role="tab" aria-selected="false" data-section="definition-av-en-gron-etapp">Definition av en grön etapp</button><button class="section-tab" type="button" role="tab" aria-selected="false" data-section="den-lilla-samarbetsloopen">Den lilla samarbetsloopen</button><button class="section-tab" type="button" role="tab" aria-selected="false" data-section="efter-den-forsta-leveransen">Efter den första leveransen</button></div>
+    <div class="sections"><section class="doc-section is-active" id="s06-status-och-jira-cac" data-section="status-och-jira-cac" role="tabpanel">
+      <h2>Status och Jira CAC</h2>
+      <p>Dokumentstatusen <strong>Öppen</strong>, <strong>Pågår</strong>, <strong>Grön</strong> och <strong>Blockerad</strong> beskriver underlaget på denna sida. Den ersätter aldrig Jira CAC, som är projektets aktiva work-tracker för implementation och QA.</p>
+    </section>
+<section class="doc-section" id="s06-etapper" data-section="etapper" role="tabpanel">
+      <h2>Etapper</h2>
+      <div class="table-scroll"><table><thead><tr><th scope="col">Etapp</th><th scope="col">Jakobs arbete</th><th scope="col">Bevis</th><th scope="col">Kontrollpunkt</th></tr></thead><tbody><tr><td>1. Frys verklighetsbilden</td><td>Registrera aktuell Jakob- och Kevin-revision. Jämför motor, events, Partner API, mediaflöde och öppna skillnader.</td><td>Korta fil-/symbolreferenser och en korrekt runtime-verifiering.</td><td>Ingen kodintegration krävs.</td></tr><tr><td>2. Avgränsa första eventytan</td><td>Välj minsta yta och anslutningspunkt: Partner-API eller vanlig webbklient. Dessa använder inte samma presentationskodväg.</td><td>Varje rad har källa, ägare och status.</td><td>Kevin bekräftar scope.</td></tr><tr><td>3. Rita eventträdet</td><td>Dokumentera baspresentation, publika triggers, varianter och fallback. Pröva Kevins träd-/YAML-förslag som schema, inte som redan införd kod.</td><td>Varje gren kan följas och påverkar inte spelutfall.</td><td>Kevin granskar gränsen mot motorn och metadataflödet.</td></tr><tr><td>4. Bygg avgränsat</td><td>Implementera minsta adapter eller mappning på <code>jakeminator123/work</code>.</td><td>Tester visar oförändrade kort, shoe, saldo och settlement.</td><td>Ingen automatisk merge till Kevins branch.</td></tr><tr><td>5. Koppla media</td><td>Konsumera video och metadata från Kevin och Emils valda flöde. Skilj <code>want</code>-urval, review och livegodkännande.</td><td>Asset-id, ursprung, hash, kalibrering, visuell status och gap kan följas; katalogförekomst räcker inte.</td><td>Kevin + Emil bekräftar medialeveransen.</td></tr><tr><td>6. Testa fallback</td><td>Testa kandidat → annan kandidat → bas → neutral → UI-only.</td><td>Rundan fortsätter korrekt vid saknad eller underkänd media.</td><td>Öppna fel går tillbaka till arbetet.</td></tr><tr><td>7. Kör sammanhängande rehearsal</td><td>Kör relevanta tester och upprepade spelningar för den avgränsade etappen.</td><td>Reproducerbar testnotering med commit och kända avvikelser.</td><td>Inga visuella godkännanden antas av hash eller testpass.</td></tr><tr><td>8. Stäm av med Kevin</td><td>Presentera diff, evidens och öppna produktbeslut.</td><td>Beslutet dokumenteras med datum och källa.</td><td>Kevin väljer införliva, justera eller håll separat.</td></tr><tr><td>9. Lämna integrationsunderlag</td><td>Förbered en liten patch/MR mot den målbranch Kevin godkänner. Synka docs, wiki och canvas.</td><td>Granskbar diff, tester och handoff utan beroende av chatthistorik.</td><td>Merge eller publicering sker först efter beslut.</td></tr></tbody></table></div>
+    </section>
+<section class="doc-section" id="s06-definition-av-en-gron-etapp" data-section="definition-av-en-gron-etapp" role="tabpanel">
+      <h2>Definition av en grön etapp</h2>
+      <ul><li>arbetet bygger på Kevins faktiska Croupier-motor och publicerade kontrakt;</li><li>runtimefakta och Jakobs förslag är visuellt och textuellt åtskilda;</li><li>presentation kan inte påverka RNG, kort, shoe, wallet eller settlement;</li><li>media kommer genom Kevin/Emils verifierade flöde och har säker fallback;</li><li>Croupiers V3-källor, GitLab-wikins spegel och GitHub/Vercel-canvasen berättar samma sak;</li><li>Jira CAC och relevant issue/MR återspeglar den verkliga arbetsstatusen.</li></ul>
+    </section>
+<section class="doc-section" id="s06-den-lilla-samarbetsloopen" data-section="den-lilla-samarbetsloopen" role="tabpanel">
+      <h2>Den lilla samarbetsloopen</h2>
+      <p>Anslutna agenter följer <a href="https://gitlab.com/scout-gg/croupier/-/wikis/agent-inbox" target="_blank" rel="noreferrer">den gemensamma inboxrutinen</a>: en kontroll vid ny användartur, stabilt chattnamn med ägare och eget läsminne. Relevant fråga/svar kopplas till rätt agent och återges i den lokala chatten. Inget relevant nytt ger inget meddelande och ingen vänteloop.</p>
+<p>Vid en etapphandoff anges vad som ändrats, vad som testats, kvarvarande gap och vilket beslut Kevin behöver ta. Inboxen samordnar; Jira CAC spårar arbetet; commit/MR visar ändringen. Ingen av dem ersätts av ett automatiskt agentsvar.</p>
+    </section>
+<section class="doc-section" id="s06-efter-den-forsta-leveransen" data-section="efter-den-forsta-leveransen" role="tabpanel">
+      <h2>Efter den första leveransen</h2>
+      <p>OpenClaw, friare persona/chatt, fler triggers, fler dealers eller byte av spelmodell kräver egna beslut. De får inte beskrivas som delar av Kevins nuvarande motor bara för att de finns i V2 eller i ett framtidsdiagram.</p>
+<hr>
+<aside class="callout"><p>Synkad presentationskopia. Redigera <a href="https://gitlab.com/scout-gg/croupier/-/blob/jakeminator123/work/docs/animation-events/v3-9-days-mvp/s06-plan.md" target="_blank" rel="noreferrer">källfilen i Croupier</a> och kör <code>tools/sync-docs.mjs</code> i canvas-repot. Denna kopia är inte en separat besluts- eller runtimekälla.</p></aside>
+    </section></div>
+  </article></main>
+  <footer class="site-footer"><div class="footer-inner"><span>V3 · innehåll 3e80ffa048df · <a href="https://animation-events-v1.vercel.app/archive/v2/">V2-arkiv</a> · <a href="https://gitlab.com/scout-gg/croupier/-/wikis/animation-events/v3-9-days-mvp/DECISIONS">Beslutslogg</a> · <a href="https://gitlab.com/scout-gg/croupier/-/wikis/animation-events/v3-9-days-mvp/RUNTIME-EVIDENCE">Tekniskt kvitto</a></span><span>Förslag är märkta som förslag och ändrar ingen branch automatiskt.</span></div></footer>
+  <script>
+(function () {
+  var pageLinks = Array.prototype.slice.call(document.querySelectorAll(".page-link"));
+  var pages = Array.prototype.slice.call(document.querySelectorAll(".page"));
+  var search = document.getElementById("search");
+  var clear = document.getElementById("clear-search");
+  var result = document.getElementById("search-result");
+
+  function currentPage() {
+    return document.querySelector(".page.is-active");
+  }
+
+  function showSection(page, sectionId) {
+    var sections = Array.prototype.slice.call(page.querySelectorAll(".doc-section"));
+    var tabs = Array.prototype.slice.call(page.querySelectorAll(".section-tab"));
+    var chosen = sections.find(function (section) { return section.dataset.section === sectionId; }) || sections[0];
+    sections.forEach(function (section) { section.classList.toggle("is-active", section === chosen); });
+    tabs.forEach(function (tab) {
+      var active = chosen && tab.dataset.section === chosen.dataset.section;
+      tab.classList.toggle("is-active", active);
+      tab.setAttribute("aria-selected", String(active));
+    });
+  }
+
+  function showFromHash() {
+    var raw = (location.hash || "#s00").slice(1);
+    var parts = raw.split("/");
+    var pageId = parts[0];
+    var page = pages.find(function (candidate) { return candidate.dataset.page === pageId; }) || pages[0];
+    pages.forEach(function (candidate) { candidate.classList.toggle("is-active", candidate === page); });
+    pageLinks.forEach(function (link) {
+      var active = link.dataset.page === page.dataset.page;
+      link.classList.toggle("is-active", active);
+      link.setAttribute("aria-current", active ? "page" : "false");
+    });
+    search.value = "";
+    applySearch();
+    showSection(page, parts[1]);
+    document.title = "Animation events V3 · " + page.querySelector(".eyebrow").textContent;
+    window.scrollTo({ top: 0, behavior: "auto" });
+  }
+
+  function applySearch() {
+    var page = currentPage();
+    if (!page) return;
+    var query = search.value.trim().toLocaleLowerCase("sv");
+    var sections = Array.prototype.slice.call(page.querySelectorAll(".doc-section"));
+    page.classList.toggle("searching", Boolean(query));
+    var matches = 0;
+    sections.forEach(function (section) {
+      var matched = Boolean(query) && section.textContent.toLocaleLowerCase("sv").includes(query);
+      section.classList.toggle("search-match", matched);
+      if (matched) matches += 1;
+    });
+    result.textContent = query ? (matches + (matches === 1 ? " avsnitt matchar" : " avsnitt matchar")) : "Söker på den öppna sidan";
+  }
+
+  pages.forEach(function (page) {
+    page.querySelectorAll(".section-tab").forEach(function (tab) {
+      tab.addEventListener("click", function () {
+        showSection(page, tab.dataset.section);
+        history.replaceState(null, "", "#" + page.dataset.page + "/" + tab.dataset.section);
+      });
+    });
+  });
+  search.addEventListener("input", applySearch);
+  clear.addEventListener("click", function () { search.value = ""; applySearch(); search.focus(); });
+  window.addEventListener("hashchange", showFromHash);
+  showFromHash();
+}());
+</script>
+</body>
+</html>

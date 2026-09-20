@@ -8,19 +8,19 @@ const OUTPUT = join(ROOT, "index.html");
 const CHECK = process.argv.includes("--check");
 
 const PAGES = [
-  { id: "s00", short: "Helheten", file: "s00-helheten.md", status: "Mötesbeslut", tone: "decision" },
+  { id: "s00", short: "Helheten", file: "s00-helheten.md", status: "V4 · 8 dagar", tone: "decision" },
   { id: "s01", short: "Kartan", file: "s01-kartan.md", status: "Karta", tone: "reference" },
-  { id: "s02", short: "Språket", file: "s02-spraket.md", status: "Verifiering", tone: "reference" },
+  { id: "s02", short: "Signalerna", file: "s02-spraket.md", status: "Kodkontrollerat", tone: "reference" },
   { id: "s03", short: "Eventträdet", file: "s03-motorn.md", status: "Arbetsförslag", tone: "proposal" },
   { id: "s04", short: "Säker presentation", file: "s04-openclaw.md", status: "Gräns", tone: "decision" },
   { id: "s05", short: "Ordlistan", file: "s05-ordlista.md", status: "Referens", tone: "reference" },
-  { id: "s06", short: "Etapper", file: "s06-plan.md", status: "Arbetsförslag", tone: "proposal" },
+  { id: "s06", short: "8 dagar", file: "s06-plan.md", status: "Arbetsplan", tone: "proposal" },
 ];
 
 const PAGE_LINKS = new Map(PAGES.map((page) => [page.file, `#${page.id}`]));
 const WIKI = "https://gitlab.com/scout-gg/croupier/-/wikis/";
 for (const file of ["README", "CANVAS", "DECISIONS", "RUNTIME-EVIDENCE"]) {
-  PAGE_LINKS.set(`docs/${file}.md`, `${WIKI}animation-events/v3-9-days-mvp/${file}`);
+  PAGE_LINKS.set(`docs/${file}.md`, `${WIKI}animation-events/v4-8-days-mvp/${file}`);
 }
 const contentVersion = createHash("sha256").update(PAGES.map(page =>
   readFileSync(join(ROOT, page.file), "utf8").replaceAll("\r\n", "\n")
@@ -270,7 +270,7 @@ function parsePage(page) {
   }
 
   if (sections.length === 0) {
-    sections.push({ title: "Översikt", sourceTitle: "Översikt", lines: [] });
+    sections.push({ title: "Översikt", sourceTitle: "Översikt", lines: introLines.splice(0) });
   }
 
   const used = new Map();
@@ -313,7 +313,7 @@ function renderPage(page, pageIndex) {
       </div>
       <div class="intro">${page.introHtml}</div>
     </header>
-    <div class="section-tabs" role="tablist" aria-label="Avsnitt på ${escapeHtml(page.short)}">${tabs}</div>
+    <div class="section-tabs" role="tablist" aria-label="Avsnitt på ${escapeHtml(page.short)}"${page.sections.length === 1 ? " hidden" : ""}>${tabs}</div>
     <div class="sections">${sections}</div>
   </article>`;
 }
@@ -398,6 +398,14 @@ button, input { font: inherit; }
 .source-line { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 15px; }
 .source-chip { padding: 5px 9px; border: 1px solid var(--line); color: var(--muted); font-size: 12px; }
 .source-chip strong { color: var(--text); }
+.overview-flow { max-width: var(--max); margin: 0 auto; padding: 0 24px 22px; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; list-style: none; }
+.overview-flow li { margin: 0; padding: 14px 16px; background: var(--bg); border: 1px solid var(--line); border-top: 3px solid var(--accent); }
+.overview-flow .step { display: block; color: var(--accent); font: 700 11px/1.2 ui-monospace, Consolas, monospace; letter-spacing: .07em; margin-bottom: 8px; }
+.overview-flow strong { display: block; font-size: 15px; }
+.overview-flow small { display: block; margin-top: 5px; color: var(--muted); font-size: 12px; }
+.skip-link { position: absolute; top: -50px; left: 16px; padding: 8px 12px; background: var(--surface); z-index: 1; }
+.skip-link:focus { top: 8px; }
+a:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
 
 .search-box label { display: block; margin-bottom: 7px; color: var(--muted); font-size: 12px; font-weight: 700; }
 .search-row { display: flex; border: 1px solid var(--line); background: var(--bg); }
@@ -445,6 +453,8 @@ p { margin: 0 0 14px; }
 .status.reference { color: var(--reference); background: var(--reference-soft); }
 
 .section-tabs { display: flex; gap: 7px; margin: 28px 0 20px; padding-bottom: 10px; overflow-x: auto; border-bottom: 1px solid var(--line); }
+.section-tabs[hidden] { display: none; }
+.section-tabs[hidden] + .sections { margin-top: 24px; }
 .section-tab { flex: 0 0 auto; border: 1px solid var(--line); padding: 7px 10px; color: var(--muted); background: var(--surface); cursor: pointer; }
 .section-tab:hover { color: var(--text); border-color: var(--accent); }
 .section-tab.is-active { color: var(--surface); border-color: var(--accent); background: var(--accent); }
@@ -480,6 +490,8 @@ tbody tr:hover { background: var(--accent-soft); }
   .site-title { font-size: 28px; }
   main { padding-top: 24px; }
   th, td { min-width: 150px; }
+  .overview-flow { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+  .overview-flow li { padding: 11px 12px; }
 }
 
 @media print {
@@ -517,6 +529,7 @@ const browserScript = `
   }
 
   function showFromHash() {
+    if (location.hash === "#content") { document.getElementById("content").focus(); return; }
     var raw = (location.hash || "#s00").slice(1);
     var parts = raw.split("/");
     var pageId = parts[0];
@@ -530,7 +543,7 @@ const browserScript = `
     search.value = "";
     applySearch();
     showSection(page, parts[1]);
-    document.title = "Animation events V3 · " + page.querySelector(".eyebrow").textContent;
+    document.title = "Croupier · V4 · " + page.querySelector(".eyebrow").textContent;
     window.scrollTo({ top: 0, behavior: "auto" });
   }
 
@@ -569,35 +582,42 @@ const documentHtml = `<!doctype html>
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Animation events V3: Kevins Croupier-motor som grund, Jakobs backend- och logikarbete samt Kevin och Emils videoflöde.">
-  <title>Animation events V3</title>
+  <meta name="description" content="Croupiers presentationsplan V4: åtta dagar, verkliga signaler, tydliga källor och verifierad uppspelning.">
+  <title>Croupier · Presentationsplan V4</title>
   <style>${css}</style>
 </head>
 <body data-content-version="${contentVersion}">
+  <a class="skip-link" href="#content">Till innehållet</a>
   <header class="site-header">
     <div class="header-inner">
       <div>
-        <p class="kicker">Animation events · Webbcanvas V3</p>
-        <h1 class="site-title">Kevins motor är grunden</h1>
-        <p class="site-lead">Jakob sorterar backend och logik runt Croupier. Emil bygger video nära Kevin. Kevin avgör vid varje avgränsad etapp vad som införlivas.</p>
+        <p class="kicker">Croupier · Presentationsplan · V4</p>
+        <h1 class="site-title">Från verklig signal<br>till verifierad uppspelning.</h1>
+        <p class="site-lead">Åtta arbetsdagar. En gemensam karta över produkten, labbet och nästa steg. Spelmotorn äger utfallet; presentationen visar det.</p>
         <div class="source-line">
           <a class="source-chip" href="https://gitlab.com/scout-gg/croupier/-/tree/jakeminator123/work">Motor och kod · GitLab</a>
-          <a class="source-chip" href="${WIKI}home">Gemensam wiki</a>
+          <a class="source-chip" href="${WIKI}animation-events/v4-8-days-mvp/README">V4 i gemensamma wikin</a>
           <a class="source-chip" href="${WIKI}agent-inbox">Kevin · Jakob · Emil: inbox och agenter</a>
           <a class="source-chip" href="https://github.com/Jakeminator123/animation-events-v1">Canvasens källkod · GitHub</a>
-          <span class="source-chip"><strong>Omfång:</strong> ${PAGES.length} sidor · ${totalSections} avsnitt</span>
+          <span class="source-chip"><strong>Plan:</strong> 8 dagar · 7 korta kapitel</span>
         </div>
       </div>
       <div class="search-box">
         <label for="search">Sök på den öppna sidan</label>
-        <div class="search-row"><input id="search" type="search" autocomplete="off" placeholder="Till exempel: Kevin, fallback, OpenClaw"><button id="clear-search" type="button">Rensa</button></div>
-        <p class="search-result" id="search-result">Söker på den öppna sidan</p>
+        <div class="search-row"><input id="search" type="search" autocomplete="off" placeholder="Till exempel: eventström, ljud, fallback"><button id="clear-search" type="button">Rensa</button></div>
+        <p class="search-result" id="search-result" role="status">Söker på den öppna sidan</p>
       </div>
     </div>
-    <nav class="page-nav" aria-label="V3-sidor">${navigation}</nav>
+    <ol class="overview-flow" aria-label="Från händelse till uppspelning">
+      <li><span class="step">01 · SIGNAL</span><strong>Vad hände?</strong><small>Spelfakta, text och kontext</small></li>
+      <li><span class="step">02 · BEHOV</span><strong>Vad ska visas?</strong><small>En tydlig presentationsuppgift</small></li>
+      <li><span class="step">03 · URVAL</span><strong>Vilket material passar?</strong><small>Kompatibelt material och fallback</small></li>
+      <li><span class="step">04 · KVITTO</span><strong>Vad spelades faktiskt?</strong><small>Uppspelning och visuell kontroll</small></li>
+    </ol>
+    <nav class="page-nav" aria-label="V4-sidor">${navigation}</nav>
   </header>
-  <main>${pages.map(renderPage).join("\n")}</main>
-  <footer class="site-footer"><div class="footer-inner"><span>V3 · innehåll ${contentVersion} · <a href="https://animation-events-v1.vercel.app/archive/v2/">V2-arkiv</a> · <a href="${WIKI}animation-events/v3-9-days-mvp/DECISIONS">Beslutslogg</a> · <a href="${WIKI}animation-events/v3-9-days-mvp/RUNTIME-EVIDENCE">Tekniskt kvitto</a></span><span>Förslag är märkta som förslag och ändrar ingen branch automatiskt.</span></div></footer>
+  <main id="content" tabindex="-1">${pages.map(renderPage).join("\n")}</main>
+  <footer class="site-footer"><div class="footer-inner"><span>V4 · innehåll ${contentVersion} · <a href="archive/v3/">V3-historik</a> · <a href="archive/v2/">V2-historik</a> · <a href="${WIKI}animation-events/v4-8-days-mvp/DECISIONS">Beslutslogg</a> · <a href="${WIKI}animation-events/v4-8-days-mvp/RUNTIME-EVIDENCE">Tekniskt kvitto</a></span><span>Kodkontrollerat · labbprov · förslag · live ej verifierat</span></div></footer>
   <script>${browserScript}</script>
 </body>
 </html>

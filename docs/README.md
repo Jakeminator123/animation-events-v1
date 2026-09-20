@@ -1,74 +1,44 @@
-# Animation events · V3
+# Croupier · V4 · åtta arbetsdagar
 
-> V3 beskriver arbetssättet efter beslutsrundan mellan Jakob, Emil och Kevin.
-> Kevins befintliga Croupier-motor, RNG och events är grunden. V3 ersätter
-> varken motorn eller Kevins integrationsbeslut.
+> **Målet:** kunna följa vad spelet publicerar, hur en kompatibel presentation
+> väljs och vad spelaren faktiskt visar. Åtta dagar är Jakobs aktuella
+> planeringsram, inte ett tidigare mötesbeslut eller ett löfte om produktlansering.
 
-## Börja här
+**Vad hände → vad ska presenteras → vilket material passar → vad spelades?**
 
-- [Öppna webcanvasen](https://animation-events-v1.vercel.app/) — den klickbara presentationen.
-- [Öppna den gemensamma wikin](https://gitlab.com/scout-gg/croupier/-/wikis/home) — beslut, arbetsflöde och handoff.
-- [Öppna källkoden till webcanvasen](https://github.com/Jakeminator123/animation-events-v1) — Markdown, HTML-generator och versionshistorik.
+V4 ersätter V3 som aktiv förklaring och plan. Den befintliga spelmotorn är
+grunden. Labbfunktioner, produktfunktioner och kommande arbete får egna etiketter:
+**Finns i kod · Finns i labbet · Föreslås · Inte liveverifierat**.
 
-`animation-events-v1` är repots och Vercel-projektets historiska namn, inte
-versionen på innehållet. V3 är den aktuella dokumentationsmodellen. Även
-katalognamnet `v3-9-days-mvp` är historiskt: mötet beslutade inte en niodagarsfrist.
+## Läs på fem minuter
 
-## Samma V3, tydliga källor
+1. [Helheten](../s00-helheten.md) — fyra steg, tre ansvariga.
+2. [Systemkartan](../s01-kartan.md) — två klientvägar och rätt källa.
+3. [Signaler in och ut](../s02-spraket.md) — spel, text, kontext, media och konfiguration.
+4. [Urvalet](../s03-motorn.md) — från en verklig situation till rätt take.
+5. [Uppspelning och acceptans](../s04-openclaw.md) — vad som måste bevisas.
+6. [Ordlistan](../s05-ordlista.md) — de få ord vi behöver.
+7. [Åttadagarsplanen](../s06-plan.md) — en leverans och en kontrollpunkt per dag.
 
-| Yta | Roll |
-| --- | --- |
-| GitLab `scout-gg/croupier` | Kod, motor, media och verifierbar runtime. |
-| Croupier `docs/animation-events/v3-9-days-mvp/` | Redigerbar källa för V3:s sakmodell, s00–s06, beslutslogg och tekniska kvitto. |
-| GitLab-wikin | Läsbar spegel av V3 samt gemensam inbox, beslutskällor och handoff. |
-| GitHub `Jakeminator123/animation-events-v1` | Samma V3-texter, plus källrepo för HTML-generatorn och den interaktiva webcanvasen. |
-| Vercel | Kör den byggda webcanvasen; är varken ett nytt repo eller en spelmotor. |
+## Gemensamma ytor
 
-GitHub-canvasen är alltså en riktig del av dokumentationsflödet, men den är
-inte källa för RNG, wallet, kort eller spelregler. De kommer alltid från
-Croupier.
+- [Wikin](https://gitlab.com/scout-gg/croupier/-/wikis/home) är teamets läsbara dokumentation.
+- [Webbpresentationen](https://animation-events-v1.vercel.app/) visar samma V4 visuellt.
+- [GitHub-repot](https://github.com/Jakeminator123/animation-events-v1) bygger webbplatsen.
+- Croupier `docs/animation-events/v4-8-days-mvp/` är den redigerbara V4-källan.
 
-En `.html`-fil i GitLab-wikin är en käll-/nedladdningskopia och kan visas som
-kod. Den är inte den klickbara webcanvasen. Använd Vercel-länken ovan, eller
-öppna en nedladdad `index.html` lokalt.
+**Croupier · Presentationsplan** är presentationens namn. `animation-events-v1` i
+adresserna är ett historiskt projektnamn; det anger varken innehållsversion eller
+spelversion. Se [publiceringsflödet](CANVAS.md).
 
-## Läsordning
+## Fördjupning vid behov
 
-1. [s00 · helheten](../s00-helheten.md)
-2. [s01 · kartan](../s01-kartan.md)
-3. [s02 · språket](../s02-spraket.md)
-4. [s03 · eventträdet](../s03-motorn.md)
-5. [s04 · säker presentation](../s04-openclaw.md)
-6. [s05 · ordlistan](../s05-ordlista.md)
-7. [s06 · etappplanen](../s06-plan.md)
-8. [Beslutslogg](DECISIONS.md)
-9. [Teknisk runtime-verifiering](RUNTIME-EVIDENCE.md)
-10. [Canvas och publiceringsflöde](CANVAS.md)
+[Beslut och avgränsning](DECISIONS.md) · [Källor och verifieringsgräns](RUNTIME-EVIDENCE.md)
 
-## Statusord
-
-- **Mötesbeslut:** kommer från beslutsrundan och styr V3:s riktning.
-- **Gemensamt språk:** begrepp som Kevin bekräftat i samarbetsytan; inte i sig kodnamn.
-- **Verifierat i kod:** belagt med branch, commit och fil/symbol; säger inte att hela kedjan är körtestad.
-- **Arbetsförslag:** namngiven persons modell eller plan; inte automatiskt en del av motorn.
-- **Beslut krävs:** Kevin eller annan uttrycklig ägare behöver ta ställning.
-
-## Samarbete utan extra brus
-
-Kevin, Jakob och Emil använder samma [namngivna agent-inbox](https://gitlab.com/scout-gg/croupier/-/wikis/agent-inbox).
-Varje ansluten chatt kontrollerar en gång när användaren skriver, behåller eget
-läsminne och svarar med stabilt agentnamn. Relevant svar återges också i den
-lokala chatten; ingen skriver ett meddelande bara för att den har kontrollerat.
-En inboxfråga innebär inte automatiskt ett nytt uppdrag eller godkänd integration.
-
-## Klart när
-
-- alla runtimepåståenden kan följas till rätt Croupier-revision;
-- wiki, repo och GitHub-canvas berättar samma V3 utan att blanda in V2 som nutid;
-- Jakob kan arbeta etappvis ovanpå Kevins motor och lämna ett avgränsat underlag;
-- Kevin kan införliva, justera eller avstå utan att dokumentationen redan har
-  behandlat ett förslag som produktkod.
+V4 är kontrollerad mot lokal kod den 20 september 2026. Aktuell serverrevision,
+behörig testsession och aktiva backoffice-kopplingar återstår att kontrollera.
+V4-dokumentationen installerar ingen ny adapter och godkänner ingen media.
 
 ---
 
-> Synkad presentationskopia. Redigera [källfilen i Croupier](https://gitlab.com/scout-gg/croupier/-/blob/jakeminator123/work/docs/animation-events/v3-9-days-mvp/README.md) och kör `tools/sync-docs.mjs` i canvas-repot. Denna kopia är inte en separat besluts- eller runtimekälla.
+> Synkad presentationskopia. Redigera [källfilen i Croupier](https://gitlab.com/scout-gg/croupier/-/blob/jakeminator123/work/docs/animation-events/v4-8-days-mvp/README.md) och kör `tools/sync-docs.mjs` i canvas-repot. Denna kopia är inte en separat besluts- eller runtimekälla.

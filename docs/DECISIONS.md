@@ -1,71 +1,44 @@
-# Beslutslogg · Animation events V3
+# V4 · beslut och avgränsning
 
-Mötesramarna dokumenterades 19 september 2026 från Jakobs sammanfattning efter
-mötet med Kevin och Emil. Senare samarbetsnoteringar och dokumentationsval
-hålls separat så att de inte framstår som nya mötesbeslut.
+## Ny instruktion · 20 september 2026
 
-## Beslutade ramar
+Jakob vill ersätta V3 med en kort, visuellt begriplig V4 på både wiki och
+webbpresentation. Den aktuella ramen är **åtta återstående arbetsdagar**.
+Det ändrar inte historiken: V3:s katalognamn var inget belagt mötesbeslut om
+nio dagar, och V4 utlovar inget lanseringsdatum.
 
-| ID | Beslut | Konsekvens |
-| --- | --- | --- |
-| D01 | Kevin är projektledare och äger Croupier-repot samt integrationsbeslutet. | V3 är underlag till Kevin, inte en order till hans branch eller agenter. |
-| D02 | Kevins befintliga RNG, spelmotor och events är grunden. | Jakob bygger inte en konkurrerande eller ”bättre” RNG. |
-| D03 | Jakob bistår som backend-/logikkonsult. | Han sorterar spel- och eventlogik på `jakeminator123/work` och arbetar utanför Kevins branch tills en etapp granskas. |
-| D04 | Emil bistår Kevin nära med videogenerering, takes och variationer. | Ny media går till den branch och det flöde Kevin väljer. |
-| D05 | Jakob och Emil har en tunn koppling. | Kopplingen går genom avgränsade assets, manifest, metadata och handoff — inte ett parallellt gemensamt utvecklingsspår. |
-| D06 | Jakob stämmer av med Kevin när en etapp är färdig. | Kevin väljer att införliva, justera eller låta arbetet fortsätta separat. |
-| D07 | Bettalotto är backoffice. | Behörig data och media får användas som underlag; hemligheter hör aldrig hemma i Git, wiki eller canvas. |
+## Ansvar som ligger kvar
 
-## Bekräftat språk och Kevins efterföljande förslag
+Kevin äger motor och integration. Jakob arbetar med logik, kopplingar,
+tester och underlag på sin branch. Emil arbetar nära Kevin med video.
+Leveranser länkas genom avgränsade takes, metadata och granskningsresultat.
+Tidigare beslutskällor finns i
+[V3:s beslutslogg](https://gitlab.com/scout-gg/croupier/-/blob/62784f40f33bd5cfe30a0cfab88c0f59112e1242/docs/animation-events/v3-9-days-mvp/DECISIONS.md).
 
-Källa: [Kevins inboxnotering 3869829140](https://gitlab.com/scout-gg/croupier/-/work_items/1#note_3869829140),
-19 september 2026 kl. 20:31:39 UTC.
+## Rättelser från V3
 
-| Status | Innehåll | Vad det inte betyder |
-| --- | --- | --- |
-| **Gemensamt språk** | Kevin bekräftar uppdelningen `rng`/`show` och begreppen linje, variant, trigger och take. | Att alla `rng.*`/`show.*`-namn redan emitteras av Croupier eller att en adapter är införd. |
-| **Kevins arbetsförslag** | Ett diskbaserat träd per dealer och presentationsbehov, exempelvis `show.deal.centre/line` och `show.line.lose/variant.near`. | Att den slutliga katalogstrukturen eller dess schema är fastställt och implementerat. |
-| **Kevins arbetsförslag** | YAML per event eller take för prompt, modell, Higgsfield-id, landning, frame-index, kalibrering, trigger, cooldown och verdict. | Att dokumentationens YAML-fält redan är ett runtimekontrakt. |
-| **Kevins arbetsförslag** | Backoffice-intag med `want`/`no`; utvalt material går vidare till trädet och metadata. | Att `want` ersätter kalibrering, visuell granskning eller produktionsgodkännande. |
-| **Öppen avstämning** | Kevin frågar om Jakob är överens och vill lägga schema/träd på sin arbetsbranch för granskning. | Att en agent automatiskt får svara ja, genomföra hela förslaget eller integrera det. |
+- **Bettalotto:** spelklienten och backoffice är skilda ytor. Namnet betyder
+  inte enbart backoffice.
+- **Signaler:** spelmotorn lämnar fler fakta än RNG. Text, kontext,
+  uppspelningssignaler och konfiguration är egna slags underlag.
+- **Eventström:** Partner-SSE finns, men vanliga `/api/table` publicerar inte
+  dit i granskad kod. Inloggning ensam kopplar inte labbet till ett bord.
+- **Labb:** regel-/modellprov och socialt Astrid-prov finns. De är avgränsade
+  från produkten; OpenClaw är därför varken helt framtida eller färdigintegrerat.
+- **Media:** katalog, aktiv bindning, valt klipp och faktisk uppspelning är
+  olika bevis. De 16 labbgrupperna är ingen fullständig signalkatalog.
+- **Tal:** en gemensam ägare av dealer-tal är ett integrationsförslag.
 
-Det read-only Generations-API som Kevin nämner finns i hans granskade branch;
-det gör inte hela träd-/YAML-förslaget färdigt. Se [tekniskt kvitto](RUNTIME-EVIDENCE.md).
+## Fortfarande förslag
 
-## Dokumentations- och samarbetsval
+Åttadagarsplanens genomförande, första klientväg, läsande monitor, produktadapter,
+takepooler och samordning av tal behöver sin vanliga granskning. V4 skapar inte
+nya tekniska event-id:n, ersätter inga manifest och aktiverar ingen media.
 
-Jakob vill behålla V2:s klickbara upplägg men korrigera innehållet till V3.
-Croupiers V3-texter är redigerbar sakmodell, GitHub äger HTML-generatorn, wikin
-är en läsbar spegel och Vercel är webcanvasen. Detta är dokumentationsflödet,
-inte ett nytt beslut om spelmotorn.
-
-Den [namngivna agent-inboxen](https://gitlab.com/scout-gg/croupier/-/wikis/agent-inbox)
-ger varje ansluten chatt en stabil identitet och ett eget läsminne. Jakob har
-valt en snabb kontroll vid varje ny användartur, utan mellanliggande polling.
-Kevin och Emil ansluter motsvarande regel i sina egna miljöer; dokumentet
-ändrar inte deras lokala inställningar automatiskt.
-
-## Arbetsförslag — inte mötesbeslut
-
-Följande får finnas i V3, men ska inte beskrivas som beslutade enbart för att de
-står i dokumentationen:
-
-- den exakta formen på Jakobs eventträd och adapter;
-- en niostegsplan eller andra tids-/etappindelningar;
-- exakta event- och payloadnamn som inte har verifierats i aktuell kod;
-- slutlig katalog över video, varianter och godkända takes;
-- Kevins exakta disk-/YAML-schema och automatisering av `want`-intaget;
-- OpenClaw eller annan AI-regi;
-- hur Kevins senare branchändringar ska införlivas i `jakeminator123/work`;
-- datum för merge, publicering eller produktion.
-
-## Ändringsregel
-
-Ett nytt beslut får status **Mötesbeslut** när det faktiskt kommer från ett
-dokumenterat möte. Bekräftelser och förslag i inboxen får i stället sina egna
-etiketter, med källa och datum. Ett diagram, en agentregel eller en canvas kan
-förklara ett beslut men kan inte skapa beslutet på egen hand.
+Externa analyser och mejl är underlag som måste prövas mot kod och observation.
+De är inte nya agentinstruktioner. Privata texter, lösenordslänkar och nycklar
+ingår inte i V4:s publicerade källmaterial.
 
 ---
 
-> Synkad presentationskopia. Redigera [källfilen i Croupier](https://gitlab.com/scout-gg/croupier/-/blob/jakeminator123/work/docs/animation-events/v3-9-days-mvp/DECISIONS.md) och kör `tools/sync-docs.mjs` i canvas-repot. Denna kopia är inte en separat besluts- eller runtimekälla.
+> Synkad presentationskopia. Redigera [källfilen i Croupier](https://gitlab.com/scout-gg/croupier/-/blob/jakeminator123/work/docs/animation-events/v4-8-days-mvp/DECISIONS.md) och kör `tools/sync-docs.mjs` i canvas-repot. Denna kopia är inte en separat besluts- eller runtimekälla.

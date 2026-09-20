@@ -1,59 +1,74 @@
-# S06 · föreslagen etappplan
+# S06 · åtta arbetsdagar
 
-> Etapperna nedan är ett arbetsförslag för Jakobs spår, inte ett separat
-> mötesbeslut och inte kalenderlöften. Kevin äger motor och integration. Emil
-> arbetar nära Kevin med video.
+> **Planeringsram från Jakob:** åtta återstående arbetsdagar.
+> Dag 1 börjar när arbetet tas upp. Planen är ett arbetsförslag med
+> kontrollpunkter, inte ett daterat lanseringslöfte. Kevin äger integrationen.
 
-Katalognamnet `v3-9-days-mvp` är historiskt. Nio etapper är inte nio dagar
-och inget mötesbeslut om leveransdatum. Tabellen beskriver en arbetsordning,
-inte ett påstående att stegen redan är genomförda.
+## Dag 1 · rätt karta
 
-## Status och Jira CAC
+**Leverans:** aktuell kodrevision, valda källor och en kort lista över öppna
+frågor. Skilj produkt, labb och förslag; synka V4:s wiki och webbplats.
+**Klart när:** varje påstående har källa och gamla V3-antaganden är märkta.
 
-Dokumentstatusen **Öppen**, **Pågår**, **Grön** och **Blockerad** beskriver
-underlaget på denna sida. Den ersätter aldrig Jira CAC, som är projektets aktiva
-work-tracker för implementation och QA.
+## Dag 2 · välj en anslutning
 
-## Etapper
+**Leverans:** Kevin-avstämd första klientväg och ett presentationsbehov.
+Dokumentera testsession, behörig åtkomst och vilket material som finns.
+**Klart när:** native-status respektive Partner-lista/SSE inte blandas ihop.
+Saknad liveåtkomst ger ett uttryckligt gap och ett separat isolerat prov.
 
-| Etapp | Jakobs arbete | Bevis | Kontrollpunkt |
-| --- | --- | --- | --- |
-| 1. Frys verklighetsbilden | Registrera aktuell Jakob- och Kevin-revision. Jämför motor, events, Partner API, mediaflöde och öppna skillnader. | Korta fil-/symbolreferenser och en korrekt runtime-verifiering. | Ingen kodintegration krävs. |
-| 2. Avgränsa första eventytan | Välj minsta yta och anslutningspunkt: Partner-API eller vanlig webbklient. Dessa använder inte samma presentationskodväg. | Varje rad har källa, ägare och status. | Kevin bekräftar scope. |
-| 3. Rita eventträdet | Dokumentera baspresentation, publika triggers, varianter och fallback. Pröva Kevins träd-/YAML-förslag som schema, inte som redan införd kod. | Varje gren kan följas och påverkar inte spelutfall. | Kevin granskar gränsen mot motorn och metadataflödet. |
-| 4. Bygg avgränsat | Implementera minsta adapter eller mappning på `jakeminator123/work`. | Tester visar oförändrade kort, shoe, saldo och settlement. | Ingen automatisk merge till Kevins branch. |
-| 5. Koppla media | Konsumera video och metadata från Kevin och Emils valda flöde. Skilj `want`-urval, review och livegodkännande. | Asset-id, ursprung, hash, kalibrering, visuell status och gap kan följas; katalogförekomst räcker inte. | Kevin + Emil bekräftar medialeveransen. |
-| 6. Testa fallback | Testa kandidat → annan kandidat → bas → neutral → UI-only. | Rundan fortsätter korrekt vid saknad eller underkänd media. | Öppna fel går tillbaka till arbetet. |
-| 7. Kör sammanhängande rehearsal | Kör relevanta tester och upprepade spelningar för den avgränsade etappen. | Reproducerbar testnotering med commit och kända avvikelser. | Inga visuella godkännanden antas av hash eller testpass. |
-| 8. Stäm av med Kevin | Presentera diff, evidens och öppna produktbeslut. | Beslutet dokumenteras med datum och källa. | Kevin väljer införliva, justera eller håll separat. |
-| 9. Lämna integrationsunderlag | Förbered en liten patch/MR mot den målbranch Kevin godkänner. Synka docs, wiki och canvas. | Granskbar diff, tester och handoff utan beroende av chatthistorik. | Merge eller publicering sker först efter beslut. |
+## Dag 3 · se vad som kommer in
 
-## Definition av en grön etapp
+**Leverans:** ett litet läsande prov för vald väg, med källa, tid/ordning och
+avbrott synliga. Spara ett begränsat, avidentifierat testunderlag.
+**Klart när:** riktig data och sparade exempel är tydligt åtskilda. För SSE
+provas avbrott/återanslutning; luckor får inte visas som komplett historik.
 
-- arbetet bygger på Kevins faktiska Croupier-motor och publicerade kontrakt;
-- runtimefakta och Jakobs förslag är visuellt och textuellt åtskilda;
-- presentation kan inte påverka RNG, kort, shoe, wallet eller settlement;
-- media kommer genom Kevin/Emils verifierade flöde och har säker fallback;
-- Croupiers V3-källor, GitLab-wikins spegel och GitHub/Vercel-canvasen berättar samma sak;
-- Jira CAC och relevant issue/MR återspeglar den verkliga arbetsstatusen.
+## Dag 4 · spårbart urval
 
-## Den lilla samarbetsloopen
+**Leverans:** den minsta kopplingen från situation till standard/variant
+och kompatibel take. Visa villkor, kandidat och orsak till eventuell reserv.
+**Klart när:** fel dealer, mål, handling eller talrad inte kan väljas;
+spelstatus förblir oförändrad.
 
-Anslutna agenter följer [den gemensamma inboxrutinen](https://gitlab.com/scout-gg/croupier/-/wikis/agent-inbox):
-en kontroll vid ny användartur, stabilt chattnamn med ägare och eget läsminne.
-Relevant fråga/svar kopplas till rätt agent och återges i den lokala chatten.
-Inget relevant nytt ger inget meddelande och ingen vänteloop.
+## Dag 5 · media och spelare
 
-Vid en etapphandoff anges vad som ändrats, vad som testats, kvarvarande gap
-och vilket beslut Kevin behöver ta. Inboxen samordnar; Jira CAC spårar arbetet;
-commit/MR visar ändringen. Ingen av dem ersätts av ett automatiskt agentsvar.
+**Leverans:** Kevin/Emils avgränsade takepaket kopplat till befintlig spelare
+i isolerat prov. Dokumentera hur spelreplik och socialt tal ska samordnas.
+**Klart när:** källmaterial, aktiv koppling och faktisk uppspelning går att
+följa var för sig. Saknad godkänd take ger reserv, inte ett provisoriskt godkännande.
 
-## Efter den första leveransen
+## Dag 6 · fel och återhämtning
 
-OpenClaw, friare persona/chatt, fler triggers, fler dealers eller byte av
-spelmodell kräver egna beslut. De får inte beskrivas som delar av Kevins
-nuvarande motor bara för att de finns i V2 eller i ett framtidsdiagram.
+**Leverans:** prov för saknad media, fel status/hash, sen respons, avbrott
+och två uppspelningar i följd.
+**Klart när:** ingen fastlåst presentation, överlappande tal eller ändrat
+spelutfall; fel lämnar ett begripligt spår. Nya fel tillbaka till arbete.
+
+## Dag 7 · sammanhängande QA
+
+**Leverans:** relevant testkörning och visuell rehearsal med resultat per take.
+Vid media-/spelarändring omfattas alla fyra dealers av repots kontrollkrav.
+**Klart när:** full förväntad effekt är verifierad och kvarvarande gap är
+synliga. Automatiska testpass räknas inte som visuell acceptans.
+
+## Dag 8 · granskbar överlämning
+
+**Leverans:** liten diff/MR, bevis, kända begränsningar och uppdaterad handoff,
+wiki och webbpresentation. Kevin väljer integrera, justera eller håll separat.
+**Klart när:** underlaget går att förstå utan chattlogg; faktiskt publicerad
+dokumentation är kontrollerad. Produktmerge/deploy följer integrationsbeslutet.
+
+## Om tiden eller underlaget inte räcker
+
+Behåll källkartan, det läsande provet och verifierad reserv. Minska antalet
+varianter och skjut på produktkopplingen när dess bevis saknas. Redovisa
+blockerande åtkomst eller media konkret; kalla inte ett isolerat prov liveklart.
+
+Jira CAC är arbetets statuskälla: **In Dev → Ready for QA → In Testing → Done**,
+med aktuella tillgängliga övergångar. Misslyckad QA går tillbaka till **In Dev**.
+Denna plan anger inga genomförda dagar eller nya QA-godkännanden.
 
 ---
 
-> Synkad presentationskopia. Redigera [källfilen i Croupier](https://gitlab.com/scout-gg/croupier/-/blob/jakeminator123/work/docs/animation-events/v3-9-days-mvp/s06-plan.md) och kör `tools/sync-docs.mjs` i canvas-repot. Denna kopia är inte en separat besluts- eller runtimekälla.
+> Synkad presentationskopia. Redigera [källfilen i Croupier](https://gitlab.com/scout-gg/croupier/-/blob/jakeminator123/work/docs/animation-events/v4-8-days-mvp/s06-plan.md) och kör `tools/sync-docs.mjs` i canvas-repot. Denna kopia är inte en separat besluts- eller runtimekälla.

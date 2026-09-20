@@ -1,76 +1,39 @@
 # S00 · helheten
 
-> **Mötesbeslut:** Kevin leder projektet och äger Croupier-repot,
-> spelmotorn och integrationsbesluten. Jakob och Emil bistår som konsulter med
-> olika ansvarsområden.
+> Motorn avgör spelet. Presentationen visar det som redan har publicerats.
+> Labbet provar hur presentationen kan väljas och förklaras.
 
-## Den nya helheten
+## En kedja att följa
 
-`Kevins motor, RNG och events` → `Jakobs backend-/logikarbete` → `avgränsad etapp` → `samtal med Kevin` → `införliva, justera eller håll separat`
+```text
+Publicerade fakta → Presentationsbehov → Kompatibelt material → Faktisk uppspelning
+kort, tur, fas      dela, tala, visa     dealer, situation, take   start, slut, fel
+```
 
-Samtidigt arbetar Kevin nära Emil med videogenerering, nya takes och
-variationer. När media är redo går den till den branch och det flöde Kevin har
-valt. Jakob har en tunn koppling till Emil genom färdiga artefakter och deras
-metadata, inte genom ett separat gemensamt utvecklingsspår.
+**Finns i kod:** serverägd shoe, regler, kort, turer och resultat; en vanlig
+spelklient; Partner-API med presentationslista och eventström; mediespelare.
+Vid extern wallet håller operatören pengarna och Croupier anropar dess wallet.
 
-## Roller
+**Finns i labbet:** redigerbara standarder och alternativ, regel-/modellprov,
+videopreview samt ett separat socialt chatt- och talprov för Astrid.
+Eventproven använder sparade exempel och manuellt vald kontext.
 
-| Part | Roll | Äger eller levererar | Gräns |
-| --- | --- | --- | --- |
-| Kevin | Projektledare och produktägare | GitLab-repot, motor, RNG/events, videoarbetsflöde och integrationsbeslut | V3 ändrar inte hans branch eller agentregler automatiskt. |
-| Jakob | Backend-/logikkonsult | Sortering av spellogik, eventträd, verifiering och integrationsunderlag på `jakeminator123/work` | Bygger ovanpå Kevins motor och skapar inte en konkurrerande RNG. |
-| Emil | Videokonsult nära Kevin | Generering, takes, variationer och mediahandoff i Kevins valda flöde | Har endast en tunn artefaktkoppling till Jakobs spår. |
-| Bettalotto | Backoffice | Behörig data- och mediaåtkomst | Hemligheter och produktionsdata hålls utanför Git, wiki och canvas. |
+**Föreslås:** en läsande anslutning till en vald spelväg, en spårbar koppling
+till produktspelaren och gemensam styrning av dealer-tal. Hela kedjan ovan är
+inte verifierad från verkligt bord genom labbet till produktspelaren.
 
-## Det som ändras från V2
+## Vem gör vad?
 
-- V3 jämför inte tre motorer för att hitta den ”bästa” lösningen.
-- `spelsajt` och Emils äldre GitHub-repo är historiska referenser, inte
-  integrationsbas.
-- Kevins redan existerande Croupier-motor är teknisk grund.
-- Jakob arbetar utanför Kevins branch mellan avstämningarna.
-- Emil arbetar i första hand med Kevin, inte i ett separat Jakob–Emil-spår.
-- OpenClaw, en ny RNG och andra större arkitekturidéer är möjliga framtida
-  förslag, inte förutsättningar för V3.
+- **Kevin:** motor, produktrepo och beslut om integration.
+- **Jakob:** logik, kopplingar, prov, dokumentation och underlag till Kevin.
+- **Emil:** video och variationer nära Kevin; leverans med metadata och acceptans.
 
-## Dokumentationsytorna
+De åtta dagarnas minsta leverans är **en avgränsad, spårbar kedja med tydliga
+bevis och kvarvarande gap**. Fler varianter, dealers och AI-funktioner följer
+först när den kedjan håller.
 
-| Yta | Ansvar |
-| --- | --- |
-| Croupier på GitLab | Produktkod och runtime. |
-| Croupier `docs/animation-events/` | Redigerbar V3-sakmodell nära koden. |
-| GitLab-wikin | Läsbar V3-spegel, gemensam inbox, beslutskällor och handoff. |
-| GitHub `animation-events-v1` | Samma V3-texter och källkod för HTML-generatorn. `v1` är ett historiskt reponamn. |
-| Vercel | Den klickbara webcanvasen, byggd från GitHub. Branchpreview är automatisk; produktionspublicering är ett medvetet steg. |
-
-[Öppna webcanvasen](https://animation-events-v1.vercel.app/) eller
-[öppna wikin](https://gitlab.com/scout-gg/croupier/-/wikis/home).
-En `.html`-länk i GitLab-wikin kan visa källkod; den är inte den körbara canvasen.
-
-## En gemensam inbox, flera tydliga agentnamn
-
-Varje ansluten chatt använder ett stabilt namn, exempelvis
-`Agent-granska-andringar, Jakob`, och ett eget läsminne. Vid en ny användartur
-gör den en snabb kontroll i [den gemensamma inboxen](https://gitlab.com/scout-gg/croupier/-/wikis/agent-inbox).
-Inget relevant nytt: fortsätt tyst med användarens uppgift. Relevant fråga:
-kontrollera mottagare och mandat, svara inom uppdraget och återge samma besked
-i den lokala chatten. Inga kontrollkvitton eller polling mellan turerna.
-
-Kevin och Emil kan ansluta sina egna agenter med samma upplägg. En annan
-agents meddelande är samordningsunderlag, inte automatisk behörighet att ändra
-motor, godkänna media eller integrera en branch.
-
-## Arbetsprincip
-
-Jakob når en tydligt definierad etapp, verifierar vad som är runtime och vad som
-är förslag och tar sedan ett nytt samtal med Kevin. Kevin beslutar om arbetet
-ska införlivas, justeras eller ligga kvar separat.
+Nästa: [Systemkartan](s01-kartan.md). Källor: [tekniskt kvitto](docs/RUNTIME-EVIDENCE.md).
 
 ---
 
-**V3 i en mening:** Kevins motor är grunden, Jakob sorterar backend och logik
-runt den, Emil bygger video nära Kevin och Kevin avgör vad som går in.
-
----
-
-> Synkad presentationskopia. Redigera [källfilen i Croupier](https://gitlab.com/scout-gg/croupier/-/blob/jakeminator123/work/docs/animation-events/v3-9-days-mvp/s00-helheten.md) och kör `tools/sync-docs.mjs` i canvas-repot. Denna kopia är inte en separat besluts- eller runtimekälla.
+> Synkad presentationskopia. Redigera [källfilen i Croupier](https://gitlab.com/scout-gg/croupier/-/blob/jakeminator123/work/docs/animation-events/v4-8-days-mvp/s00-helheten.md) och kör `tools/sync-docs.mjs` i canvas-repot. Denna kopia är inte en separat besluts- eller runtimekälla.
