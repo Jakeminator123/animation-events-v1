@@ -1,36 +1,40 @@
-# V4 · samma innehåll på wiki och webb
+# V5 · samma innehåll på wiki och webb
 
-**Visningsnamn: Croupier · Presentationsplan. Innehållsversion: V4.**
+**Visningsnamn: Croupier · Presentationsplan V5. Planeringsram: åtta dagar.**
 
-Den stabila [webbadressen](https://animation-events-v1.vercel.app/) och
-[GitHub-repot](https://github.com/Jakeminator123/animation-events-v1) innehåller
-det historiska namnet `v1`. Det är webbprojektets adress, inte dess aktuella
-version. Ett namnbyte av repo eller domän är en separat ändring som kräver
-uppdaterade deploykopplingar och länkar; V4:s rubrik behöver inte vänta på det.
+Källan är `docs/animation-events/v5-8-days-mvp/` i Croupier. GitLab-wikin och
+GitHub-repot `Jakeminator123/animation-events-v1` är läsytor. Vercel bygger den
+stabila [webbsidan](https://animation-events-v1.vercel.app/) från GitHub.
+Det historiska `v1` i adressen ändras inte i denna leverans.
 
-## En källa, två läsvyer
+## Uppdatera en gång och spegla
 
-```text
-Croupiers kod och verifieringsunderlag
-  → docs/animation-events/v4-8-days-mvp
-      → GitLab-wiki
-      → GitHub: s00–s06 + webbbygge → Vercel
-```
+1. Ändra Croupiers V5-källa och kontrollera påståenden mot kod och prov.
+2. Committa den kanoniska dokumentationen på arbetsgrenen.
+3. I webb-repot: kör `node tools/sync-docs.mjs --croupier PATH --write`,
+   sedan `node build-static.mjs`.
+4. Kör synk igen med `--wiki WIKI_PATH --write`. Detta speglar Markdown och
+   färdig HTML och skriver källrevision samt filhashar i manifestet.
+5. Kör synken utan `--write`, webb-repots tester, `build-static.mjs --check`
+   och `tools/build-site.mjs`. Granska navigation, sök, plan och mobilbredd.
+6. Pusha Croupiers arbetsgren, wiki och webb-repots publiceringsgren. Kontrollera
+   innehållet på den faktiska webbplatsen och wikin efter publiceringen.
 
-1. Rätta V4-källan i Croupier. Behåll exakta källhänvisningar och markera förslag.
-2. Spegla samma innehåll till wiki och GitHub; anpassa länkar för respektive yta.
-3. Bygg webbplatsen med korta kapitel, tydliga statusetiketter och åtta dagskort.
-4. Kontrollera den **publicerade** wikin och webbplatsen. Lokala filer eller en
-   lyckad byggnad bevisar inte att läsarna fått den nya versionen.
+Synkverktyget gör inga nätanrop, commits eller pushar. Källor kan läsas utan
+Jakobs privata anteckningar. Länkar anpassas per läsyta. GitLab-wikins HTML
+kan visas som källkod; länka därför till Vercel för den interaktiva webbvyn.
 
-En HTML-kopia i wikin kan visas som källkod. Länka till den körbara
-webbplatsen för den visuella presentationen. En Vercel-förhandsvisning är
-inte automatiskt den stabila publiceringen.
+## Historik och gränser
 
-V3 sparas som historik och ska märkas som ersatt där den nås. Aktiva startsidor
-ska peka på V4. Källorna ska kunna läsas utan ett personligt arkiv eller en
-privat chattlogg. Inga mediafiler behöver kopieras för denna dokumentationsändring.
+V4:s texter och webbversion bevaras som historik och märks som ersatta.
+Aktiva startsidor/menyer pekar på V5. Äldre versionsuppgifter får inte
+massersättas så att historiska prov plötsligt ser nygjorda ut.
+
+Webbpublicering ändrar inte Bettalottos driftsättning, produktmanifest,
+OpenClaw-konfiguration eller sparade lokala labbprojekt. Media och råloggar
+kopieras inte till webb-repot. Jira CAC är arbetsstatus; dokumentens plan är
+underlaget för nästa leveranser.
 
 ---
 
-> Synkad presentationskopia. Redigera [källfilen i Croupier](https://gitlab.com/scout-gg/croupier/-/blob/jakeminator123/work/docs/animation-events/v4-8-days-mvp/CANVAS.md) och kör `tools/sync-docs.mjs` i canvas-repot. Denna kopia är inte en separat besluts- eller runtimekälla.
+> Synkad presentationskopia. Redigera [källfilen i Croupier](https://gitlab.com/scout-gg/croupier/-/blob/jakeminator123/work/docs/animation-events/v5-8-days-mvp/CANVAS.md) och kör `tools/sync-docs.mjs` i canvas-repot. Denna kopia är inte en separat besluts- eller runtimekälla.

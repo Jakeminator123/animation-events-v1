@@ -1,74 +1,117 @@
-# S06 · åtta arbetsdagar
+# S06 · åtta dagar medan Jakob reser
 
-> **Planeringsram från Jakob:** åtta återstående arbetsdagar.
-> Dag 1 börjar när arbetet tas upp. Planen är ett arbetsförslag med
-> kontrollpunkter, inte ett daterat lanseringslöfte. Kevin äger integrationen.
+Dag 1 är nästa gemensamma arbetsdag. Planen utgår från det som redan är byggt
+lokalt den 21 september. Kevin äger produktintegration; Emil tar mediaarbetet
+tillsammans med Kevin. Jakob lämnar detta underlag och ska inte behöva vara
+online för rutinval. Datumen sätts efter faktisk bemanning.
 
-## Dag 1 · rätt karta
+## Dag 1 · starta från rätt läge
 
-**Leverans:** aktuell kodrevision, valda källor och en kort lista över öppna
-frågor. Skilj produkt, labb och förslag; synka V4:s wiki och webbplats.
-**Klart när:** varje påstående har källa och gamla V3-antaganden är märkta.
+**Kevin:** läs V5, hämta arbetsgrenens commit och välj en isolerad produktväg
+för första talintegrationen. Kartlägg nuvarande talproducenter och ange vilka
+som ska stängas av när OpenClaw tar över. Bekräfta lokalt kontra deployat SHA.
+**Emil:** inventera befintligt Astrid-material med Kevin och välj ett exakt
+inspelat talpaket samt ett litet alternativ att börja med. Ändra inga godkända
+originalbytes i inventeringen.
 
-## Dag 2 · välj en anslutning
+**Klart när:** kända filer, ansvar, testmiljö och saknade underlag är noterade.
+Ingen väntar på Jakob för att välja första testfall. Identitets- eller
+produktbeslut som kräver Jakob läggs i en samlad blockerarlista.
 
-**Leverans:** Kevin-avstämd första klientväg och ett presentationsbehov.
-Dokumentera testsession, behörig åtkomst och vilket material som finns.
-**Klart när:** native-status respektive Partner-lista/SSE inte blandas ihop.
-Saknad liveåtkomst ger ett uttryckligt gap och ett separat isolerat prov.
+## Dag 2 · kontrakt och första variant
 
-## Dag 3 · se vad som kommer in
+**Kevin:** definiera minsta validerade talbeslut och köjobb ovanpå befintlig
+Director/Gateway: exakt inspelad replik, ny text eller tystnad. Behåll
+serverägda spelfakta och separera källa, beslut och playback.
+**Emil:** lägg in första granskbara MP4/WebM i labbet enligt videokapitlet,
+koppla alternativ och trigger, spara projekt och prova match/icke-match.
 
-**Leverans:** ett litet läsande prov för vald väg, med källa, tid/ordning och
-avbrott synliga. Spara ett begränsat, avidentifierat testunderlag.
-**Klart när:** riktig data och sparade exempel är tydligt åtskilda. För SSE
-provas avbrott/återanslutning; luckor får inte visas som komplett historik.
+**Klart när:** Kevin kan följa ett beslut utan att gammal talägare också kör,
+och Emil lämnar video-ID/hash, variant, replik/situation samt provkvitto.
+En oacceptabel film dokumenteras som lucka; den blockerar inte kontraktsarbetet.
 
-## Dag 4 · spårbart urval
+## Dag 3 · en talägare i isolerad runtime
 
-**Leverans:** den minsta kopplingen från situation till standard/variant
-och kompatibel take. Visa villkor, kandidat och orsak till eventuell reserv.
-**Klart när:** fel dealer, mål, handling eller talrad inte kan väljas;
-spelstatus förblir oförändrad.
+**Kevin:** led ett spelrelaterat yttrande och ett chattsvar genom samma kö.
+Testa samtidig trigger/chatt, avbrott, fel och två plays. Stäng av de gamla
+producenterna för just den aktiverade vägen; skriv ned vad som ännu är separat.
+**Emil:** leverera exakt text/ljud/video/index/kalibrering för första paketet
+och granska munnens rörelse genom hela repliken med Kevin.
 
-## Dag 5 · media och spelare
+**Klart när:** ett paket startar och avslutas med verkliga kvitton, utan dubbelt
+tal. Saknad dynamisk läppsynk använder uttrycklig reserv eller tystnad.
 
-**Leverans:** Kevin/Emils avgränsade takepaket kopplat till befintlig spelare
-i isolerat prov. Dokumentera hur spelreplik och socialt tal ska samordnas.
-**Klart när:** källmaterial, aktiv koppling och faktisk uppspelning går att
-följa var för sig. Saknad godkänd take ger reserv, inte ett provisoriskt godkännande.
+## Dag 4 · samma instruktion, ett jobb
 
-## Dag 6 · fel och återhämtning
+**Kevin:** verifiera HTTP+SSE, native-publicering efter commit, duplicate retry,
+stale version och återanslutning med lucka. Välj hur flera flikar ska ägas;
+lita inte på processcachen som en distribuerad lösning.
+**Emil:** utöka bara med en eller två varianter där första paketet klarat review.
+Ge dem exakta repliker/mål, urvalstillåtelser och avgränsade triggers.
 
-**Leverans:** prov för saknad media, fel status/hash, sen respons, avbrott
-och två uppspelningar i följd.
-**Klart när:** ingen fastlåst presentation, överlappande tal eller ändrat
-spelutfall; fel lämnar ett begripligt spår. Nya fel tillbaka till arbete.
+**Klart när:** dubbel leverans ger ett köjobb, konflikt stoppar, och källan kan
+följas till exakt material. Utöka inte mängden för att dölja kvalitetsproblem.
+
+## Dag 5 · läppsynk och kortkontakt
+
+**Kevin och Emil:** mät den befintliga läppsynkvägens kvalitet, latens och
+avbrott med Jakobs OpenClaw-text som källa. Fri text får bara använda faktiskt
+matchat material. Besluta om en begränsad dynamisk prototyp ryms; annars
+leverera inspelat paket och tydlig neutral reserv.
+
+**Klart när:** per-take-resultat finns för läppar, ljud, identitet och
+övergångar. Prova en stödd kortdestination separat; full split-/platstäckning
+lovas inte på grund av ett enda lyckat mål.
+
+## Dag 6 · regression och återhämtning
+
+**Kevin:** prova saknat/korrupt media, fel replik/dealer/hash, sen modellrespons,
+mute, navigation, dealerbyte och BO-previewbyte. Kör relevanta automatiska
+kontroller och repots obligatoriska auditer vid media-/spelarändring.
+**Emil:** åtgärda de prioriterade visuella felen i separat staging; dokumentera
+nya hashvärden och vilka tidigare godkännanden som måste göras om.
+
+**Klart när:** fel har exakt ett terminalt kvitto, ingen kvarhängande media och
+ingen förändring av spelets utfall. Oförändrade godkända assets lämnas orörda.
 
 ## Dag 7 · sammanhängande QA
 
-**Leverans:** relevant testkörning och visuell rehearsal med resultat per take.
-Vid media-/spelarändring omfattas alla fyra dealers av repots kontrollkrav.
-**Klart när:** full förväntad effekt är verifierad och kvarvarande gap är
-synliga. Automatiska testpass räknas inte som visuell acceptans.
+**Kevin och Emil:** spela den avgränsade scenen från instruktion till avslut.
+Granska alla fyra dealers i faktisk rehearsal, inklusive två plays i följd.
+Om behörig live-/testmiljö och rätt serverrevision finns: samla riktiga
+rundposter och spelartelemetri. Annars redovisa det som återstående live-QA.
 
-## Dag 8 · granskbar överlämning
+**Klart när:** förväntat resultat prövats, misslyckade cases återgår till arbete
+och inga stubbar/fixture-resultat presenteras som verkligt livebevis.
 
-**Leverans:** liten diff/MR, bevis, kända begränsningar och uppdaterad handoff,
-wiki och webbpresentation. Kevin väljer integrera, justera eller håll separat.
-**Klart när:** underlaget går att förstå utan chattlogg; faktiskt publicerad
-dokumentation är kontrollerad. Produktmerge/deploy följer integrationsbeslutet.
+## Dag 8 · integration eller tydligt avgränsad handoff
 
-## Om tiden eller underlaget inte räcker
+**Kevin:** lämna liten granskbar MR/diff, exakt aktiverade ägare, testresultat,
+återställningsväg och beslut om produktintegration/deploy.
+**Emil:** lämna takepaket, hashbunden review och öppna kvalitetsluckor.
+**Tillsammans:** uppdatera handoff, V5-källa, wiki och webbsida. Ge Jakob en
+kort rapport som går att läsa från resan utan hela chattloggen.
 
-Behåll källkartan, det läsande provet och verifierad reserv. Minska antalet
-varianter och skjut på produktkopplingen när dess bevis saknas. Redovisa
-blockerande åtkomst eller media konkret; kalla inte ett isolerat prov liveklart.
+**Klart när:** det går att förstå och upprepa leveransen utan privata mappar.
+En merge eller deploy är ett eget integrationsbeslut, inte följden av en sparad
+labbvariant. Faktisk publicerad dokumentation kontrolleras efter push.
 
-Jira CAC är arbetets statuskälla: **In Dev → Ready for QA → In Testing → Done**,
-med aktuella tillgängliga övergångar. Misslyckad QA går tillbaka till **In Dev**.
-Denna plan anger inga genomförda dagar eller nya QA-godkännanden.
+## Prioritering och arbetsstatus
+
+Skydda först serverfakta och ett enda talägarskap. Leverera sedan ett fungerande
+exakt läppsynkpaket och ett triggerbundet alternativ. Skjut på större
+takepooler, alla platser/splitar och bred dynamisk dialog om tiden inte räcker.
+
+Kevin och Emil dokumenterar kort varje arbetsdag: klart med commit/kvitto,
+nästa leverans och konkreta hinder. Samla frågor till Jakob; frånvaro ger
+ingen automatisk visuell acceptans av Astrids identitet.
+
+Jira CAC är faktisk arbetsstatus: läs Expected Result/custom fields, använd
+tillgängliga övergångar till In Dev, Ready for QA och In Testing. Done först
+efter fullt verifierat resultat; misslyckad QA tillbaka till In Dev. V5 anger
+uppdrag och mål, inte att personerna redan accepterat dem eller att ticketstatus
+har uppdaterats av denna dokumentationsleverans.
 
 ---
 
-> Synkad presentationskopia. Redigera [källfilen i Croupier](https://gitlab.com/scout-gg/croupier/-/blob/jakeminator123/work/docs/animation-events/v4-8-days-mvp/s06-plan.md) och kör `tools/sync-docs.mjs` i canvas-repot. Denna kopia är inte en separat besluts- eller runtimekälla.
+> Synkad presentationskopia. Redigera [källfilen i Croupier](https://gitlab.com/scout-gg/croupier/-/blob/jakeminator123/work/docs/animation-events/v5-8-days-mvp/s06-plan.md) och kör `tools/sync-docs.mjs` i canvas-repot. Denna kopia är inte en separat besluts- eller runtimekälla.

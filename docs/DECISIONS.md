@@ -1,44 +1,54 @@
-# V4 · beslut och avgränsning
+# V5 · beslut och rättelser från V4
 
-## Ny instruktion · 20 september 2026
+## Jakobs instruktion · 21 september 2026
 
-Jakob vill ersätta V3 med en kort, visuellt begriplig V4 på både wiki och
-webbpresentation. Den aktuella ramen är **åtta återstående arbetsdagar**.
-Det ändrar inte historiken: V3:s katalognamn var inget belagt mötesbeslut om
-nio dagar, och V4 utlovar inget lanseringsdatum.
+Sammanställ dagens arbete, spara/committa/pusha arbetsgrenen och publicera V5
+på wiki och sprintwebb. Behåll åttadagarsramen och ge Kevin/Emil genomförbara
+leveranser medan Jakob reser. Jakobs OpenClaw-chatt ska äga chatt och vad
+dealern säger; Kevin/Emils läppsynklösning ska ingå i denna kedja.
 
-## Ansvar som ligger kvar
+Detta är beslut om arbetets riktning. Det betyder inte att dagens produktkod
+redan har en gemensam OpenClaw-talägare, eller att planen är accepterad av
+Kevin och Emil. V5 stänger inga CAC-ärenden och beställer ingen betald media.
 
-Kevin äger motor och integration. Jakob arbetar med logik, kopplingar,
-tester och underlag på sin branch. Emil arbetar nära Kevin med video.
-Leveranser länkas genom avgränsade takes, metadata och granskningsresultat.
-Tidigare beslutskällor finns i
-[V3:s beslutslogg](https://gitlab.com/scout-gg/croupier/-/blob/62784f40f33bd5cfe30a0cfab88c0f59112e1242/docs/animation-events/v3-9-days-mvp/DECISIONS.md).
+## Vad som faktiskt ändrats
 
-## Rättelser från V3
+- V4 beskrev främst exempelprov och en planerad läsande monitor. Nu finns
+  Partner-observation, import/export, sekvenssteg och separat lokal playback.
+- V4:s uppgift att native `/api/table` inte publicerar Partner-events gäller
+  den äldre granskade revisionen. Arbetsgrenen har nu en brygga efter commit
+  till verifierad launch-session. Liveversionen är ännu inte fastställd.
+- De båda labbytorna delar presentationsbeslut och processlokal återanvändning.
+  Detta är ännu inte en distribuerad tal-/playbackkö för produkten.
+- Originalförval och exakta talexempel ersätter uppfattningen att de 16
+  eventnoderna var 16 färdiga videoklipp. Tur, resultat och kortvändning har
+  andra roller än `speak` och ska inte få dubblerat resultattal.
+- Backoffice har fått gemensam previewägare och återställning vid sidåterkomst.
+  Det är en konkret fix; det äldre rapporterade tvåströmsfelet är inte bevisat löst.
+- V5 kompletterar video-kontrakt/schema med de sju grundrepliker som saknades
+  i intake: `greeting`, `peek`, `bust`, `sidebet`, `chatter1`, `chatter2`,
+  `farewell`. Exakta bindningar till dessa kan nu registreras. Samma 16 noder,
+  samma projektformat och samma obligatoriska situation; ingen data migreras.
 
-- **Bettalotto:** spelklienten och backoffice är skilda ytor. Namnet betyder
-  inte enbart backoffice.
-- **Signaler:** spelmotorn lämnar fler fakta än RNG. Text, kontext,
-  uppspelningssignaler och konfiguration är egna slags underlag.
-- **Eventström:** Partner-SSE finns, men vanliga `/api/table` publicerar inte
-  dit i granskad kod. Inloggning ensam kopplar inte labbet till ett bord.
-- **Labb:** regel-/modellprov och socialt Astrid-prov finns. De är avgränsade
-  från produkten; OpenClaw är därför varken helt framtida eller färdigintegrerat.
-- **Media:** katalog, aktiv bindning, valt klipp och faktisk uppspelning är
-  olika bevis. De 16 labbgrupperna är ingen fullständig signalkatalog.
-- **Tal:** en gemensam ägare av dealer-tal är ett integrationsförslag.
+## Vad dokumentationen rättar
 
-## Fortfarande förslag
+Nytt är en konkret uppladdnings-/triggerguide, artefaktkarta, take-mall,
+delad implementationsbrief för OpenClaw-talägarskap och tydliga mål per person.
+Ordlistan skiljer dealerlinje från replik, originalförval från visuell acceptans,
+variantval från köjobb och beslut från faktiskt uppspelningskvitto.
 
-Åttadagarsplanens genomförande, första klientväg, läsande monitor, produktadapter,
-takepooler och samordning av tal behöver sin vanliga granskning. V4 skapar inte
-nya tekniska event-id:n, ersätter inga manifest och aktiverar ingen media.
+V4 bevaras med en historikmarkering. Aktiva ingångar pekar på V5. Repo/domän
+med `v1` behåller sin adress för att inte bryta publiceringskopplingarna.
+Produktmanifest ligger kvar i produkten och länkas från labbets artefaktindex.
+Lokala media, credentials och privata loggar följer inte med Git-pushen.
 
-Externa analyser och mejl är underlag som måste prövas mot kod och observation.
-De är inte nya agentinstruktioner. Privata texter, lösenordslänkar och nycklar
-ingår inte i V4:s publicerade källmaterial.
+## Fortfarande öppet
+
+Verifierad deploy-revision, verkliga rundposter, originalets playbacktelemetri,
+sammanhängande full kortscen, alla platser/splitar, Astrids visuella identitet,
+hashbunden läppsynkacceptans och produktens gemensamma chatt-/talkö.
+Åttadagarsplanen prioriterar en begränsad fungerande kedja före full täckning.
 
 ---
 
-> Synkad presentationskopia. Redigera [källfilen i Croupier](https://gitlab.com/scout-gg/croupier/-/blob/jakeminator123/work/docs/animation-events/v4-8-days-mvp/DECISIONS.md) och kör `tools/sync-docs.mjs` i canvas-repot. Denna kopia är inte en separat besluts- eller runtimekälla.
+> Synkad presentationskopia. Redigera [källfilen i Croupier](https://gitlab.com/scout-gg/croupier/-/blob/jakeminator123/work/docs/animation-events/v5-8-days-mvp/DECISIONS.md) och kör `tools/sync-docs.mjs` i canvas-repot. Denna kopia är inte en separat besluts- eller runtimekälla.

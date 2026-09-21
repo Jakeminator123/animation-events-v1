@@ -7,9 +7,9 @@ import { fileURLToPath } from 'node:url';
 import test from 'node:test';
 
 const TOOL = fileURLToPath(new URL('../tools/sync-docs.mjs', import.meta.url));
-const CANONICAL_DIRECTORY = 'docs/animation-events/v4-8-days-mvp';
+const CANONICAL_DIRECTORY = 'docs/animation-events/v5-8-days-mvp';
 const NAMES = ['s00-helheten.md', 's01-kartan.md', 's02-spraket.md', 's03-eventtradet.md', 's04-saker-presentation.md', 's05-ordlista.md', 's06-plan.md', 'README.md', 'CANVAS.md', 'DECISIONS.md', 'RUNTIME-EVIDENCE.md'];
-const WIKI_URL = 'https://gitlab.com/scout-gg/croupier/-/wikis/animation-events/v4-8-days-mvp/';
+const WIKI_URL = 'https://gitlab.com/scout-gg/croupier/-/wikis/animation-events/v5-8-days-mvp/';
 
 function fixture(t) {
   const temporary = fs.mkdtempSync(path.join(os.tmpdir(), 'croupier-doc-sync-'));
@@ -22,7 +22,7 @@ function fixture(t) {
   fs.mkdirSync(path.join(wiki, '.git'), { recursive: true });
   fs.mkdirSync(path.join(source, CANONICAL_DIRECTORY), { recursive: true });
   fs.copyFileSync(TOOL, path.join(github, 'tools/sync-docs.mjs'));
-  fs.writeFileSync(path.join(github, 'index.html'), '<!doctype html>\n<title>V4 fixture åäö</title>\n');
+  fs.writeFileSync(path.join(github, 'index.html'), '<!doctype html>\n<title>V5 fixture åäö</title>\n');
   fs.writeFileSync(path.join(github, 'README.md'), '# GitHub navigation: preserve me\n');
   fs.writeFileSync(path.join(wiki, 'home.md'), '# Wiki navigation: preserve me\n');
   fs.writeFileSync(path.join(wiki, 'agent-inbox.md'), '# Inbox: preserve me\n');
@@ -60,7 +60,7 @@ test('imports all specified mirrors, maps GitHub names and wiki slugs, and prese
   const ghDocs = fs.readFileSync(path.join(f.github, 'docs/README.md'), 'utf8');
   assert.match(ghDocs, /\[Eventträd\]\(\.\.\/s03-motorn.md#trigger\)/);
   assert.match(ghDocs, /\[Beslut\]\(DECISIONS.md\)/);
-  for (const relative of ['animation-events/v4-8-days-mvp/s03-eventtradet.md', 'animation-events-v4/canvas/s03-eventtradet.md', 'animation-events-v4-s03.md']) {
+  for (const relative of ['animation-events/v5-8-days-mvp/s03-eventtradet.md', 'animation-events-v5/canvas/s03-eventtradet.md', 'animation-events-v5-s03.md']) {
     const page = fs.readFileSync(path.join(f.wiki, relative), 'utf8');
     assert.ok(page.includes(`[Eventträd](${WIKI_URL}s03-eventtradet#trigger)`));
     assert.ok(page.includes('[Inbox](https://gitlab.com/scout-gg/croupier/-/wikis/agent-inbox)'));
@@ -79,8 +79,8 @@ test('HTML copies are byte-identical and manifest is deterministic without priva
   const f = fixture(t);
   assert.equal(f.sync('--write').status, 0);
   const html = fs.readFileSync(path.join(f.github, 'index.html'));
-  assert.ok(html.equals(fs.readFileSync(path.join(f.wiki, 'animation-events-v4.html'))));
-  assert.ok(html.equals(fs.readFileSync(path.join(f.wiki, 'animation-events-v4/canvas/index.html'))));
+  assert.ok(html.equals(fs.readFileSync(path.join(f.wiki, 'animation-events-v5.html'))));
+  assert.ok(html.equals(fs.readFileSync(path.join(f.wiki, 'animation-events-v5/canvas/index.html'))));
   const manifestPath = path.join(f.github, 'docs/sync-manifest.json');
   const initial = fs.readFileSync(manifestPath, 'utf8');
   assert.equal(JSON.parse(initial).generatorVersion, '2.0.0');
@@ -142,7 +142,7 @@ test('rejects a symlink escaping the wiki root before touching mirrors', t => {
   const f = fixture(t);
   const outside = path.join(f.temporary, 'outside');
   fs.mkdirSync(outside);
-  fs.symlinkSync(outside, path.join(f.wiki, 'animation-events-v4'), process.platform === 'win32' ? 'junction' : 'dir');
+  fs.symlinkSync(outside, path.join(f.wiki, 'animation-events-v5'), process.platform === 'win32' ? 'junction' : 'dir');
   const beforeGithub = snapshot(f.github);
   const result = f.sync('--write');
   assert.equal(result.status, 1);
@@ -165,7 +165,7 @@ test('rejects manifest path injection without reading outside the mirror root', 
 
 test('rejects a file in a target directory position before any output is written', t => {
   const f = fixture(t);
-  fs.writeFileSync(path.join(f.wiki, 'animation-events-v4'), 'Not a directory\n');
+  fs.writeFileSync(path.join(f.wiki, 'animation-events-v5'), 'Not a directory\n');
   const before = snapshot(f.temporary);
   const result = f.sync('--write');
   assert.equal(result.status, 1);

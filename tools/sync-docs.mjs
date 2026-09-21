@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * One-way, offline V4 mirror builder. Edit Croupier's canonical Markdown, not
+ * One-way, offline V5 mirror builder. Edit Croupier's canonical Markdown, not
  * generated copies. This command never fetches, commits, pushes or deletes.
  *
  * Import:  node tools/sync-docs.mjs --croupier PATH --wiki PATH --write
@@ -21,7 +21,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const GENERATOR_VERSION = '2.0.0';
-const CANONICAL_DIRECTORY = 'docs/animation-events/v4-8-days-mvp';
+const CANONICAL_DIRECTORY = 'docs/animation-events/v5-8-days-mvp';
 const REPOSITORY = 'https://gitlab.com/scout-gg/croupier';
 const WIKI = `${REPOSITORY}/-/wikis`;
 const SOURCE_BRANCH = 'jakeminator123/work';
@@ -154,19 +154,19 @@ function buildPlan(sourceRoot, githubRoot) {
     const content = normalizeMarkdown(readRequired(sourceRoot, `${CANONICAL_DIRECTORY}/${name}`).toString('utf8'));
     sources[name] = sha256(content);
     github.set(destination, Buffer.from(mirrorMarkdown(content, name, destination, 'github')));
-    for (const prefix of [CANONICAL_DIRECTORY.replace(/^docs\//, ''), 'animation-events-v4/canvas']) {
+    for (const prefix of [CANONICAL_DIRECTORY.replace(/^docs\//, ''), 'animation-events-v5/canvas']) {
       const wikiDestination = `${prefix}/${name}`;
       wiki.set(wikiDestination, Buffer.from(mirrorMarkdown(content, name, wikiDestination, 'wiki')));
     }
     if (/^s\d\d-/.test(name)) {
-      const wikiDestination = `animation-events-v4-${name.slice(0, 3)}.md`;
+      const wikiDestination = `animation-events-v5-${name.slice(0, 3)}.md`;
       wiki.set(wikiDestination, Buffer.from(mirrorMarkdown(content, name, wikiDestination, 'wiki')));
     }
   }
   const html = readRequired(githubRoot, 'index.html');
   github.set('index.html', html);
-  wiki.set('animation-events-v4.html', html);
-  wiki.set('animation-events-v4/canvas/index.html', html);
+  wiki.set('animation-events-v5.html', html);
+  wiki.set('animation-events-v5/canvas/index.html', html);
   const manifest = {
     schemaVersion: 1,
     generatorVersion: GENERATOR_VERSION,
@@ -184,10 +184,10 @@ function buildPlan(sourceRoot, githubRoot) {
 function expectedWikiPaths() {
   const paths = [];
   for (const [name] of MAPPING) {
-    paths.push(`${CANONICAL_DIRECTORY.replace(/^docs\//, '')}/${name}`, `animation-events-v4/canvas/${name}`);
-    if (/^s\d\d-/.test(name)) paths.push(`animation-events-v4-${name.slice(0, 3)}.md`);
+    paths.push(`${CANONICAL_DIRECTORY.replace(/^docs\//, '')}/${name}`, `animation-events-v5/canvas/${name}`);
+    if (/^s\d\d-/.test(name)) paths.push(`animation-events-v5-${name.slice(0, 3)}.md`);
   }
-  return [...paths, 'animation-events-v4.html', 'animation-events-v4/canvas/index.html'];
+  return [...paths, 'animation-events-v5.html', 'animation-events-v5/canvas/index.html'];
 }
 
 function validateHashes(actual, expected, label) {

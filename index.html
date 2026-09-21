@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Croupiers presentationsplan V4: åtta dagar, verkliga signaler, tydliga källor och verifierad uppspelning.">
-  <title>Croupier · Presentationsplan V4</title>
+  <meta name="description" content="Croupiers presentationsplan V5: åtta dagar, verkliga signaler, tydliga källor och verifierad uppspelning.">
+  <title>Croupier · Presentationsplan V5</title>
   <style>
 :root {
   color-scheme: light dark;
@@ -187,17 +187,19 @@ tbody tr:hover { background: var(--accent-soft); }
 }
 </style>
 </head>
-<body data-content-version="b9d7fc5ddadc">
+<body data-content-version="7b010e2b2054">
   <a class="skip-link" href="#content">Till innehållet</a>
   <header class="site-header">
     <div class="header-inner">
       <div>
-        <p class="kicker">Croupier · Presentationsplan · V4</p>
+        <p class="kicker">Croupier · Presentationsplan · V5</p>
         <h1 class="site-title">Från verklig signal<br>till verifierad uppspelning.</h1>
-        <p class="site-lead">Åtta arbetsdagar. En gemensam karta över produkten, labbet och nästa steg. Spelmotorn äger utfallet; presentationen visar det.</p>
+        <p class="site-lead">21 september 2026 · åtta arbetsdagar. Originalklipp och variantval finns lokalt. Nu kopplar Kevin och Emil Jakobs OpenClaw-tal till granskad läppsynk.</p>
         <div class="source-line">
           <a class="source-chip" href="https://gitlab.com/scout-gg/croupier/-/tree/jakeminator123/work">Motor och kod · GitLab</a>
-          <a class="source-chip" href="https://gitlab.com/scout-gg/croupier/-/wikis/animation-events/v4-8-days-mvp/README">V4 i gemensamma wikin</a>
+          <a class="source-chip" href="https://gitlab.com/scout-gg/croupier/-/wikis/animation-events/v5-8-days-mvp/README">V5 i gemensamma wikin</a>
+          <a class="source-chip" href="#s03/lagg-in-i-videobanken">Kevin/Emil: lägg in video</a>
+          <a class="source-chip" href="#s06">Åttadagarsplanen</a>
           <a class="source-chip" href="https://gitlab.com/scout-gg/croupier/-/wikis/agent-inbox">Kevin · Jakob · Emil: inbox och agenter</a>
           <a class="source-chip" href="https://github.com/Jakeminator123/animation-events-v1">Canvasens källkod · GitHub</a>
           <span class="source-chip"><strong>Plan:</strong> 8 dagar · 7 korta kapitel</span>
@@ -215,222 +217,307 @@ tbody tr:hover { background: var(--accent-soft); }
       <li><span class="step">03 · URVAL</span><strong>Vilket material passar?</strong><small>Kompatibelt material och fallback</small></li>
       <li><span class="step">04 · KVITTO</span><strong>Vad spelades faktiskt?</strong><small>Uppspelning och visuell kontroll</small></li>
     </ol>
-    <nav class="page-nav" aria-label="V4-sidor"><a class="page-link is-active" href="#s00" data-page="s00" aria-current="page"><span>s00</span>Helheten</a><a class="page-link" href="#s01" data-page="s01" aria-current="false"><span>s01</span>Kartan</a><a class="page-link" href="#s02" data-page="s02" aria-current="false"><span>s02</span>Signalerna</a><a class="page-link" href="#s03" data-page="s03" aria-current="false"><span>s03</span>Eventträdet</a><a class="page-link" href="#s04" data-page="s04" aria-current="false"><span>s04</span>Säker presentation</a><a class="page-link" href="#s05" data-page="s05" aria-current="false"><span>s05</span>Ordlistan</a><a class="page-link" href="#s06" data-page="s06" aria-current="false"><span>s06</span>8 dagar</a></nav>
+    <nav class="page-nav" aria-label="V5-sidor"><a class="page-link is-active" href="#s00" data-page="s00" aria-current="page"><span>s00</span>Helheten</a><a class="page-link" href="#s01" data-page="s01" aria-current="false"><span>s01</span>Kartan</a><a class="page-link" href="#s02" data-page="s02" aria-current="false"><span>s02</span>Signalerna</a><a class="page-link" href="#s03" data-page="s03" aria-current="false"><span>s03</span>Video &amp; triggers</a><a class="page-link" href="#s04" data-page="s04" aria-current="false"><span>s04</span>Tal &amp; läppsynk</a><a class="page-link" href="#s05" data-page="s05" aria-current="false"><span>s05</span>Ordlistan</a><a class="page-link" href="#s06" data-page="s06" aria-current="false"><span>s06</span>8 dagar</a></nav>
   </header>
   <main id="content" tabindex="-1"><article class="page is-active" id="page-s00" data-page="s00">
     <header class="page-header">
       <div class="eyebrow">s00 · Helheten</div>
       <div class="title-row">
-        <h1>S00 · helheten</h1>
-        <span class="status decision">V4 · 8 dagar</span>
+        <h1>S00 · vad vi har byggt och vart vi går</h1>
+        <span class="status decision">V5 · 8 dagar</span>
       </div>
-      <div class="intro"><aside class="callout"><p>Motorn avgör spelet. Presentationen visar det som redan har publicerats. Labbet provar hur presentationen kan väljas och förklaras.</p></aside></div>
+      <div class="intro"><p>V5 samlar arbetet fram till 21 september. Vi bygger vidare på det fungerande labbet och produktens befintliga spelare. Åtta dagar är en arbetsram med kontrollpunkter, inte ett löfte om produktionslansering.</p></div>
     </header>
-    <div class="section-tabs" role="tablist" aria-label="Avsnitt på Helheten"><button class="section-tab is-active" type="button" role="tab" aria-selected="true" data-section="en-kedja-att-folja">En kedja att följa</button><button class="section-tab" type="button" role="tab" aria-selected="false" data-section="vem-gor-vad">Vem gör vad?</button></div>
-    <div class="sections"><section class="doc-section is-active" id="s00-en-kedja-att-folja" data-section="en-kedja-att-folja" role="tabpanel">
-      <h2>En kedja att följa</h2>
-      <pre data-language="text"><code>Publicerade fakta → Presentationsbehov → Kompatibelt material → Faktisk uppspelning
-kort, tur, fas      dela, tala, visa     dealer, situation, take   start, slut, fel</code></pre>
-<p><strong>Finns i kod:</strong> serverägd shoe, regler, kort, turer och resultat; en vanlig spelklient; Partner-API med presentationslista och eventström; mediespelare. Vid extern wallet håller operatören pengarna och Croupier anropar dess wallet.</p>
-<p><strong>Finns i labbet:</strong> redigerbara standarder och alternativ, regel-/modellprov, videopreview samt ett separat socialt chatt- och talprov för Astrid. Eventproven använder sparade exempel och manuellt vald kontext.</p>
-<p><strong>Föreslås:</strong> en läsande anslutning till en vald spelväg, en spårbar koppling till produktspelaren och gemensam styrning av dealer-tal. Hela kedjan ovan är inte verifierad från verkligt bord genom labbet till produktspelaren.</p>
+    <div class="section-tabs" role="tablist" aria-label="Avsnitt på Helheten"><button class="section-tab is-active" type="button" role="tab" aria-selected="true" data-section="kedjan-i-en-minut">Kedjan i en minut</button><button class="section-tab" type="button" role="tab" aria-selected="false" data-section="byggt-lokalt-idag">Byggt lokalt idag</button><button class="section-tab" type="button" role="tab" aria-selected="false" data-section="mer-an-16-filmer">Mer än 16 filmer</button><button class="section-tab" type="button" role="tab" aria-selected="false" data-section="bestallt-nasta-steg">Beställt nästa steg</button><button class="section-tab" type="button" role="tab" aria-selected="false" data-section="minsta-rimliga-sprintleverans">Minsta rimliga sprintleverans</button></div>
+    <div class="sections"><section class="doc-section is-active" id="s00-kedjan-i-en-minut" data-section="kedjan-i-en-minut" role="tabpanel">
+      <h2>Kedjan i en minut</h2>
+      <p>Servern drar kort och avgör regler, tur, saldo och resultat. Därefter beskriver presentationen vad klienten ska visa: exempelvis dela ett kort till plats 3, spela repliken <code>blackjack</code> eller gå till vänteläge. Spelaren komponerar film, ljud, kort och bord. Hela handen är inte en enda färdiginspelad video.</p>
+<p>Labbet kan nu spela samma mottagna instruktioner med registrerade original, egna varianter eller 2D. OpenClaw får välja bland tillåtna presentationer. Det är en separat uppspelning av samma instruktioner, inte en kopia av den ursprungliga klientens faktiska bild- och ljudtidslinje.</p>
     </section>
-<section class="doc-section" id="s00-vem-gor-vad" data-section="vem-gor-vad" role="tabpanel">
-      <h2>Vem gör vad?</h2>
-      <ul><li><strong>Kevin:</strong> motor, produktrepo och beslut om integration.</li><li><strong>Jakob:</strong> logik, kopplingar, prov, dokumentation och underlag till Kevin.</li><li><strong>Emil:</strong> video och variationer nära Kevin; leverans med metadata och acceptans.</li></ul>
-<p>De åtta dagarnas minsta leverans är <strong>en avgränsad, spårbar kedja med tydliga bevis och kvarvarande gap</strong>. Fler varianter, dealers och AI-funktioner följer först när den kedjan håller.</p>
-<p>Nästa: <a href="#s01">Systemkartan</a>. Källor: <a href="https://gitlab.com/scout-gg/croupier/-/wikis/animation-events/v4-8-days-mvp/RUNTIME-EVIDENCE" target="_blank" rel="noreferrer">tekniskt kvitto</a>.</p>
+<section class="doc-section" id="s00-byggt-lokalt-idag" data-section="byggt-lokalt-idag" role="tabpanel">
+      <h2>Byggt lokalt idag</h2>
+      <ul><li><strong>Originalförval:</strong> standard utan egen videokoppling hittar material för exakt dealer, replik eller stödd destination. Egen koppling går före. Alternativ lånar aldrig standardens film eller inspelade tal.</li><li><strong>Tal-klippen är nåbara:</strong> Astrid har 17 tal-klipp: tre egna talnoder och 14 val under Övrig spelreplik. Tur/resultat är spelmarkeringar; resultattalet hör till ett separat <code>speak</code>, så samma fras ska inte läggas på båda.</li><li><strong>Händelselogg och sekvenser:</strong> läsande Partner-observation, JSON-import, sekvenslista, stegning och labbuppspelning. Varje steg öppnar befintlig editor. Vald originalfliks bild kan visas på samma yta genom webbläsarens flikval.</li><li><strong>Gemensamt presentationsbeslut:</strong> Eventstudion och sekvensspelaren använder <code>/api/presentation/decision</code>; <code>/api/simulate</code> är en kompatibilitetsadress. Beslutet visar faktisk beslutsägare och återanvändning. Felbundna alternativ tas bort före urvalet.</li><li><strong>Utanför labbet:</strong> native-kommandon kan publiceras till rätt Partner-kanal efter transaktionscommit. Backoffice har en gemensam previewägare som städar föregående ljud/video. Isolerad datamapp finns för lokal produkt-QA.</li><li><strong>V5-komplettering:</strong> uppladdning/kategorisering tillåter nu även de sju tidigare saknade grundreplikerna, bland annat greeting, peek och bust. Exakt replik krävs fortfarande; inga tekniska event-ID:n byts.</li></ul>
+    </section>
+<section class="doc-section" id="s00-mer-an-16-filmer" data-section="mer-an-16-filmer" role="tabpanel">
+      <h2>Mer än 16 filmer</h2>
+      <p>16 är antalet eventgrupper. Fyra dealers ger 64 standardlinjer. Seedprojektet har 256 variantposter och 64 delade 2D-rörelser, plus en social rörelse. Detta är olika slags poster, inte en räkning av färdiga filmer.</p>
+<p>Originalförvalskatalogen hade <strong>84 tillgängliga poster</strong>, varav <strong>22 Astrid</strong>: 17 tal, ett idle och fyra staged-grundtagningar. API-kartan listade separat 89 motorvideofiler, 78 ljudfiler och sex Astrid-staged-filer; alla 173 sökvägar fanns lokalt. Generationsarkivets 224 historiska poster är ytterligare en inventering med överlapp. Summera dem inte som unika eller godkända filmer.</p>
+    </section>
+<section class="doc-section" id="s00-bestallt-nasta-steg" data-section="bestallt-nasta-steg" role="tabpanel">
+      <h2>Beställt nästa steg</h2>
+      <p><strong>Jakobs OpenClaw-chatt ska äga samtal och vad dealern säger.</strong> Kevin ansvarar för produktadaptern, validering och en gemensam talkö; Emil och Kevin ansvarar för kompatibelt läppsynkat material. Modellen väljer exakt inspelad replik, ny text eller tystnad inom tillåtet sammanhang. Modellen äger aldrig spelet.</p>
+<p>Det lokala variantvalet och det sociala Astrid-provet finns. Produktens gamla talproducenter är ännu inte ersatta av en gemensam OpenClaw-väg. Vi ska mäta detta som en egen leverans, inte beskriva det som redan klart.</p>
+    </section>
+<section class="doc-section" id="s00-minsta-rimliga-sprintleverans" data-section="minsta-rimliga-sprintleverans" role="tabpanel">
+      <h2>Minsta rimliga sprintleverans</h2>
+      <p>En spårbar kedja med ett inspelat talpaket, ett alternativ med trigger och ett chattprov genom gemensam kö i isolerad runtime. Den ska visa exakta källfakta, beslut, material och verkliga start/slut/avbrott. Alla fyra dealers behåller den gemensamma spelarvägen. Läppsynk bedöms per take med öga och öra.</p>
+<p>Full plats-/splitkontakt, all fri läppsynkad dialog och komplett livehistorik ryms inte automatiskt i denna minsta leverans. Saknat underlag ska förbli en synlig lucka. <a href="#s06">Plan och ansvar</a> anger hur vi prioriterar.</p>
 <hr>
-<aside class="callout"><p>Synkad presentationskopia. Redigera <a href="https://gitlab.com/scout-gg/croupier/-/blob/jakeminator123/work/docs/animation-events/v4-8-days-mvp/s00-helheten.md" target="_blank" rel="noreferrer">källfilen i Croupier</a> och kör <code>tools/sync-docs.mjs</code> i canvas-repot. Denna kopia är inte en separat besluts- eller runtimekälla.</p></aside>
+<aside class="callout"><p>Synkad presentationskopia. Redigera <a href="https://gitlab.com/scout-gg/croupier/-/blob/jakeminator123/work/docs/animation-events/v5-8-days-mvp/s00-helheten.md" target="_blank" rel="noreferrer">källfilen i Croupier</a> och kör <code>tools/sync-docs.mjs</code> i canvas-repot. Denna kopia är inte en separat besluts- eller runtimekälla.</p></aside>
     </section></div>
   </article>
 <article class="page" id="page-s01" data-page="s01">
     <header class="page-header">
       <div class="eyebrow">s01 · Kartan</div>
       <div class="title-row">
-        <h1>S01 · systemkartan</h1>
+        <h1>S01 · systemen och deras rätta mappar</h1>
         <span class="status reference">Karta</span>
       </div>
-      <div class="intro"></div>
+      <div class="intro"><p>Bettalottos spelklient, backoffice och det lokala labbet är skilda ytor. De kan använda samma material utan att samma variantpolicy är aktiverad överallt.</p></div>
     </header>
-    <div class="section-tabs" role="tablist" aria-label="Avsnitt på Kartan"><button class="section-tab is-active" type="button" role="tab" aria-selected="true" data-section="tva-klientvagar-finns-redan">Två klientvägar finns redan</button><button class="section-tab" type="button" role="tab" aria-selected="false" data-section="vilken-yta-svarar-pa-vilken-fraga">Vilken yta svarar på vilken fråga?</button></div>
-    <div class="sections"><section class="doc-section is-active" id="s01-tva-klientvagar-finns-redan" data-section="tva-klientvagar-finns-redan" role="tabpanel">
-      <h2>Två klientvägar finns redan</h2>
-      <pre data-language="text"><code>Vanliga spelet  → /api/table    → serverns spelmotor → publik spelstatus
-                                                    → klientens presentation
-
-Partnerklient  → /api/v1/table → samma spelmotor    → publik spelstatus
-                                                    + presentation[]
-                                                    → /api/v1/events (SSE)</code></pre>
-<p><strong>Partner-API är ett gränssnitt i båda riktningarna.</strong> Partnern skickar kommandon in; Croupier lämnar spelstatus, presentationshändelser och mediereferenser ut. Med seamless wallet skickar Croupier även wallet-anrop till operatören och tar emot dess svar.</p>
-<p>Partnerns ström avgränsas av API-nyckel och partnerns spelar-id. I den granskade koden publicerar vanliga <code>/api/table</code> inte till den strömmen. En inloggning på Bettalotto visar därför inte automatiskt alla spelhändelser i labbet. Backoffice-inloggning är inte signerad Partner-åtkomst.</p>
+    <div class="section-tabs" role="tablist" aria-label="Avsnitt på Kartan"><button class="section-tab is-active" type="button" role="tab" aria-selected="true" data-section="produkt-och-partner">Produkt och Partner</button><button class="section-tab" type="button" role="tab" aria-selected="false" data-section="labbet-och-openclaw">Labbet och OpenClaw</button><button class="section-tab" type="button" role="tab" aria-selected="false" data-section="scheman-policy-och-2d">Scheman, policy och 2D</button><button class="section-tab" type="button" role="tab" aria-selected="false" data-section="video-manifest-och-lokala-data">Video, manifest och lokala data</button><button class="section-tab" type="button" role="tab" aria-selected="false" data-section="vad-kan-provas-var">Vad kan provas var?</button></div>
+    <div class="sections"><section class="doc-section is-active" id="s01-produkt-och-partner" data-section="produkt-och-partner" role="tabpanel">
+      <h2>Produkt och Partner</h2>
+      <p><strong>Produkt:</strong> <code>web/server.mjs</code>, <code>web/native-table.mjs</code> och <code>web/shoe-game.mjs</code> hanterar det auktoritativa spelet. Native-klienten får status från <code>/api/table</code> och har sin egen koreografi och befintliga mediespelare.</p>
+<p><strong>Partner:</strong> <code>/api/v1/table</code> kan lämna en presentationslista i HTTP-svaret och samma instruktioner som <code>round.events</code> via SSE. Kanalens nyckel och spelar-ID måste stämma. En inloggning eller en öppnad spelsida räcker inte som koppling. Den nya lokala native-bryggan publicerar efter commit till en verifierad Partner-launch-session. Serveruppdatering och en behörig testsession krävs innan motsvarande liveväg kan verifieras.</p>
+<p><strong>Backoffice:</strong> katalog, granskning, bindningar och previews. Previewägaren stoppar föregående media; detta är inte produktens befintliga gemensamma klientkö. Det äldre rapporterade tvåströmsfelet är inte reproducerat i sin helhet. Huvudbild och hands-matte är ibland två delar av samma komposit, inte två konkurrerande videoval.</p>
+<p>BO:s clipAssignments kan sparas/visas men någon produktläsare som aktiverar klipptilldelningen är inte belagd i granskad kod. Kevin behöver verifiera och koppla detta; en BO-bindning ensam får inte beskrivas som aktiv livefilm.</p>
     </section>
-<section class="doc-section" id="s01-vilken-yta-svarar-pa-vilken-fraga" data-section="vilken-yta-svarar-pa-vilken-fraga" role="tabpanel">
-      <h2>Vilken yta svarar på vilken fråga?</h2>
-      <ul><li><strong>Bettalotto spelet:</strong> det spelaren ser. <strong>Backoffice:</strong> administration av bland annat dealers, media och API-nycklar. Det är olika ytor.</li><li><strong>Croupiers kod och tester:</strong> vad respektive kodväg gör på en angiven revision.</li><li><strong><code>lab/</code>:</strong> lokal studio för exempel, regler, val och preview. Den prenumererar ännu inte på ett verkligt bord och sparande publicerar inget till produkten.</li><li><strong><code>open-claw/</code>:</strong> Director, Gateway och deras drift. En fungerande labbmodell visar inte att produktspelaren är integrerad.</li><li><strong>Wiki och webbplats:</strong> samma förklaring och plan. GitHub-repot är dokumentation; Vercel visar den byggda webbplatsen.</li></ul>
-<p><strong>Nästa kontroll:</strong> välj vanlig klient eller Partner-klient för det första provet, och dokumentera den valda vägen. En läsande monitor är ett förslag, inte en redan införd labbfunktion.</p>
-<p>Nästa: <a href="#s02">Signalerna</a>. Källor: <a href="https://gitlab.com/scout-gg/croupier/-/wikis/animation-events/v4-8-days-mvp/RUNTIME-EVIDENCE" target="_blank" rel="noreferrer">API, labb och spelare</a>.</p>
+<section class="doc-section" id="s01-labbet-och-openclaw" data-section="labbet-och-openclaw" role="tabpanel">
+      <h2>Labbet och OpenClaw</h2>
+      <p><strong>Eventstudion och Videobanken:</strong> projekt, 2D-rörelser, originalförval, kategorisering, video-ID:n, standard/alternativ, urvalstillåtelser och triggers. <strong>Händelseloggen:</strong> läsande observation och en separat lokal sekvensspelare. <strong>Socialt prov:</strong> Astrid i idle med OpenClaw-svar, avgränsat ljudprov och 2D-gest. <strong>Operatörschatt:</strong> hjälp om labbprojektet; den är inte spelarchatten.</p>
+<p>Den gemensamma beslutstjänsten äger labbets presentationsval. Befintlig Director/Gateway används; en ny parallell AI-motor behövs inte. Jakobs OpenClaw-chatt ska bli samtals- och talägare när Kevin integrerar produktvägen. En fungerande Gateway-anslutning bevisar inte att den integrationen är gjord.</p>
+    </section>
+<section class="doc-section" id="s01-scheman-policy-och-2d" data-section="scheman-policy-och-2d" role="tabpanel">
+      <h2>Scheman, policy och 2D</h2>
+      <ul><li><code>lab/schemas/studio.schema.json</code>: projekt, linjer, varianter och triggers.</li><li><code>lab/schemas/video.schema.json</code>: kategorisering av uppladdad/befintlig video.</li><li><code>lab/schemas/social.schema.json</code>: socialt labbprov.</li><li><code>lab/policies/studio-contract.json</code>: gemensamma tekniska ID:n, ordlista, situationer och möjligheter. <code>project.seed.json</code> och <code>social.seed.json</code> är startvärden, inte levande sparade projekt.</li><li><code>lab/animations/</code>: 2D-rörelser. Dessa är mockupmaterial och bevisar inte läppsynk eller kontakt mellan filmade händer och verkliga kort.</li><li><code>open-claw/lab/schemas/</code> och <code>open-claw/lab/config/catalog.json</code>: befintliga Director-kontrakt och katalog. Driftfrågor börjar i dess <code>docs/README.md</code>.</li></ul>
+<p><a href="https://gitlab.com/scout-gg/croupier/-/blob/jakeminator123/work/lab/docs/ARTIFACTS.md" target="_blank" rel="noreferrer">Labbets artefaktkarta</a> pekar ut ägare, lagring och ändringsväg. <a href="https://gitlab.com/scout-gg/croupier/-/blob/jakeminator123/work/lab/docs/OPENCLAW-SPEECH-OWNERSHIP.md" target="_blank" rel="noreferrer">Talägarskapets implementationsbrief</a> är gemensamt tekniskt underlag, inte ett påstående om färdig drift.</p>
+    </section>
+<section class="doc-section" id="s01-video-manifest-och-lokala-data" data-section="video-manifest-och-lokala-data" role="tabpanel">
+      <h2>Video, manifest och lokala data</h2>
+      <p>Produktoriginal ligger kvar under <code>web/public</code>. <code>speech-media.json</code>, dealerbankernas <code>audio/en/bank.json</code>, <code>streams/index.json</code> och Astrids <code>performance/manifest.json</code> har olika uppgifter. Flytta eller kopiera inte dessa till ett nytt labbregister som sedan börjar leva separat.</p>
+<p>Labbet läser originalen genom <code>lab/lib/original-media-server.mjs</code>. Egna uppladdningar sparas i <code>lab/data/videos/</code>, klassificering i samma områdes <code>classifications.json</code> och projektkopplingar i <code>lab/data/project.json</code>. <code>LAB_STUDIO_DATA_DIR</code> kan ändra dataroten. Lokala data är Git-ignorerade; en källkodspush delar inte automatiskt Kevin/Emils uppladdade filmer.</p>
+<p>Överlämna granskade takepaket via teamets avtalade medielagring och registrera hash, relativ materialreferens och review i den avsedda produktpipen. Lägg inte råa spel-/konversationsloggar i Git. Labbet transkodar eller deployar inte uppladdningen. <a href="#s03">Praktisk arbetsgång</a>.</p>
+    </section>
+<section class="doc-section" id="s01-vad-kan-provas-var" data-section="vad-kan-provas-var" role="tabpanel">
+      <h2>Vad kan provas var?</h2>
+      <p>I labbet kan Kevin/Emil redan lägga in och koppla MP4/WebM, testa villkor, prova original och OpenClaw-val samt spela importerade sekvenser. I lokalt BO kan previewägaren provas. Den vanliga lokala spelaren får grenens produktfixar, men tar inte automatiskt labbprojektets varianter. Allt är alltså inte i BO.</p>
+<p>Live kör den revision och de assets som faktiskt är driftsatta. <code>main</code> är ett branchnamn, inte bevis för dagens liveversion. V5-publicering uppdaterar dokumentationswebben; den är skild från deploy av spel, BO och Gateway.</p>
 <hr>
-<aside class="callout"><p>Synkad presentationskopia. Redigera <a href="https://gitlab.com/scout-gg/croupier/-/blob/jakeminator123/work/docs/animation-events/v4-8-days-mvp/s01-kartan.md" target="_blank" rel="noreferrer">källfilen i Croupier</a> och kör <code>tools/sync-docs.mjs</code> i canvas-repot. Denna kopia är inte en separat besluts- eller runtimekälla.</p></aside>
+<aside class="callout"><p>Synkad presentationskopia. Redigera <a href="https://gitlab.com/scout-gg/croupier/-/blob/jakeminator123/work/docs/animation-events/v5-8-days-mvp/s01-kartan.md" target="_blank" rel="noreferrer">källfilen i Croupier</a> och kör <code>tools/sync-docs.mjs</code> i canvas-repot. Denna kopia är inte en separat besluts- eller runtimekälla.</p></aside>
     </section></div>
   </article>
 <article class="page" id="page-s02" data-page="s02">
     <header class="page-header">
       <div class="eyebrow">s02 · Signalerna</div>
       <div class="title-row">
-        <h1>S02 · signaler in och ut</h1>
+        <h1>S02 · från RNG till uppspelningskvitto</h1>
         <span class="status reference">Kodkontrollerat</span>
       </div>
-      <div class="intro"><aside class="callout"><p>Fråga alltid: <strong>in till vilken del?</strong> Ett svar från motorn är ut från servern men in till presentationen. Det gör det inte till ett nytt spelbeslut.</p></aside></div>
+      <div class="intro"><p>Håll isär spelbeslut, presentationsinstruktion, variantbeslut och vad spelaren faktiskt lyckades visa. Varje steg behöver egen identitet och status.</p></div>
     </header>
-    <div class="section-tabs" role="tablist" aria-label="Avsnitt på Signalerna"><button class="section-tab is-active" type="button" role="tab" aria-selected="true" data-section="fem-slags-underlag-for-presentationen">Fem slags underlag för presentationen</button><button class="section-tab" type="button" role="tab" aria-selected="false" data-section="fran-underlag-till-utdata">Från underlag till utdata</button></div>
-    <div class="sections"><section class="doc-section is-active" id="s02-fem-slags-underlag-for-presentationen" data-section="fem-slags-underlag-for-presentationen" role="tabpanel">
-      <h2>Fem slags underlag för presentationen</h2>
-      <ol><li><strong>Spelfakta:</strong> publicerade kort, destination, hand, tur, fas och resultat. RNG är en del av motorn; allt detta är inte RNG. Dolda kort och framtida sko får inte lämnas till ett presentationsval.</li><li><strong>Spelartext:</strong> kan ge underlag för ett socialt svar. Produktens chatt och Astrids sociala labbprov är separata vägar. De är inte en gemensam talkö.</li><li><strong>Kontext:</strong> exempelvis språk, återbesök, avgjord historik och dealerns framtoning. Eventlabbet använder manuella testvärden; dessa bevisar inte insamlat spelarminne eller levande signaler från spelet.</li><li><strong>Ljud och video:</strong> beredskap, uppspelningstid, slut, fel och kalibrerade kontaktögonblick. Ljudet kan styra synk och avslut utan att styra kort eller resultat. Ingen mikrofon-/taligenkänningsingång är belagd i de granskade vägarna.</li><li><strong>Konfiguration:</strong> vald dealer, regler, tillåtna alternativ och mediekopplingar. Det styr vad som får väljas; det är inte i sig en spelhändelse.</li></ol>
+    <div class="section-tabs" role="tablist" aria-label="Avsnitt på Signalerna"><button class="section-tab is-active" type="button" role="tab" aria-selected="true" data-section="serverfakta-forst">Serverfakta först</button><button class="section-tab" type="button" role="tab" aria-selected="false" data-section="samma-instruktion-i-flera-leveranser">Samma instruktion i flera leveranser</button><button class="section-tab" type="button" role="tab" aria-selected="false" data-section="variantbeslut-ar-inte-playback">Variantbeslut är inte playback</button><button class="section-tab" type="button" role="tab" aria-selected="false" data-section="prova-observationen">Prova observationen</button><button class="section-tab" type="button" role="tab" aria-selected="false" data-section="vad-dagens-privata-loggar-sager">Vad dagens privata loggar säger</button></div>
+    <div class="sections"><section class="doc-section is-active" id="s02-serverfakta-forst" data-section="serverfakta-forst" role="tabpanel">
+      <h2>Serverfakta först</h2>
+      <p>RNG är en del av serverns spelmotor. Servern äger även sko, kort, tur, tillåtna handlingar, insatser, wallet och utbetalningar. De publika instruktionerna använder sex typer: <code>speak</code>, <code>deal</code>, <code>reveal</code>, <code>turn</code>, <code>settle</code>, <code>idle</code>. Framtida kort och dolt hålkort får inte läcka till modell eller labblogg.</p>
+<p>Exempel: <code>settle</code> redovisar ett redan avgjort resultat och <code>speak</code> kan ange den exakta resultatrepliken. <code>turn</code> visar spelarens tur. <code>reveal</code> vänder det redan existerande kortet; det behöver inte ha en egen dealerfilm. Saknad film på dessa noder betyder därför inte automatiskt en trasig nedladdning.</p>
     </section>
-<section class="doc-section" id="s02-fran-underlag-till-utdata" data-section="fran-underlag-till-utdata" role="tabpanel">
-      <h2>Från underlag till utdata</h2>
-      <p><strong>Situation → tillåten standard/variant → kompatibel take → uppspelningsresultat.</strong></p>
-<p>I Partner-vägen heter presentationstyperna <code>speak</code>, <code>deal</code>, <code>reveal</code>, <code>settle</code>, <code>turn</code> och <code>idle</code>. Labbets <strong>16 grupper</strong> är redigeringsgenvägar över dessa sex typer. De beskriver inte alla inkommande signaler och skapar inga nya motor-events.</p>
-<p>Håll också isär <strong>settle</strong> och <strong>speak</strong>: ett resultat ersätter inte motorns exakta talrad. En gruppering av flera repliker får inte använda samma inspelade talvideo för alla orden.</p>
-<p>Nästa: <a href="#s03">Urvalet</a>. Källor: <a href="https://gitlab.com/scout-gg/croupier/-/wikis/animation-events/v4-8-days-mvp/RUNTIME-EVIDENCE" target="_blank" rel="noreferrer">källförteckningen</a>.</p>
+<section class="doc-section" id="s02-samma-instruktion-i-flera-leveranser" data-section="samma-instruktion-i-flera-leveranser" role="tabpanel">
+      <h2>Samma instruktion i flera leveranser</h2>
+      <p>HTTP-svarets <code>presentation[]</code> och SSE:s <code>round.events</code> kan bära samma presentation. Labbet korrelerar kanal, request-ID, tabellversion, presentationsindex och kanoniskt innehåll. Samma instruktion får flera leveranskvitton men ett sekvenssteg. Konflikt eller saknat steg stoppar följningen. SSE har ingen historisk replay-buffer; återanslutning fyller inte automatiskt luckan.</p>
+<p>Native-bryggan skickar först efter commit. Retry, state-read, stale/nekade kommandon och rollback får inte bli nya spelade rundor. En publiceringsstörning ska inte återkalla ett redan committat spelkommando.</p>
+    </section>
+<section class="doc-section" id="s02-variantbeslut-ar-inte-playback" data-section="variantbeslut-ar-inte-playback" role="tabpanel">
+      <h2>Variantbeslut är inte playback</h2>
+      <p><code>POST /api/presentation/decision</code> tar emot ett eget besluts-ID och separat källreferens. Samma ID och samma innehåll återanvänder beslutet; ändrat innehåll ger 409. Nuvarande cache är processlokal: 128 jobb, fem minuter efter slutfört beslut, högst fyra samtidiga beslut. Det skyddar modellval, inte all playback över flera processer eller flikar.</p>
+<p>Loggen visar om OpenClaw, regler, slump eller standard gjorde valet. Modellen får bara kandidater som klarat tillgänglighet och exakt semantisk kompatibilitet. Dess svar kontrolleras mot begärans-ID, projektversion och tillåtna variant-ID:n. Ett accepterat val betyder fortfarande inte att en bild målats eller tal hörts.</p>
+    </section>
+<section class="doc-section" id="s02-prova-observationen" data-section="prova-observationen" role="tabpanel">
+      <h2>Prova observationen</h2>
+      <ol><li>Öppna labbets <strong>Händelselogg</strong>. Verifiera serverns Partner-konfiguration och samma nyckel/spelare; håll nycklar utanför delade dokument och skärmbilder.</li><li>Öppna originalspelet via Partner-launch. <strong>Visa spelflik</strong> använder den flik som operatören uttryckligen väljer. Bilden visas lokalt; inget ljud fångas och inget spelas in eller laddas upp av denna funktion.</li><li>Välj <strong>Labbets presentation</strong> för lokalt material. Starta sekvensen eller välj <strong>Följ nya instruktioner</strong> uttryckligen; mottagning ensam startar inte.</li><li>Öppna ett sekvenssteg i Eventstudion. Exakt replik, kort och destination följer med och ersätts inte av en bekvämare exempelrunda.</li><li>Exportera före omladdning. Händelseloggen har högst 150 poster; protokollet begränsas till 300 meddelanden eller 4 MiB. Båda är lokalt flikminne.</li></ol>
+<p>Isolerad native-sekvens med 12 steg har spelats till avslut. Webbläsarens manuella flikvalsflöde behöver fortfarande ett fullständigt operatörsprov. Sekvensvisning är inte ännu hela handens beständiga kortscen med alla splitar.</p>
+    </section>
+<section class="doc-section" id="s02-vad-dagens-privata-loggar-sager" data-section="vad-dagens-privata-loggar-sager" role="tabpanel">
+      <h2>Vad dagens privata loggar säger</h2>
+      <p>Jakobs lokala <code>jakob-log-files/backoffice.bettalotto</code> innehåller utdrag av overview, clips, generations och verdicts. Flera slutar med utelämnade rader och är inte fullständiga JSON-svar. De ger register-/bindningsunderlag och exempel på avvisade generationer, inte en komplett spelad tidslinje.</p>
+<p>Den tillförda observationen har två statusposter och noll rundposter. Ett partiellt kopierat tabellsvar och en motorlista ersätter inte <code>round.events</code>. Nästa riktiga inspelning av underlag behöver en sammanhängande, avidentifierad sekvens med rundposter. Originalklientens faktiska klippstart/slut och kortlandning måste instrumenteras separat. Råkopiorna ligger kvar privat.</p>
 <hr>
-<aside class="callout"><p>Synkad presentationskopia. Redigera <a href="https://gitlab.com/scout-gg/croupier/-/blob/jakeminator123/work/docs/animation-events/v4-8-days-mvp/s02-spraket.md" target="_blank" rel="noreferrer">källfilen i Croupier</a> och kör <code>tools/sync-docs.mjs</code> i canvas-repot. Denna kopia är inte en separat besluts- eller runtimekälla.</p></aside>
+<aside class="callout"><p>Synkad presentationskopia. Redigera <a href="https://gitlab.com/scout-gg/croupier/-/blob/jakeminator123/work/docs/animation-events/v5-8-days-mvp/s02-spraket.md" target="_blank" rel="noreferrer">källfilen i Croupier</a> och kör <code>tools/sync-docs.mjs</code> i canvas-repot. Denna kopia är inte en separat besluts- eller runtimekälla.</p></aside>
     </section></div>
   </article>
 <article class="page" id="page-s03" data-page="s03">
     <header class="page-header">
-      <div class="eyebrow">s03 · Eventträdet</div>
+      <div class="eyebrow">s03 · Video &amp; triggers</div>
       <div class="title-row">
-        <h1>S03 · urvalet</h1>
-        <span class="status proposal">Arbetsförslag</span>
+        <h1>S03 · Kevin och Emil: lägg in video och koppla triggers</h1>
+        <span class="status decision">Kan användas lokalt</span>
       </div>
-      <div class="intro"></div>
+      <div class="intro"><p>Detta går att göra nu i det lokala labbet. Webbsidan och wikin är instruktionen; själva filuppladdningen görs i labbets <strong>Videobank</strong>, inte på Vercel-sidan eller i backoffice. Sparat labbprojekt blir inte automatiskt aktivt i spelet.</p></div>
     </header>
-    <div class="section-tabs" role="tablist" aria-label="Avsnitt på Eventträdet"><button class="section-tab is-active" type="button" role="tab" aria-selected="true" data-section="behall-ett-litet-trad">Behåll ett litet träd</button><button class="section-tab" type="button" role="tab" aria-selected="false" data-section="det-labbet-faktiskt-kan">Det labbet faktiskt kan</button><button class="section-tab" type="button" role="tab" aria-selected="false" data-section="foreslagen-forsta-produktkoppling">Föreslagen första produktkoppling</button></div>
-    <div class="sections"><section class="doc-section is-active" id="s03-behall-ett-litet-trad" data-section="behall-ett-litet-trad" role="tabpanel">
-      <h2>Behåll ett litet träd</h2>
-      <pre data-language="text"><code>Publicerad situation
-  → rätt dealer och presentationsbehov
-    → standard eller alternativ vars villkor stämmer
-      → en take som matchar exakt handling, mål eller talrad
-        → uppspelning, annars verifierad reserv</code></pre>
-<p>Det här är en förklaringsmodell. Den inför inga nya event-id:n eller runtimefält. <code>rng</code>/<code>show</code>, linje, variant, trigger och take är användbara gemensamma ord; de är inte automatiskt exakta servernamn.</p>
+    <div class="section-tabs" role="tablist" aria-label="Avsnitt på Video &amp; triggers"><button class="section-tab is-active" type="button" role="tab" aria-selected="true" data-section="forbered-en-liten-exakt-leverans">Förbered en liten, exakt leverans</button><button class="section-tab" type="button" role="tab" aria-selected="false" data-section="lagg-in-i-videobanken">Lägg in i Videobanken</button><button class="section-tab" type="button" role="tab" aria-selected="false" data-section="nar-ska-varianten-fa-valjas">När ska varianten få väljas?</button><button class="section-tab" type="button" role="tab" aria-selected="false" data-section="prova-spara-och-lamna-ett-kvitto">Prova, spara och lämna ett kvitto</button><button class="section-tab" type="button" role="tab" aria-selected="false" data-section="varfor-syns-ett-forval-men-ingen-egen-fil">Varför syns ett förval men ingen egen fil?</button></div>
+    <div class="sections"><section class="doc-section is-active" id="s03-forbered-en-liten-exakt-leverans" data-section="forbered-en-liten-exakt-leverans" role="tabpanel">
+      <h2>Förbered en liten, exakt leverans</h2>
+      <p>Emil: börja med ett Astrid-talpaket och ett alternativ till en redan täckt situation, tillsammans med Kevin. Ange dealer, exakt replik eller kortmål, filrevision och vad som faktiskt granskats. En video kan vara ett bra alternativ utan att täcka varje situation i en bred nod.</p>
+<p>För tal hör exakt text, ljud, video, frame-index, kalibrering och review ihop. En MP4/WebM med rätt synkat ljud lämpar sig för enkel lokal intake. Separat H.264/ljud, packad staged-film, masker och kontaktmetadata går genom befintlig produktpipeline; ladda inte upp en packad film som om den vore vanlig MP4-preview. Filerna kodas inte om av Videobanken.</p>
     </section>
-<section class="doc-section" id="s03-det-labbet-faktiskt-kan" data-section="det-labbet-faktiskt-kan" role="tabpanel">
-      <h2>Det labbet faktiskt kan</h2>
-      <p><strong>Spela vald variant</strong> är manuell preview. <strong>Testa event</strong> använder det sparade exemplet och vald testkontext. Standard, regler, presentationsslump, shadow och aktivt modellråd är olika sätt att prova ett urval. Presentationsslump är skild från spelmotorns RNG.</p>
-<p>En kopplad video har ett exakt <code>videoGenerationId</code>. En kompatibilitetskontroll kan neka video för fel exempel och visa variantens 2D-reserv. Den kontrollen ersätter inte visuell granskning av innehållet.</p>
+<section class="doc-section" id="s03-lagg-in-i-videobanken" data-section="lagg-in-i-videobanken" role="tabpanel">
+      <h2>Lägg in i Videobanken</h2>
+      <ol><li>Öppna labbet på dess faktiska lokala port, normalt <code>http://127.0.0.1:4188/</code>. Gå till <strong>Videobanken</strong> och välj <strong>Lägg in en video</strong>.</li><li>Välj MP4 eller WebM, högst <strong>128 MiB</strong>. Ange ett begripligt namn och rätt dealer, eventgrupp och avsedd roll: standard eller alternativ.</li><li>Välj <strong>exakt situation</strong>. <code>speak.other</code> kräver exempelvis <code>greeting</code>, <code>bust</code> eller <code>blackjack</code>; ett tal-klipp gäller inte alla repliker. Kortdelning kräver exempelvis <code>box3</code> eller <code>dealer-hole</code>. Box 0–6 är plats 1–7.</li><li>Skriv proveniens, tänkt användning och granskningsluckor i anteckningen. Kategorisering beskriver filmen; det är inte ett visuellt godkännande.</li><li>Markera vid behov <strong>Koppla till projektutkastet direkt</strong>. Standard ersätter linjens videoreferens. Alternativ lägger till en variant; linjen rymmer standard plus högst fyra alternativ. Är den full, spara bara filmen i banken och byt uttryckligen koppling på ett befintligt alternativ.</li><li>Klicka <strong>Spara video i banken</strong>. Filen sparas direkt lokalt. Klicka sedan <strong>Spara projekt</strong> för att göra variantkopplingar och urvalsregler beständiga. Filuppladdning och projektsparning är två olika steg.</li></ol>
+<p>För en redan befintlig fil: välj <strong>Inkorg</strong> om kategorisering saknas, registrera rätt dealer/event/situation och koppla sedan i varianteditor. Klassificeringen är knuten till filens ID och hash; råfilen flyttas inte. Fel kategorisering på en egen uppladdning kan rättas genom ny registrering med korrigerade metadata och ett uttryckligt byte av koppling.</p>
     </section>
-<section class="doc-section" id="s03-foreslagen-forsta-produktkoppling" data-section="foreslagen-forsta-produktkoppling" role="tabpanel">
-      <h2>Föreslagen första produktkoppling</h2>
-      <p>Välj <strong>en klientväg och ett litet presentationsbehov</strong> med Kevin. Börja med en läsande vy som visar källhändelse, vald regel, kandidat, faktiskt val och uppspelningsresultat. Koppla sedan en avgränsad take till befintlig spelare i en isolerad testmiljö.</p>
-<p>Godkända kandidater måste matcha dealer, handling/mål eller exakt talrad. Om rätt material saknas används befintlig verifierad presentation eller en tydlig reserv utan dealer-video. Byt aldrig till en inspelad mening bara för att den har ungefär rätt längd.</p>
-<p>Ett manifest beskriver tillgängligt material. Det visar inte ensamt aktiv backoffice-bindning, spelarens slutliga val eller visuell acceptans.</p>
-<p>Nästa: <a href="#s04">Acceptans</a>. Källor: <a href="https://gitlab.com/scout-gg/croupier/-/wikis/animation-events/v4-8-days-mvp/RUNTIME-EVIDENCE" target="_blank" rel="noreferrer">kontrakt och labbprov</a>.</p>
+<section class="doc-section" id="s03-nar-ska-varianten-fa-valjas" data-section="nar-ska-varianten-fa-valjas" role="tabpanel">
+      <h2>När ska varianten få väljas?</h2>
+      <p>Nya alternativ börjar med automatiskt urval avstängt, för manuell preview. Aktivera <strong>Regler</strong>, <strong>OpenClaw</strong> och/eller <strong>Slumpvariation</strong> i formuläret eller varianteditor först när varianten ska delta i just det urvalet.</p>
+<ul><li><strong>Regler:</strong> följer prioritet och matchande villkor.</li><li><strong>OpenClaw:</strong> får föreslås av modellen; samma kompatibilitetskontroll gäller.</li><li><strong>Slumpvariation:</strong> separat lokal presentationsslump, ingen koppling till RNG som väljer kort eller utfall. Standard deltar också.</li><li><strong>Alla av:</strong> bara manuell preview. Tom triggerlista betyder däremot inga extra villkor, inte avstängd variant.</li></ul>
+<p>Välj extra villkor under <strong>Villkor / triggers</strong>. Alla valda triggers måste matcha, och själva eventet krävs alltid. Urvalstillåtelser och <code>triggerIds</code> tillhör varianten; lägg inte en ny parallell policy på råfilen. Standard är ovillkorlig reserv och kan inte begränsas med triggers.</p>
+<p>Exempel: koppla ett nytt <code>blackjack</code>-tal till <code>speak.other</code> och låt det delta i OpenClaw-val. Prova ett blackjack-event med matchande kontext, sedan ett win-event. Filmen får inte väljas för win bara för att båda uttrycker glädje. Lägg ingen talfilm på <code>settle.blackjack</code> för att duplicera samma yttrande.</p>
+    </section>
+<section class="doc-section" id="s03-prova-spara-och-lamna-ett-kvitto" data-section="prova-spara-och-lamna-ett-kvitto" role="tabpanel">
+      <h2>Prova, spara och lämna ett kvitto</h2>
+      <p><strong>Spela vald variant</strong> kontrollerar den explicit valda filmen. <strong>Testa event</strong> prövar kandidater, triggers och urvalsläge. Välj både ett matchande och ett icke-matchande fall. <strong>Bara standard</strong> är kontrollprovet. Prova två plays i följd, omladdning efter sparning och fel/saknad film; 2D-reserven ska vara märkt.</p>
+<p>Lämna en kort leveransnotis: dealer/event/situation, video-ID/hash, variant-ID, valt urval, trigger-ID:n, provade positiva/negativa fall, faktisk uppspelning och vad som återstår visuellt. Använd <a href="https://gitlab.com/scout-gg/croupier/-/blob/jakeminator123/work/lab/docs/templates/media-take.md" target="_blank" rel="noreferrer">take-mallen</a>. Mallen är underlag; dagens uppladdare validerar inte hela läppsynkpaketet automatiskt.</p>
+<p>Labbet spelar uppladdad preview en gång. Redigerbar looping, takepooler, viktning och fler än fyra alternativ är inte införda. Fler råkandidater kan finnas i banken. Kevin granskar sedan integration i produktens register och gemensamma spelare. Aktivering i BO/live kräver den integrationen.</p>
+    </section>
+<section class="doc-section" id="s03-varfor-syns-ett-forval-men-ingen-egen-fil" data-section="varfor-syns-ett-forval-men-ingen-egen-fil" role="tabpanel">
+      <h2>Varför syns ett förval men ingen egen fil?</h2>
+      <p>En standard med tom <code>videoGenerationId</code> kan använda ett exakt registrerat lokalt original. En explicit koppling går före. Alternativ utan egen film får sin 2D-reserv och lånar aldrig standardtal. <code>videoGenerationId</code> är ett äldre fältnamn som även används för uppladdade video-ID:n.</p>
+<p>Registrerade Astrid-original omfattar 17 tal, ett idle och fyra staged-baser. Staged-fortsättningar är inte fristående basfilmer. Avvisad gammal Astrid-action återinförs inte. Plats 0/3/6 och dealer är avgränsade grundmål; full täckning för senare kort, alla platser, split och övergångar återstår.</p>
 <hr>
-<aside class="callout"><p>Synkad presentationskopia. Redigera <a href="https://gitlab.com/scout-gg/croupier/-/blob/jakeminator123/work/docs/animation-events/v4-8-days-mvp/s03-eventtradet.md" target="_blank" rel="noreferrer">källfilen i Croupier</a> och kör <code>tools/sync-docs.mjs</code> i canvas-repot. Denna kopia är inte en separat besluts- eller runtimekälla.</p></aside>
+<aside class="callout"><p>Synkad presentationskopia. Redigera <a href="https://gitlab.com/scout-gg/croupier/-/blob/jakeminator123/work/docs/animation-events/v5-8-days-mvp/s03-eventtradet.md" target="_blank" rel="noreferrer">källfilen i Croupier</a> och kör <code>tools/sync-docs.mjs</code> i canvas-repot. Denna kopia är inte en separat besluts- eller runtimekälla.</p></aside>
     </section></div>
   </article>
 <article class="page" id="page-s04" data-page="s04">
     <header class="page-header">
-      <div class="eyebrow">s04 · Säker presentation</div>
+      <div class="eyebrow">s04 · Tal &amp; läppsynk</div>
       <div class="title-row">
-        <h1>S04 · uppspelning och acceptans</h1>
+        <h1>S04 · OpenClaw äger talet, läppsynken följer beslutet</h1>
         <span class="status decision">Gräns</span>
       </div>
-      <div class="intro"><aside class="callout"><p>Ett godkänt urval är inte bevis på godkänd uppspelning.</p></aside></div>
+      <div class="intro"><p><strong>Beställd integration:</strong> Jakobs OpenClaw-spår ska äga persona, chatt och vad dealern säger. Det är riktningen för produktarbetet. Dagens labbval är fungerande delar, men produktens samtliga talproducenter har ännu inte konsoliderats.</p></div>
     </header>
-    <div class="section-tabs" role="tablist" aria-label="Avsnitt på Säker presentation"><button class="section-tab is-active" type="button" role="tab" aria-selected="true" data-section="tre-skilda-kvitton">Tre skilda kvitton</button><button class="section-tab" type="button" role="tab" aria-selected="false" data-section="foreslas-en-agare-av-dealer-talet">Föreslås: en ägare av dealer-talet</button><button class="section-tab" type="button" role="tab" aria-selected="false" data-section="gransen-som-galler-hela-tiden">Gränsen som gäller hela tiden</button></div>
-    <div class="sections"><section class="doc-section is-active" id="s04-tre-skilda-kvitton" data-section="tre-skilda-kvitton" role="tabpanel">
-      <h2>Tre skilda kvitton</h2>
-      <ol><li><strong>Källan stämmer:</strong> rätt kodväg, publicerade fält, dealer och situation.</li><li><strong>Materialet stämmer:</strong> exakt take, rätt status, bytes/hash, text/ljud och nödvändig kalibrering. <code>want</code> och katalogförekomst är inte livegodkännande.</li><li><strong>Uppspelningen stämmer:</strong> verklig spelare, rätt ord och mål, synk, avslut, återgång och nästa uppspelning. Anteckna resultat och kvarvarande fel.</li></ol>
-<p>En taländring är ett sammanhängande paket: <strong>exakt text + inspelat ljud + video + frame-index + kalibrering + acceptansanteckning</strong>. Nya ljud- eller videobytes ogiltigförklarar tidigare visuell acceptans. Varken hash, vågform eller testpass bevisar korrekt läppsynk.</p>
-<p>Vid media-/spelarändring gäller repots befintliga kontroller: <code>node pipeline/audit-dealer-sync.mjs --probe</code>, testerna i <code>.githooks/pre-commit</code> och rehearsal för <strong>Astrid, Vera, Amira och Mei</strong>, med två på varandra följande uppspelningar. Alla fyra ska behålla den gemensamma spelvägen.</p>
+    <div class="section-tabs" role="tablist" aria-label="Avsnitt på Tal &amp; läppsynk"><button class="section-tab is-active" type="button" role="tab" aria-selected="true" data-section="ansvar-mellan-jakob-kevin-och-emil">Ansvar mellan Jakob, Kevin och Emil</button><button class="section-tab" type="button" role="tab" aria-selected="false" data-section="ett-beslut-och-en-ko">Ett beslut och en kö</button><button class="section-tab" type="button" role="tab" aria-selected="false" data-section="exakt-lappsynkpaket">Exakt läppsynkpaket</button><button class="section-tab" type="button" role="tab" aria-selected="false" data-section="godkannande-kraver-mer-an-filnarvaro">Godkännande kräver mer än filnärvaro</button><button class="section-tab" type="button" role="tab" aria-selected="false" data-section="utvecklingsuppdraget">Utvecklingsuppdraget</button></div>
+    <div class="sections"><section class="doc-section is-active" id="s04-ansvar-mellan-jakob-kevin-och-emil" data-section="ansvar-mellan-jakob-kevin-och-emil" role="tabpanel">
+      <h2>Ansvar mellan Jakob, Kevin och Emil</h2>
+      <p><strong>Jakob/OpenClaw:</strong> samtalslogik, tillåtet text-/replikval, tystnad och avsedd ordning/prioritet inom presentationspolicyn. Operatörschatten ska hållas skild från den spelarchatt som äger dealer-dialogen.</p>
+<p><strong>Kevin:</strong> adapter mellan publika spelfakta, chatt, OpenClaw och befintlig runtime; kontraktsvalidering, en gemensam talkö, avbrott och verkliga kvitton. Inventera gamla <code>sayLine</code>, <code>voice.say</code>, produktens <code>/chat</code> och eventkommentarer. Stäng av konkurrerande text-/replikägare när den nya vägen aktiveras.</p>
+<p><strong>Emil och Kevin:</strong> exakt matchande tal-/videopaket, läppsynk, format, kalibrering och visuell acceptans. Läppsynklösningen utför talbeslutet; den blir inte en andra agent som skriver om dialogen.</p>
+<p>Servern behåller alla kort, legal actions, pengar och utfall. Modellen får inte ändra spelordningen eller utlova ett annat resultat.</p>
     </section>
-<section class="doc-section" id="s04-foreslas-en-agare-av-dealer-talet" data-section="foreslas-en-agare-av-dealer-talet" role="tabpanel">
-      <h2>Föreslås: en ägare av dealer-talet</h2>
-      <p>Spelrepliker och sociala svar behöver en gemensam styrning av start, avbrott och avslut så att ljud och bild inte konkurrerar. Produktens befintliga chatt och det nya sociala labbprovet är ännu separata. V4 beskriver samordningen som ett integrationsförslag, inte en färdig talkö.</p>
-<p>Dynamiskt labbtal tillsammans med en 2D-gest är ett uttrycksprov. Det är inte en godkänd kombination med produktens inspelade talvideo.</p>
+<section class="doc-section" id="s04-ett-beslut-och-en-ko" data-section="ett-beslut-och-en-ko" role="tabpanel">
+      <h2>Ett beslut och en kö</h2>
+      <p>Återanvänd befintlig Director/Gateway, speech-queue.mjs och samma spelarväg för alla fyra dealers. Produktens speltriggers och /chat använder redan klientkön, men deras text-/replikbeslut har flera ägare. Integrationen konsoliderar ägarskapet och utvecklar köns korrelation/livscykel; den börjar inte med en ny parallell kö. Talbeslutet behöver ett validerat utfall: exakt tillåtet <code>recordedLineId</code>, kort <code>generatedText</code> eller <code>silence</code>. Dessa är mål för integrationskontraktet; dagens variantbesluts-API är inte redan ett färdigt sådant tal-API.</p>
+<p>Alla spelrepliker och chattsvar ska gå genom samma köimplementation. Kevin äger dess tekniska livscykel, OpenClaw dess godkända samtalsbeslut. Käll-ID, besluts-ID, materialrevision och avbrottsscope följer varje jobb. Ett jobb får exakt ett terminalt resultat: klart, avbrutet eller fel. Retry/HTTP+SSE ska inte skapa ett andra jobb. Flera flikar/processer kräver uttrycklig hantering; labbets beslutscache löser inte detta åt produkten.</p>
+<p>Vid dealerbyte, gammal rundversion, navigation, mute eller mediafel ska kön städa ljud, video, decoder, captions och timers enligt vald produktpolicy. OpenClaw-fel ger uttrycklig tystnad eller avtalad reservpolicy, inte en dold äldre chattagent som börjar prata.</p>
     </section>
-<section class="doc-section" id="s04-gransen-som-galler-hela-tiden" data-section="gransen-som-galler-hela-tiden" role="tabpanel">
-      <h2>Gränsen som gäller hela tiden</h2>
-      <p>Presentation och modellråd får inte ändra kort, regler, tur, wallet eller utbetalning. Fel och sena modellsvar ska ge en kontrollerad reserv; detta ska provas i vald integration. Testa i isolerad server/databas med annan hostname. Öppna fynd följs i Jira CAC; en grön dokumentationssida stänger dem inte.</p>
-<p>Nästa: <a href="#s05">Ordlistan</a>. Källor: <a href="https://gitlab.com/scout-gg/croupier/-/wikis/animation-events/v4-8-days-mvp/RUNTIME-EVIDENCE" target="_blank" rel="noreferrer">acceptans och kända gap</a>.</p>
+<section class="doc-section" id="s04-exakt-lappsynkpaket" data-section="exakt-lappsynkpaket" role="tabpanel">
+      <h2>Exakt läppsynkpaket</h2>
+      <p>Inspelat tal binds som ett paket: line-ID, exakt text, ljud och hash, video och hash, frame-index/fps, audio delay, mask/kalibrering, proveniens och review. Byte av ljud/video gör tidigare visuellt godkännande ogiltigt för den taken. Ändrad text måste också följa paketet och granskas.</p>
+<p>Välj aldrig film efter ungefärlig längd eller liknande känsla. En gammal mun får inte spelas till ny OpenClaw-text. För fri text behövs en verkligt matchande läppsynklösning; tills den finns används tydligt neutral idle/2D eller tystnad enligt policy. Den reservvägen får inte marknadsföras som läppsynkad.</p>
+<p>Börja med ett litet inspelat paket för hela kedjan. Gör dynamisk läppsynk till ett separat mätbart prov med vald leverantör, latenstid, avbrott och kvalitet. Den här planen väljer inte leverantör och beställer ingen betald generering.</p>
+    </section>
+<section class="doc-section" id="s04-godkannande-kraver-mer-an-filnarvaro" data-section="godkannande-kraver-mer-an-filnarvaro" role="tabpanel">
+      <h2>Godkännande kräver mer än filnärvaro</h2>
+      <p>Skilj på: kommando committat, instruktion mottagen, beslut validerat, material upplöst, första frame/ljudstart, landning/cue samt avslut eller avbrott. API 200, hash, waveform eller modellens text är inte bevis för det sista steget.</p>
+<p>Vid media-/spelarändringar gäller repots audit och pre-commit-kontroller. Granska Vera, Astrid, Amira och Mei i den faktiska rehearsal-spelaren med två plays i följd. Lyssna och titta genom hela den ändrade repliken. Uppdatera baseline först efter dokumenterad per-take-granskning; regenerera inte andra godkända assets som bieffekt.</p>
+<p>Astrids avsedda visuella identitet och full läppsynk är fortfarande öppna acceptanspunkter. Tidigare lifecycle-prov på alla fyra dealers är värdefulla, men bevisar inte att varje replik ser rätt ut eller har rätt person.</p>
+    </section>
+<section class="doc-section" id="s04-utvecklingsuppdraget" data-section="utvecklingsuppdraget" role="tabpanel">
+      <h2>Utvecklingsuppdraget</h2>
+      <p><a href="https://gitlab.com/scout-gg/croupier/-/blob/jakeminator123/work/lab/docs/OPENCLAW-SPEECH-OWNERSHIP.md" target="_blank" rel="noreferrer">Labbets implementationsbrief</a> innehåller kontrakt, ägarskapsinventering, deduplicering, felprov och handoffkrav. Det ersätter beroendet av en privat chattprompt. Använd isolerad databas och annan hostname för gameplay-QA. <a href="#s06">Åttadagarsplanen</a> prioriterar leveransen och talar om vad som kan lämnas öppet.</p>
 <hr>
-<aside class="callout"><p>Synkad presentationskopia. Redigera <a href="https://gitlab.com/scout-gg/croupier/-/blob/jakeminator123/work/docs/animation-events/v4-8-days-mvp/s04-saker-presentation.md" target="_blank" rel="noreferrer">källfilen i Croupier</a> och kör <code>tools/sync-docs.mjs</code> i canvas-repot. Denna kopia är inte en separat besluts- eller runtimekälla.</p></aside>
+<aside class="callout"><p>Synkad presentationskopia. Redigera <a href="https://gitlab.com/scout-gg/croupier/-/blob/jakeminator123/work/docs/animation-events/v5-8-days-mvp/s04-saker-presentation.md" target="_blank" rel="noreferrer">källfilen i Croupier</a> och kör <code>tools/sync-docs.mjs</code> i canvas-repot. Denna kopia är inte en separat besluts- eller runtimekälla.</p></aside>
     </section></div>
   </article>
 <article class="page" id="page-s05" data-page="s05">
     <header class="page-header">
       <div class="eyebrow">s05 · Ordlistan</div>
       <div class="title-row">
-        <h1>S05 · liten ordlista</h1>
+        <h1>S05 · ord som betyder samma sak i alla ytor</h1>
         <span class="status reference">Referens</span>
       </div>
-      <div class="intro"></div>
+      <div class="intro"><p>V5 ändrar förklaringar och fyller luckor i ordlistan. Vi byter inte de sex källtyperna eller de 16 tekniska event-ID:na. Labbets centrala ordlista finns i <code>lab/policies/studio-contract.json</code> och visas i Guide.</p></div>
     </header>
-    <div class="section-tabs" role="tablist" aria-label="Avsnitt på Ordlistan" hidden><button class="section-tab is-active" type="button" role="tab" aria-selected="true" data-section="oversikt">Översikt</button></div>
-    <div class="sections"><section class="doc-section is-active" id="s05-oversikt" data-section="oversikt" role="tabpanel">
-      <h2>Översikt</h2>
-      <ul><li><strong>Motor:</strong> serverns auktoritet över spelet. RNG är dess slumpdel, inte ett samlingsnamn för all logik eller alla signaler.</li><li><strong>Publik spelstatus:</strong> den del av tillståndet som mottagaren får se.</li><li><strong>Presentationsevent:</strong> instruktion om vad klienten ska presentera. Partner-vägen har sex typer; vanlig webbklient använder sin egen väg från status.</li><li><strong>SSE:</strong> serverns löpande eventström till anslutna Partner-prenumeranter. Den granskade strömmen har ingen återspelningsbuffert efter avbrott.</li><li><strong>Situation:</strong> de relevanta publicerade omständigheterna, exempelvis dealer, målbox, handling och exakt replik. Ett förklaringsord, inte ett nytt API.</li><li><strong>Linje / standard:</strong> grundpresentationen för ett behov. Partnerfältet <code>speak.line</code> betyder däremot en exakt talrads identifierare.</li><li><strong>Variant:</strong> ett tillåtet alternativ för samma behov.</li><li><strong>Trigger:</strong> ett kontrollerbart villkor som måste stämma för alternativet.</li><li><strong>Generation:</strong> inkommande råmaterial. Ett intake-val som <code>want</code> betyder att det får arbetas vidare med.</li><li><strong>Take:</strong> identifierad medieprestation med text/ljud där det behövs, metadata, kalibrering och granskningsstatus.</li><li><strong>Manifest / index:</strong> register över material och egenskaper. Det är inte i sig bevis på rätt innehåll eller AI-indexering av filmernas innehåll.</li><li><strong>Reserv / fallback:</strong> ett säkert presentationsval när det önskade inte fungerar.</li><li><strong>Rehearsal:</strong> granskning i produktens riktiga spelare. <strong>Baseline:</strong> skydd mot oavsiktliga assetändringar. Det ena ersätter inte det andra.</li></ul>
-<p><strong>Statusetiketterna är enkla:</strong> <em>Finns i kod</em> är källkodsbelagt; <em>Finns i labbet</em> är ett avgränsat prov; <em>Föreslås</em> återstår att genomföra; <em>Inte liveverifierat</em> saknar aktuellt driftbevis. Inget av orden betyder automatiskt visuellt godkänd.</p>
-<p>Nästa: <a href="#s06">Åttadagarsplanen</a>. Källor: <a href="https://gitlab.com/scout-gg/croupier/-/wikis/animation-events/v4-8-days-mvp/RUNTIME-EVIDENCE" target="_blank" rel="noreferrer">tekniskt kvitto</a>.</p>
+    <div class="section-tabs" role="tablist" aria-label="Avsnitt på Ordlistan"><button class="section-tab is-active" type="button" role="tab" aria-selected="true" data-section="spel-och-presentation">Spel och presentation</button><button class="section-tab" type="button" role="tab" aria-selected="false" data-section="linje-variant-och-take">Linje, variant och take</button><button class="section-tab" type="button" role="tab" aria-selected="false" data-section="villkor-och-register">Villkor och register</button><button class="section-tab" type="button" role="tab" aria-selected="false" data-section="beslut-ko-och-bevis">Beslut, kö och bevis</button></div>
+    <div class="sections"><section class="doc-section is-active" id="s05-spel-och-presentation" data-section="spel-och-presentation" role="tabpanel">
+      <h2>Spel och presentation</h2>
+      <p><strong>RNG:</strong> slumpdelen i den auktoritativa spelmotorn. Labbets presentationsslump väljer bara uttryck och påverkar inte kort eller vinst.</p>
+<p><strong>Signal:</strong> samlingsord för indata, till exempel publika spelfakta, chatt, kontext eller spelarstatus. Allt är inte ett Partner-event.</p>
+<p><strong>Presentationsinstruktion / event:</strong> här en instruktion av de sex typerna <code>speak</code>, <code>deal</code>, <code>reveal</code>, <code>turn</code>, <code>settle</code>, <code>idle</code>. Motorn och klienten har fler interna signaler än så.</p>
+<p><strong>Eventgrupp / nod:</strong> en av labbets 16 genvägar. Inte en universell videofil. <strong>Situation:</strong> exakt replik, kortdestination eller andra relevanta omständigheter. Dagens klassificering beskriver inte ännu hela hand-/kortpositionsdomänen.</p>
+<p><strong>Native:</strong> den vanliga spelklientens status-/kommandoväg. <strong>Partner:</strong> API, launch och presentationsström per nyckel/spelare. <strong>Live:</strong> faktiskt driftsatt kod och media; inte ett annat ord för Git-branchen <code>main</code>.</p>
+    </section>
+<section class="doc-section" id="s05-linje-variant-och-take" data-section="linje-variant-och-take" role="tabpanel">
+      <h2>Linje, variant och take</h2>
+      <p><strong>Linje:</strong> en dealers behållare för standard och alternativ inom en eventgrupp. <strong>Standard:</strong> den ovillkorliga reservvarianten. 16 grupper × fyra dealers ger 64 standardlinjer, inte 64 unika filmer.</p>
+<p><strong>Replik / line-ID:</strong> exakt talinnehåll, exempelvis <code>greeting</code>. Ska inte blandas ihop med en dealerlinje som <code>astrid.speak.other</code> med flera möjliga repliker.</p>
+<p><strong>Variant:</strong> ett valbart uttryck med egna urvalstillåtelser och triggers. Idag en videoreferens och 2D-reserv; takepooler är inte införda. <strong>Take:</strong> en konkret inspelad/genererad tagning med identitet och revision. <strong>Videofil:</strong> materialbytes med ID/hash; en fil kan vara rå, avvisad eller granskad.</p>
+<p><strong>Originalförval:</strong> exakt registrerat lokalt produktmaterial som standard kan använda utan egen videokoppling. Det bevisar inte livebindning eller kvalitet. <strong>2D:</strong> mockup av rörelse och presentation, inte bevis för läppsynk.</p>
+    </section>
+<section class="doc-section" id="s05-villkor-och-register" data-section="villkor-och-register" role="tabpanel">
+      <h2>Villkor och register</h2>
+      <p><strong>Trigger:</strong> extra villkor för en variant. Alla valda villkor måste matcha. Tom lista betyder inga extra krav. Triggers skapar inte ett nytt spel-event. <strong>Urvalstillåtelse:</strong> får varianten väljas av regler, OpenClaw eller presentationsslump? Alla av betyder manuell preview, även om triggerlistan är tom.</p>
+<p><strong>Schema:</strong> formatets tillåtna fält och värden. <strong>Policy:</strong> regler för urval och beteende. <strong>Manifest:</strong> register över identiteter, mediareferenser och metadata; det är inte en logg över vad som faktiskt spelats. <strong>Klassificering:</strong> operatörens uppgift om dealer/event/situation, knuten till material. <strong>Bindning:</strong> vald koppling mellan variant/produktplats och material. <strong>Acceptans:</strong> dokumenterad granskning av just den revisionen/taken.</p>
+    </section>
+<section class="doc-section" id="s05-beslut-ko-och-bevis" data-section="beslut-ko-och-bevis" role="tabpanel">
+      <h2>Beslut, kö och bevis</h2>
+      <p><strong>Director:</strong> mellanled för validerade presentationsbeslut. <strong>OpenClaw:</strong> den anslutna modell-/samtalsvägen och beställda framtida talägaren. Gateway-åtkomst är inte i sig färdig produktintegration.</p>
+<p><strong>Besluts-ID:</strong> identifierar ett variantval. <strong>Källreferens:</strong> korrelerar ursprungligt spel-/chattunderlag. <strong>Köjobb:</strong> en uppspelningsavsikt som ska ha en ägare och ett avslut. Dessa identiteter har olika livslängd.</p>
+<p><strong>Deduplicering:</strong> skydd mot samma instruktion eller beslut flera gånger. Lokal cache är inte automatiskt deduplicering av uppspelning i hela systemet. <strong>Uppspelningskvitto:</strong> faktiskt observerad start, slut, cue, avbrott eller fel från spelaren. Ett modellförslag eller filval är inte ett sådant kvitto.</p>
+<p><strong>Läppsynkpaket:</strong> exakt text, ljud, video, index, kalibrering och acceptans som hör ihop. Läppsynkkomponenten utför det godkända talet; den äger inte en egen konkurrerande dialog. <strong>Review</strong> betyder under granskning, inte godkänd.</p>
 <hr>
-<aside class="callout"><p>Synkad presentationskopia. Redigera <a href="https://gitlab.com/scout-gg/croupier/-/blob/jakeminator123/work/docs/animation-events/v4-8-days-mvp/s05-ordlista.md" target="_blank" rel="noreferrer">källfilen i Croupier</a> och kör <code>tools/sync-docs.mjs</code> i canvas-repot. Denna kopia är inte en separat besluts- eller runtimekälla.</p></aside>
+<aside class="callout"><p>Synkad presentationskopia. Redigera <a href="https://gitlab.com/scout-gg/croupier/-/blob/jakeminator123/work/docs/animation-events/v5-8-days-mvp/s05-ordlista.md" target="_blank" rel="noreferrer">källfilen i Croupier</a> och kör <code>tools/sync-docs.mjs</code> i canvas-repot. Denna kopia är inte en separat besluts- eller runtimekälla.</p></aside>
     </section></div>
   </article>
 <article class="page" id="page-s06" data-page="s06">
     <header class="page-header">
       <div class="eyebrow">s06 · 8 dagar</div>
       <div class="title-row">
-        <h1>S06 · åtta arbetsdagar</h1>
+        <h1>S06 · åtta dagar medan Jakob reser</h1>
         <span class="status proposal">Arbetsplan</span>
       </div>
-      <div class="intro"><aside class="callout"><p><strong>Planeringsram från Jakob:</strong> åtta återstående arbetsdagar. Dag 1 börjar när arbetet tas upp. Planen är ett arbetsförslag med kontrollpunkter, inte ett daterat lanseringslöfte. Kevin äger integrationen.</p></aside></div>
+      <div class="intro"><p>Dag 1 är nästa gemensamma arbetsdag. Planen utgår från det som redan är byggt lokalt den 21 september. Kevin äger produktintegration; Emil tar mediaarbetet tillsammans med Kevin. Jakob lämnar detta underlag och ska inte behöva vara online för rutinval. Datumen sätts efter faktisk bemanning.</p></div>
     </header>
-    <div class="section-tabs" role="tablist" aria-label="Avsnitt på 8 dagar"><button class="section-tab is-active" type="button" role="tab" aria-selected="true" data-section="dag-1-ratt-karta">Dag 1 · rätt karta</button><button class="section-tab" type="button" role="tab" aria-selected="false" data-section="dag-2-valj-en-anslutning">Dag 2 · välj en anslutning</button><button class="section-tab" type="button" role="tab" aria-selected="false" data-section="dag-3-se-vad-som-kommer-in">Dag 3 · se vad som kommer in</button><button class="section-tab" type="button" role="tab" aria-selected="false" data-section="dag-4-sparbart-urval">Dag 4 · spårbart urval</button><button class="section-tab" type="button" role="tab" aria-selected="false" data-section="dag-5-media-och-spelare">Dag 5 · media och spelare</button><button class="section-tab" type="button" role="tab" aria-selected="false" data-section="dag-6-fel-och-aterhamtning">Dag 6 · fel och återhämtning</button><button class="section-tab" type="button" role="tab" aria-selected="false" data-section="dag-7-sammanhangande-qa">Dag 7 · sammanhängande QA</button><button class="section-tab" type="button" role="tab" aria-selected="false" data-section="dag-8-granskbar-overlamning">Dag 8 · granskbar överlämning</button><button class="section-tab" type="button" role="tab" aria-selected="false" data-section="om-tiden-eller-underlaget-inte-racker">Om tiden eller underlaget inte räcker</button></div>
-    <div class="sections"><section class="doc-section is-active" id="s06-dag-1-ratt-karta" data-section="dag-1-ratt-karta" role="tabpanel">
-      <h2>Dag 1 · rätt karta</h2>
-      <p><strong>Leverans:</strong> aktuell kodrevision, valda källor och en kort lista över öppna frågor. Skilj produkt, labb och förslag; synka V4:s wiki och webbplats. <strong>Klart när:</strong> varje påstående har källa och gamla V3-antaganden är märkta.</p>
+    <div class="section-tabs" role="tablist" aria-label="Avsnitt på 8 dagar"><button class="section-tab is-active" type="button" role="tab" aria-selected="true" data-section="dag-1-starta-fran-ratt-lage">Dag 1 · starta från rätt läge</button><button class="section-tab" type="button" role="tab" aria-selected="false" data-section="dag-2-kontrakt-och-forsta-variant">Dag 2 · kontrakt och första variant</button><button class="section-tab" type="button" role="tab" aria-selected="false" data-section="dag-3-en-talagare-i-isolerad-runtime">Dag 3 · en talägare i isolerad runtime</button><button class="section-tab" type="button" role="tab" aria-selected="false" data-section="dag-4-samma-instruktion-ett-jobb">Dag 4 · samma instruktion, ett jobb</button><button class="section-tab" type="button" role="tab" aria-selected="false" data-section="dag-5-lappsynk-och-kortkontakt">Dag 5 · läppsynk och kortkontakt</button><button class="section-tab" type="button" role="tab" aria-selected="false" data-section="dag-6-regression-och-aterhamtning">Dag 6 · regression och återhämtning</button><button class="section-tab" type="button" role="tab" aria-selected="false" data-section="dag-7-sammanhangande-qa">Dag 7 · sammanhängande QA</button><button class="section-tab" type="button" role="tab" aria-selected="false" data-section="dag-8-integration-eller-tydligt-avgransad-handoff">Dag 8 · integration eller tydligt avgränsad handoff</button><button class="section-tab" type="button" role="tab" aria-selected="false" data-section="prioritering-och-arbetsstatus">Prioritering och arbetsstatus</button></div>
+    <div class="sections"><section class="doc-section is-active" id="s06-dag-1-starta-fran-ratt-lage" data-section="dag-1-starta-fran-ratt-lage" role="tabpanel">
+      <h2>Dag 1 · starta från rätt läge</h2>
+      <p><strong>Kevin:</strong> läs V5, hämta arbetsgrenens commit och välj en isolerad produktväg för första talintegrationen. Kartlägg nuvarande talproducenter och ange vilka som ska stängas av när OpenClaw tar över. Bekräfta lokalt kontra deployat SHA. <strong>Emil:</strong> inventera befintligt Astrid-material med Kevin och välj ett exakt inspelat talpaket samt ett litet alternativ att börja med. Ändra inga godkända originalbytes i inventeringen.</p>
+<p><strong>Klart när:</strong> kända filer, ansvar, testmiljö och saknade underlag är noterade. Ingen väntar på Jakob för att välja första testfall. Identitets- eller produktbeslut som kräver Jakob läggs i en samlad blockerarlista.</p>
     </section>
-<section class="doc-section" id="s06-dag-2-valj-en-anslutning" data-section="dag-2-valj-en-anslutning" role="tabpanel">
-      <h2>Dag 2 · välj en anslutning</h2>
-      <p><strong>Leverans:</strong> Kevin-avstämd första klientväg och ett presentationsbehov. Dokumentera testsession, behörig åtkomst och vilket material som finns. <strong>Klart när:</strong> native-status respektive Partner-lista/SSE inte blandas ihop. Saknad liveåtkomst ger ett uttryckligt gap och ett separat isolerat prov.</p>
+<section class="doc-section" id="s06-dag-2-kontrakt-och-forsta-variant" data-section="dag-2-kontrakt-och-forsta-variant" role="tabpanel">
+      <h2>Dag 2 · kontrakt och första variant</h2>
+      <p><strong>Kevin:</strong> definiera minsta validerade talbeslut och köjobb ovanpå befintlig Director/Gateway: exakt inspelad replik, ny text eller tystnad. Behåll serverägda spelfakta och separera källa, beslut och playback. <strong>Emil:</strong> lägg in första granskbara MP4/WebM i labbet enligt videokapitlet, koppla alternativ och trigger, spara projekt och prova match/icke-match.</p>
+<p><strong>Klart när:</strong> Kevin kan följa ett beslut utan att gammal talägare också kör, och Emil lämnar video-ID/hash, variant, replik/situation samt provkvitto. En oacceptabel film dokumenteras som lucka; den blockerar inte kontraktsarbetet.</p>
     </section>
-<section class="doc-section" id="s06-dag-3-se-vad-som-kommer-in" data-section="dag-3-se-vad-som-kommer-in" role="tabpanel">
-      <h2>Dag 3 · se vad som kommer in</h2>
-      <p><strong>Leverans:</strong> ett litet läsande prov för vald väg, med källa, tid/ordning och avbrott synliga. Spara ett begränsat, avidentifierat testunderlag. <strong>Klart när:</strong> riktig data och sparade exempel är tydligt åtskilda. För SSE provas avbrott/återanslutning; luckor får inte visas som komplett historik.</p>
+<section class="doc-section" id="s06-dag-3-en-talagare-i-isolerad-runtime" data-section="dag-3-en-talagare-i-isolerad-runtime" role="tabpanel">
+      <h2>Dag 3 · en talägare i isolerad runtime</h2>
+      <p><strong>Kevin:</strong> led ett spelrelaterat yttrande och ett chattsvar genom samma kö. Testa samtidig trigger/chatt, avbrott, fel och två plays. Stäng av de gamla producenterna för just den aktiverade vägen; skriv ned vad som ännu är separat. <strong>Emil:</strong> leverera exakt text/ljud/video/index/kalibrering för första paketet och granska munnens rörelse genom hela repliken med Kevin.</p>
+<p><strong>Klart när:</strong> ett paket startar och avslutas med verkliga kvitton, utan dubbelt tal. Saknad dynamisk läppsynk använder uttrycklig reserv eller tystnad.</p>
     </section>
-<section class="doc-section" id="s06-dag-4-sparbart-urval" data-section="dag-4-sparbart-urval" role="tabpanel">
-      <h2>Dag 4 · spårbart urval</h2>
-      <p><strong>Leverans:</strong> den minsta kopplingen från situation till standard/variant och kompatibel take. Visa villkor, kandidat och orsak till eventuell reserv. <strong>Klart när:</strong> fel dealer, mål, handling eller talrad inte kan väljas; spelstatus förblir oförändrad.</p>
+<section class="doc-section" id="s06-dag-4-samma-instruktion-ett-jobb" data-section="dag-4-samma-instruktion-ett-jobb" role="tabpanel">
+      <h2>Dag 4 · samma instruktion, ett jobb</h2>
+      <p><strong>Kevin:</strong> verifiera HTTP+SSE, native-publicering efter commit, duplicate retry, stale version och återanslutning med lucka. Välj hur flera flikar ska ägas; lita inte på processcachen som en distribuerad lösning. <strong>Emil:</strong> utöka bara med en eller två varianter där första paketet klarat review. Ge dem exakta repliker/mål, urvalstillåtelser och avgränsade triggers.</p>
+<p><strong>Klart när:</strong> dubbel leverans ger ett köjobb, konflikt stoppar, och källan kan följas till exakt material. Utöka inte mängden för att dölja kvalitetsproblem.</p>
     </section>
-<section class="doc-section" id="s06-dag-5-media-och-spelare" data-section="dag-5-media-och-spelare" role="tabpanel">
-      <h2>Dag 5 · media och spelare</h2>
-      <p><strong>Leverans:</strong> Kevin/Emils avgränsade takepaket kopplat till befintlig spelare i isolerat prov. Dokumentera hur spelreplik och socialt tal ska samordnas. <strong>Klart när:</strong> källmaterial, aktiv koppling och faktisk uppspelning går att följa var för sig. Saknad godkänd take ger reserv, inte ett provisoriskt godkännande.</p>
+<section class="doc-section" id="s06-dag-5-lappsynk-och-kortkontakt" data-section="dag-5-lappsynk-och-kortkontakt" role="tabpanel">
+      <h2>Dag 5 · läppsynk och kortkontakt</h2>
+      <p><strong>Kevin och Emil:</strong> mät den befintliga läppsynkvägens kvalitet, latens och avbrott med Jakobs OpenClaw-text som källa. Fri text får bara använda faktiskt matchat material. Besluta om en begränsad dynamisk prototyp ryms; annars leverera inspelat paket och tydlig neutral reserv.</p>
+<p><strong>Klart när:</strong> per-take-resultat finns för läppar, ljud, identitet och övergångar. Prova en stödd kortdestination separat; full split-/platstäckning lovas inte på grund av ett enda lyckat mål.</p>
     </section>
-<section class="doc-section" id="s06-dag-6-fel-och-aterhamtning" data-section="dag-6-fel-och-aterhamtning" role="tabpanel">
-      <h2>Dag 6 · fel och återhämtning</h2>
-      <p><strong>Leverans:</strong> prov för saknad media, fel status/hash, sen respons, avbrott och två uppspelningar i följd. <strong>Klart när:</strong> ingen fastlåst presentation, överlappande tal eller ändrat spelutfall; fel lämnar ett begripligt spår. Nya fel tillbaka till arbete.</p>
+<section class="doc-section" id="s06-dag-6-regression-och-aterhamtning" data-section="dag-6-regression-och-aterhamtning" role="tabpanel">
+      <h2>Dag 6 · regression och återhämtning</h2>
+      <p><strong>Kevin:</strong> prova saknat/korrupt media, fel replik/dealer/hash, sen modellrespons, mute, navigation, dealerbyte och BO-previewbyte. Kör relevanta automatiska kontroller och repots obligatoriska auditer vid media-/spelarändring. <strong>Emil:</strong> åtgärda de prioriterade visuella felen i separat staging; dokumentera nya hashvärden och vilka tidigare godkännanden som måste göras om.</p>
+<p><strong>Klart när:</strong> fel har exakt ett terminalt kvitto, ingen kvarhängande media och ingen förändring av spelets utfall. Oförändrade godkända assets lämnas orörda.</p>
     </section>
 <section class="doc-section" id="s06-dag-7-sammanhangande-qa" data-section="dag-7-sammanhangande-qa" role="tabpanel">
       <h2>Dag 7 · sammanhängande QA</h2>
-      <p><strong>Leverans:</strong> relevant testkörning och visuell rehearsal med resultat per take. Vid media-/spelarändring omfattas alla fyra dealers av repots kontrollkrav. <strong>Klart när:</strong> full förväntad effekt är verifierad och kvarvarande gap är synliga. Automatiska testpass räknas inte som visuell acceptans.</p>
+      <p><strong>Kevin och Emil:</strong> spela den avgränsade scenen från instruktion till avslut. Granska alla fyra dealers i faktisk rehearsal, inklusive två plays i följd. Om behörig live-/testmiljö och rätt serverrevision finns: samla riktiga rundposter och spelartelemetri. Annars redovisa det som återstående live-QA.</p>
+<p><strong>Klart när:</strong> förväntat resultat prövats, misslyckade cases återgår till arbete och inga stubbar/fixture-resultat presenteras som verkligt livebevis.</p>
     </section>
-<section class="doc-section" id="s06-dag-8-granskbar-overlamning" data-section="dag-8-granskbar-overlamning" role="tabpanel">
-      <h2>Dag 8 · granskbar överlämning</h2>
-      <p><strong>Leverans:</strong> liten diff/MR, bevis, kända begränsningar och uppdaterad handoff, wiki och webbpresentation. Kevin väljer integrera, justera eller håll separat. <strong>Klart när:</strong> underlaget går att förstå utan chattlogg; faktiskt publicerad dokumentation är kontrollerad. Produktmerge/deploy följer integrationsbeslutet.</p>
+<section class="doc-section" id="s06-dag-8-integration-eller-tydligt-avgransad-handoff" data-section="dag-8-integration-eller-tydligt-avgransad-handoff" role="tabpanel">
+      <h2>Dag 8 · integration eller tydligt avgränsad handoff</h2>
+      <p><strong>Kevin:</strong> lämna liten granskbar MR/diff, exakt aktiverade ägare, testresultat, återställningsväg och beslut om produktintegration/deploy. <strong>Emil:</strong> lämna takepaket, hashbunden review och öppna kvalitetsluckor. <strong>Tillsammans:</strong> uppdatera handoff, V5-källa, wiki och webbsida. Ge Jakob en kort rapport som går att läsa från resan utan hela chattloggen.</p>
+<p><strong>Klart när:</strong> det går att förstå och upprepa leveransen utan privata mappar. En merge eller deploy är ett eget integrationsbeslut, inte följden av en sparad labbvariant. Faktisk publicerad dokumentation kontrolleras efter push.</p>
     </section>
-<section class="doc-section" id="s06-om-tiden-eller-underlaget-inte-racker" data-section="om-tiden-eller-underlaget-inte-racker" role="tabpanel">
-      <h2>Om tiden eller underlaget inte räcker</h2>
-      <p>Behåll källkartan, det läsande provet och verifierad reserv. Minska antalet varianter och skjut på produktkopplingen när dess bevis saknas. Redovisa blockerande åtkomst eller media konkret; kalla inte ett isolerat prov liveklart.</p>
-<p>Jira CAC är arbetets statuskälla: <strong>In Dev → Ready for QA → In Testing → Done</strong>, med aktuella tillgängliga övergångar. Misslyckad QA går tillbaka till <strong>In Dev</strong>. Denna plan anger inga genomförda dagar eller nya QA-godkännanden.</p>
+<section class="doc-section" id="s06-prioritering-och-arbetsstatus" data-section="prioritering-och-arbetsstatus" role="tabpanel">
+      <h2>Prioritering och arbetsstatus</h2>
+      <p>Skydda först serverfakta och ett enda talägarskap. Leverera sedan ett fungerande exakt läppsynkpaket och ett triggerbundet alternativ. Skjut på större takepooler, alla platser/splitar och bred dynamisk dialog om tiden inte räcker.</p>
+<p>Kevin och Emil dokumenterar kort varje arbetsdag: klart med commit/kvitto, nästa leverans och konkreta hinder. Samla frågor till Jakob; frånvaro ger ingen automatisk visuell acceptans av Astrids identitet.</p>
+<p>Jira CAC är faktisk arbetsstatus: läs Expected Result/custom fields, använd tillgängliga övergångar till In Dev, Ready for QA och In Testing. Done först efter fullt verifierat resultat; misslyckad QA tillbaka till In Dev. V5 anger uppdrag och mål, inte att personerna redan accepterat dem eller att ticketstatus har uppdaterats av denna dokumentationsleverans.</p>
 <hr>
-<aside class="callout"><p>Synkad presentationskopia. Redigera <a href="https://gitlab.com/scout-gg/croupier/-/blob/jakeminator123/work/docs/animation-events/v4-8-days-mvp/s06-plan.md" target="_blank" rel="noreferrer">källfilen i Croupier</a> och kör <code>tools/sync-docs.mjs</code> i canvas-repot. Denna kopia är inte en separat besluts- eller runtimekälla.</p></aside>
+<aside class="callout"><p>Synkad presentationskopia. Redigera <a href="https://gitlab.com/scout-gg/croupier/-/blob/jakeminator123/work/docs/animation-events/v5-8-days-mvp/s06-plan.md" target="_blank" rel="noreferrer">källfilen i Croupier</a> och kör <code>tools/sync-docs.mjs</code> i canvas-repot. Denna kopia är inte en separat besluts- eller runtimekälla.</p></aside>
     </section></div>
   </article></main>
-  <footer class="site-footer"><div class="footer-inner"><span>V4 · innehåll b9d7fc5ddadc · <a href="archive/v3/">V3-historik</a> · <a href="archive/v2/">V2-historik</a> · <a href="https://gitlab.com/scout-gg/croupier/-/wikis/animation-events/v4-8-days-mvp/DECISIONS">Beslutslogg</a> · <a href="https://gitlab.com/scout-gg/croupier/-/wikis/animation-events/v4-8-days-mvp/RUNTIME-EVIDENCE">Tekniskt kvitto</a></span><span>Kodkontrollerat · labbprov · förslag · live ej verifierat</span></div></footer>
+  <footer class="site-footer"><div class="footer-inner"><span>V5 · innehåll 7b010e2b2054 · <a href="archive/v4/">V4-historik</a> · <a href="archive/v3/">V3-historik</a> · <a href="archive/v2/">V2-historik</a> · <a href="https://gitlab.com/scout-gg/croupier/-/wikis/animation-events/v5-8-days-mvp/DECISIONS">Beslutslogg</a> · <a href="https://gitlab.com/scout-gg/croupier/-/wikis/animation-events/v5-8-days-mvp/RUNTIME-EVIDENCE">Tekniskt kvitto</a></span><span>Kodkontrollerat · labbprov · förslag · live ej verifierat</span></div></footer>
   <script>
 (function () {
   var pageLinks = Array.prototype.slice.call(document.querySelectorAll(".page-link"));
@@ -470,7 +557,7 @@ Partnerklient  → /api/v1/table → samma spelmotor    → publik spelstatus
     search.value = "";
     applySearch();
     showSection(page, parts[1]);
-    document.title = "Croupier · V4 · " + page.querySelector(".eyebrow").textContent;
+    document.title = "Croupier · V5 · " + page.querySelector(".eyebrow").textContent;
     window.scrollTo({ top: 0, behavior: "auto" });
   }
 

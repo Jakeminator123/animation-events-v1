@@ -1,9 +1,9 @@
 # Croupier · Presentationsplan
 
-**Aktuell version: V4 · åtta arbetsdagar.**
+**Aktuell version: V5 · åtta arbetsdagar.**
 
 [Öppna presentationen](https://animation-events-v1.vercel.app/) ·
-[Läs V4 i wikin](https://gitlab.com/scout-gg/croupier/-/wikis/animation-events/v4-8-days-mvp/README) ·
+[Läs V5 i wikin](https://gitlab.com/scout-gg/croupier/-/wikis/animation-events/v5-8-days-mvp/README) ·
 [Tekniskt underlag](docs/RUNTIME-EVIDENCE.md)
 
 Vad hände → vad ska presenteras → vilket material passar → vad spelades faktiskt?
@@ -15,7 +15,7 @@ hålls isär. Dokumentationen ändrar inga spelregler eller produktionskopplinga
 ## En källa, två läsvyer
 
 Sakunderlaget redigeras i Croupiers
-[`docs/animation-events/v4-8-days-mvp/`](https://gitlab.com/scout-gg/croupier/-/tree/jakeminator123/work/docs/animation-events/v4-8-days-mvp).
+[`docs/animation-events/v5-8-days-mvp/`](https://gitlab.com/scout-gg/croupier/-/tree/jakeminator123/work/docs/animation-events/v5-8-days-mvp).
 Detta repo innehåller samma texter och generatorn till presentationen.
 GitLab-wikin är den andra läsvyn. Jira CAC håller aktuell arbets- och QA-status.
 
@@ -55,6 +55,6 @@ kontrollerar `node tools/sync-docs.mjs` den lokala kopian mot manifestet.
 kontrollerar tester, reproducerbar HTML och manifest. Den faktiska publiceringen
 verifieras på webbplatsen efter leverans; en lokal build bevisar inte drift.
 
-[V3-historik](archive/v3/README.md) och [V2-historik](archive/v2/README.md)
+[V4-historik](archive/v4/README.md), [V3-historik](archive/v3/README.md) och [V2-historik](archive/v2/README.md)
 bevarar tidigare publicerade HTML-versioner. De är inte aktuellt sakunderlag.
 Inga dokument från Jakobs personliga arkiv importeras till den här ytan.

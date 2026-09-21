@@ -1,34 +1,80 @@
-# S05 · liten ordlista
+# S05 · ord som betyder samma sak i alla ytor
 
-- **Motor:** serverns auktoritet över spelet. RNG är dess slumpdel, inte ett
-  samlingsnamn för all logik eller alla signaler.
-- **Publik spelstatus:** den del av tillståndet som mottagaren får se.
-- **Presentationsevent:** instruktion om vad klienten ska presentera.
-  Partner-vägen har sex typer; vanlig webbklient använder sin egen väg från status.
-- **SSE:** serverns löpande eventström till anslutna Partner-prenumeranter.
-  Den granskade strömmen har ingen återspelningsbuffert efter avbrott.
-- **Situation:** de relevanta publicerade omständigheterna, exempelvis dealer,
-  målbox, handling och exakt replik. Ett förklaringsord, inte ett nytt API.
-- **Linje / standard:** grundpresentationen för ett behov. Partnerfältet
-  `speak.line` betyder däremot en exakt talrads identifierare.
-- **Variant:** ett tillåtet alternativ för samma behov.
-- **Trigger:** ett kontrollerbart villkor som måste stämma för alternativet.
-- **Generation:** inkommande råmaterial. Ett intake-val som `want` betyder att
-  det får arbetas vidare med.
-- **Take:** identifierad medieprestation med text/ljud där det behövs,
-  metadata, kalibrering och granskningsstatus.
-- **Manifest / index:** register över material och egenskaper. Det är inte
-  i sig bevis på rätt innehåll eller AI-indexering av filmernas innehåll.
-- **Reserv / fallback:** ett säkert presentationsval när det önskade inte fungerar.
-- **Rehearsal:** granskning i produktens riktiga spelare. **Baseline:** skydd
-  mot oavsiktliga assetändringar. Det ena ersätter inte det andra.
+V5 ändrar förklaringar och fyller luckor i ordlistan. Vi byter inte de sex
+källtyperna eller de 16 tekniska event-ID:na. Labbets centrala ordlista finns
+i `lab/policies/studio-contract.json` och visas i Guide.
 
-**Statusetiketterna är enkla:** *Finns i kod* är källkodsbelagt; *Finns i labbet*
-är ett avgränsat prov; *Föreslås* återstår att genomföra; *Inte liveverifierat*
-saknar aktuellt driftbevis. Inget av orden betyder automatiskt visuellt godkänd.
+## Spel och presentation
 
-Nästa: [Åttadagarsplanen](s06-plan.md). Källor: [tekniskt kvitto](docs/RUNTIME-EVIDENCE.md).
+**RNG:** slumpdelen i den auktoritativa spelmotorn. Labbets presentationsslump
+väljer bara uttryck och påverkar inte kort eller vinst.
+
+**Signal:** samlingsord för indata, till exempel publika spelfakta, chatt,
+kontext eller spelarstatus. Allt är inte ett Partner-event.
+
+**Presentationsinstruktion / event:** här en instruktion av de sex typerna
+`speak`, `deal`, `reveal`, `turn`, `settle`, `idle`. Motorn och klienten har
+fler interna signaler än så.
+
+**Eventgrupp / nod:** en av labbets 16 genvägar. Inte en universell videofil.
+**Situation:** exakt replik, kortdestination eller andra relevanta omständigheter.
+Dagens klassificering beskriver inte ännu hela hand-/kortpositionsdomänen.
+
+**Native:** den vanliga spelklientens status-/kommandoväg. **Partner:** API,
+launch och presentationsström per nyckel/spelare. **Live:** faktiskt driftsatt
+kod och media; inte ett annat ord för Git-branchen `main`.
+
+## Linje, variant och take
+
+**Linje:** en dealers behållare för standard och alternativ inom en eventgrupp.
+**Standard:** den ovillkorliga reservvarianten. 16 grupper × fyra dealers ger
+64 standardlinjer, inte 64 unika filmer.
+
+**Replik / line-ID:** exakt talinnehåll, exempelvis `greeting`. Ska inte blandas
+ihop med en dealerlinje som `astrid.speak.other` med flera möjliga repliker.
+
+**Variant:** ett valbart uttryck med egna urvalstillåtelser och triggers.
+Idag en videoreferens och 2D-reserv; takepooler är inte införda.
+**Take:** en konkret inspelad/genererad tagning med identitet och revision.
+**Videofil:** materialbytes med ID/hash; en fil kan vara rå, avvisad eller granskad.
+
+**Originalförval:** exakt registrerat lokalt produktmaterial som standard kan
+använda utan egen videokoppling. Det bevisar inte livebindning eller kvalitet.
+**2D:** mockup av rörelse och presentation, inte bevis för läppsynk.
+
+## Villkor och register
+
+**Trigger:** extra villkor för en variant. Alla valda villkor måste matcha.
+Tom lista betyder inga extra krav. Triggers skapar inte ett nytt spel-event.
+**Urvalstillåtelse:** får varianten väljas av regler, OpenClaw eller presentationsslump?
+Alla av betyder manuell preview, även om triggerlistan är tom.
+
+**Schema:** formatets tillåtna fält och värden. **Policy:** regler för urval
+och beteende. **Manifest:** register över identiteter, mediareferenser och
+metadata; det är inte en logg över vad som faktiskt spelats.
+**Klassificering:** operatörens uppgift om dealer/event/situation, knuten till
+material. **Bindning:** vald koppling mellan variant/produktplats och material.
+**Acceptans:** dokumenterad granskning av just den revisionen/taken.
+
+## Beslut, kö och bevis
+
+**Director:** mellanled för validerade presentationsbeslut. **OpenClaw:** den
+anslutna modell-/samtalsvägen och beställda framtida talägaren. Gateway-åtkomst
+är inte i sig färdig produktintegration.
+
+**Besluts-ID:** identifierar ett variantval. **Källreferens:** korrelerar
+ursprungligt spel-/chattunderlag. **Köjobb:** en uppspelningsavsikt som ska ha
+en ägare och ett avslut. Dessa identiteter har olika livslängd.
+
+**Deduplicering:** skydd mot samma instruktion eller beslut flera gånger.
+Lokal cache är inte automatiskt deduplicering av uppspelning i hela systemet.
+**Uppspelningskvitto:** faktiskt observerad start, slut, cue, avbrott eller fel
+från spelaren. Ett modellförslag eller filval är inte ett sådant kvitto.
+
+**Läppsynkpaket:** exakt text, ljud, video, index, kalibrering och acceptans
+som hör ihop. Läppsynkkomponenten utför det godkända talet; den äger inte en
+egen konkurrerande dialog. **Review** betyder under granskning, inte godkänd.
 
 ---
 
-> Synkad presentationskopia. Redigera [källfilen i Croupier](https://gitlab.com/scout-gg/croupier/-/blob/jakeminator123/work/docs/animation-events/v4-8-days-mvp/s05-ordlista.md) och kör `tools/sync-docs.mjs` i canvas-repot. Denna kopia är inte en separat besluts- eller runtimekälla.
+> Synkad presentationskopia. Redigera [källfilen i Croupier](https://gitlab.com/scout-gg/croupier/-/blob/jakeminator123/work/docs/animation-events/v5-8-days-mvp/s05-ordlista.md) och kör `tools/sync-docs.mjs` i canvas-repot. Denna kopia är inte en separat besluts- eller runtimekälla.

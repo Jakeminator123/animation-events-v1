@@ -1,44 +1,89 @@
-# S04 · uppspelning och acceptans
+# S04 · OpenClaw äger talet, läppsynken följer beslutet
 
-> Ett godkänt urval är inte bevis på godkänd uppspelning.
+**Beställd integration:** Jakobs OpenClaw-spår ska äga persona, chatt och vad
+dealern säger. Det är riktningen för produktarbetet. Dagens labbval är fungerande
+delar, men produktens samtliga talproducenter har ännu inte konsoliderats.
 
-## Tre skilda kvitton
+## Ansvar mellan Jakob, Kevin och Emil
 
-1. **Källan stämmer:** rätt kodväg, publicerade fält, dealer och situation.
-2. **Materialet stämmer:** exakt take, rätt status, bytes/hash, text/ljud och
-   nödvändig kalibrering. `want` och katalogförekomst är inte livegodkännande.
-3. **Uppspelningen stämmer:** verklig spelare, rätt ord och mål, synk, avslut,
-   återgång och nästa uppspelning. Anteckna resultat och kvarvarande fel.
+**Jakob/OpenClaw:** samtalslogik, tillåtet text-/replikval, tystnad och avsedd
+ordning/prioritet inom presentationspolicyn. Operatörschatten ska hållas skild
+från den spelarchatt som äger dealer-dialogen.
 
-En taländring är ett sammanhängande paket: **exakt text + inspelat ljud +
-video + frame-index + kalibrering + acceptansanteckning**. Nya ljud- eller videobytes
-ogiltigförklarar tidigare visuell acceptans. Varken hash, vågform eller testpass
-bevisar korrekt läppsynk.
+**Kevin:** adapter mellan publika spelfakta, chatt, OpenClaw och befintlig
+runtime; kontraktsvalidering, en gemensam talkö, avbrott och verkliga kvitton.
+Inventera gamla `sayLine`, `voice.say`, produktens `/chat` och eventkommentarer.
+Stäng av konkurrerande text-/replikägare när den nya vägen aktiveras.
 
-Vid media-/spelarändring gäller repots befintliga kontroller:
-`node pipeline/audit-dealer-sync.mjs --probe`, testerna i `.githooks/pre-commit`
-och rehearsal för **Astrid, Vera, Amira och Mei**, med två på varandra följande
-uppspelningar. Alla fyra ska behålla den gemensamma spelvägen.
+**Emil och Kevin:** exakt matchande tal-/videopaket, läppsynk, format,
+kalibrering och visuell acceptans. Läppsynklösningen utför talbeslutet;
+den blir inte en andra agent som skriver om dialogen.
 
-## Föreslås: en ägare av dealer-talet
+Servern behåller alla kort, legal actions, pengar och utfall. Modellen får
+inte ändra spelordningen eller utlova ett annat resultat.
 
-Spelrepliker och sociala svar behöver en gemensam styrning av start, avbrott
-och avslut så att ljud och bild inte konkurrerar. Produktens befintliga chatt
-och det nya sociala labbprovet är ännu separata. V4 beskriver samordningen som
-ett integrationsförslag, inte en färdig talkö.
+## Ett beslut och en kö
 
-Dynamiskt labbtal tillsammans med en 2D-gest är ett uttrycksprov. Det är inte
-en godkänd kombination med produktens inspelade talvideo.
+Återanvänd befintlig Director/Gateway, speech-queue.mjs och samma spelarväg för
+alla fyra dealers. Produktens speltriggers och /chat använder redan klientkön,
+men deras text-/replikbeslut har flera ägare. Integrationen konsoliderar ägarskapet
+och utvecklar köns korrelation/livscykel; den börjar inte med en ny parallell kö.
+Talbeslutet behöver ett validerat utfall: exakt tillåtet `recordedLineId`,
+kort `generatedText` eller `silence`. Dessa är mål för integrationskontraktet;
+dagens variantbesluts-API är inte redan ett färdigt sådant tal-API.
 
-## Gränsen som gäller hela tiden
+Alla spelrepliker och chattsvar ska gå genom samma köimplementation. Kevin
+äger dess tekniska livscykel, OpenClaw dess godkända samtalsbeslut. Käll-ID,
+besluts-ID, materialrevision och avbrottsscope följer varje jobb. Ett jobb får
+exakt ett terminalt resultat: klart, avbrutet eller fel. Retry/HTTP+SSE ska
+inte skapa ett andra jobb. Flera flikar/processer kräver uttrycklig hantering;
+labbets beslutscache löser inte detta åt produkten.
 
-Presentation och modellråd får inte ändra kort, regler, tur, wallet eller
-utbetalning. Fel och sena modellsvar ska ge en kontrollerad reserv; detta ska
-provas i vald integration. Testa i isolerad server/databas med annan hostname.
-Öppna fynd följs i Jira CAC; en grön dokumentationssida stänger dem inte.
+Vid dealerbyte, gammal rundversion, navigation, mute eller mediafel ska kön
+städa ljud, video, decoder, captions och timers enligt vald produktpolicy.
+OpenClaw-fel ger uttrycklig tystnad eller avtalad reservpolicy, inte en dold
+äldre chattagent som börjar prata.
 
-Nästa: [Ordlistan](s05-ordlista.md). Källor: [acceptans och kända gap](docs/RUNTIME-EVIDENCE.md).
+## Exakt läppsynkpaket
+
+Inspelat tal binds som ett paket: line-ID, exakt text, ljud och hash, video och
+hash, frame-index/fps, audio delay, mask/kalibrering, proveniens och review.
+Byte av ljud/video gör tidigare visuellt godkännande ogiltigt för den taken.
+Ändrad text måste också följa paketet och granskas.
+
+Välj aldrig film efter ungefärlig längd eller liknande känsla. En gammal mun
+får inte spelas till ny OpenClaw-text. För fri text behövs en verkligt matchande
+läppsynklösning; tills den finns används tydligt neutral idle/2D eller tystnad
+enligt policy. Den reservvägen får inte marknadsföras som läppsynkad.
+
+Börja med ett litet inspelat paket för hela kedjan. Gör dynamisk läppsynk till
+ett separat mätbart prov med vald leverantör, latenstid, avbrott och kvalitet.
+Den här planen väljer inte leverantör och beställer ingen betald generering.
+
+## Godkännande kräver mer än filnärvaro
+
+Skilj på: kommando committat, instruktion mottagen, beslut validerat, material
+upplöst, första frame/ljudstart, landning/cue samt avslut eller avbrott.
+API 200, hash, waveform eller modellens text är inte bevis för det sista steget.
+
+Vid media-/spelarändringar gäller repots audit och pre-commit-kontroller.
+Granska Vera, Astrid, Amira och Mei i den faktiska rehearsal-spelaren med två
+plays i följd. Lyssna och titta genom hela den ändrade repliken. Uppdatera
+baseline först efter dokumenterad per-take-granskning; regenerera inte andra
+godkända assets som bieffekt.
+
+Astrids avsedda visuella identitet och full läppsynk är fortfarande öppna
+acceptanspunkter. Tidigare lifecycle-prov på alla fyra dealers är värdefulla,
+men bevisar inte att varje replik ser rätt ut eller har rätt person.
+
+## Utvecklingsuppdraget
+
+[Labbets implementationsbrief](https://gitlab.com/scout-gg/croupier/-/blob/jakeminator123/work/lab/docs/OPENCLAW-SPEECH-OWNERSHIP.md)
+innehåller kontrakt, ägarskapsinventering, deduplicering, felprov och handoffkrav.
+Det ersätter beroendet av en privat chattprompt. Använd isolerad databas och
+annan hostname för gameplay-QA. [Åttadagarsplanen](s06-plan.md) prioriterar
+leveransen och talar om vad som kan lämnas öppet.
 
 ---
 
-> Synkad presentationskopia. Redigera [källfilen i Croupier](https://gitlab.com/scout-gg/croupier/-/blob/jakeminator123/work/docs/animation-events/v4-8-days-mvp/s04-saker-presentation.md) och kör `tools/sync-docs.mjs` i canvas-repot. Denna kopia är inte en separat besluts- eller runtimekälla.
+> Synkad presentationskopia. Redigera [källfilen i Croupier](https://gitlab.com/scout-gg/croupier/-/blob/jakeminator123/work/docs/animation-events/v5-8-days-mvp/s04-saker-presentation.md) och kör `tools/sync-docs.mjs` i canvas-repot. Denna kopia är inte en separat besluts- eller runtimekälla.

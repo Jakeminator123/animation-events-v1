@@ -8,11 +8,11 @@ const OUTPUT = join(ROOT, "index.html");
 const CHECK = process.argv.includes("--check");
 
 const PAGES = [
-  { id: "s00", short: "Helheten", file: "s00-helheten.md", status: "V4 · 8 dagar", tone: "decision" },
+  { id: "s00", short: "Helheten", file: "s00-helheten.md", status: "V5 · 8 dagar", tone: "decision" },
   { id: "s01", short: "Kartan", file: "s01-kartan.md", status: "Karta", tone: "reference" },
   { id: "s02", short: "Signalerna", file: "s02-spraket.md", status: "Kodkontrollerat", tone: "reference" },
-  { id: "s03", short: "Eventträdet", file: "s03-motorn.md", status: "Arbetsförslag", tone: "proposal" },
-  { id: "s04", short: "Säker presentation", file: "s04-openclaw.md", status: "Gräns", tone: "decision" },
+  { id: "s03", short: "Video & triggers", file: "s03-motorn.md", status: "Kan användas lokalt", tone: "decision" },
+  { id: "s04", short: "Tal & läppsynk", file: "s04-openclaw.md", status: "Gräns", tone: "decision" },
   { id: "s05", short: "Ordlistan", file: "s05-ordlista.md", status: "Referens", tone: "reference" },
   { id: "s06", short: "8 dagar", file: "s06-plan.md", status: "Arbetsplan", tone: "proposal" },
 ];
@@ -20,7 +20,7 @@ const PAGES = [
 const PAGE_LINKS = new Map(PAGES.map((page) => [page.file, `#${page.id}`]));
 const WIKI = "https://gitlab.com/scout-gg/croupier/-/wikis/";
 for (const file of ["README", "CANVAS", "DECISIONS", "RUNTIME-EVIDENCE"]) {
-  PAGE_LINKS.set(`docs/${file}.md`, `${WIKI}animation-events/v4-8-days-mvp/${file}`);
+  PAGE_LINKS.set(`docs/${file}.md`, `${WIKI}animation-events/v5-8-days-mvp/${file}`);
 }
 const contentVersion = createHash("sha256").update(PAGES.map(page =>
   readFileSync(join(ROOT, page.file), "utf8").replaceAll("\r\n", "\n")
@@ -543,7 +543,7 @@ const browserScript = `
     search.value = "";
     applySearch();
     showSection(page, parts[1]);
-    document.title = "Croupier · V4 · " + page.querySelector(".eyebrow").textContent;
+    document.title = "Croupier · V5 · " + page.querySelector(".eyebrow").textContent;
     window.scrollTo({ top: 0, behavior: "auto" });
   }
 
@@ -582,8 +582,8 @@ const documentHtml = `<!doctype html>
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Croupiers presentationsplan V4: åtta dagar, verkliga signaler, tydliga källor och verifierad uppspelning.">
-  <title>Croupier · Presentationsplan V4</title>
+  <meta name="description" content="Croupiers presentationsplan V5: åtta dagar, verkliga signaler, tydliga källor och verifierad uppspelning.">
+  <title>Croupier · Presentationsplan V5</title>
   <style>${css}</style>
 </head>
 <body data-content-version="${contentVersion}">
@@ -591,12 +591,14 @@ const documentHtml = `<!doctype html>
   <header class="site-header">
     <div class="header-inner">
       <div>
-        <p class="kicker">Croupier · Presentationsplan · V4</p>
+        <p class="kicker">Croupier · Presentationsplan · V5</p>
         <h1 class="site-title">Från verklig signal<br>till verifierad uppspelning.</h1>
-        <p class="site-lead">Åtta arbetsdagar. En gemensam karta över produkten, labbet och nästa steg. Spelmotorn äger utfallet; presentationen visar det.</p>
+        <p class="site-lead">21 september 2026 · åtta arbetsdagar. Originalklipp och variantval finns lokalt. Nu kopplar Kevin och Emil Jakobs OpenClaw-tal till granskad läppsynk.</p>
         <div class="source-line">
           <a class="source-chip" href="https://gitlab.com/scout-gg/croupier/-/tree/jakeminator123/work">Motor och kod · GitLab</a>
-          <a class="source-chip" href="${WIKI}animation-events/v4-8-days-mvp/README">V4 i gemensamma wikin</a>
+          <a class="source-chip" href="${WIKI}animation-events/v5-8-days-mvp/README">V5 i gemensamma wikin</a>
+          <a class="source-chip" href="#s03/lagg-in-i-videobanken">Kevin/Emil: lägg in video</a>
+          <a class="source-chip" href="#s06">Åttadagarsplanen</a>
           <a class="source-chip" href="${WIKI}agent-inbox">Kevin · Jakob · Emil: inbox och agenter</a>
           <a class="source-chip" href="https://github.com/Jakeminator123/animation-events-v1">Canvasens källkod · GitHub</a>
           <span class="source-chip"><strong>Plan:</strong> 8 dagar · 7 korta kapitel</span>
@@ -614,10 +616,10 @@ const documentHtml = `<!doctype html>
       <li><span class="step">03 · URVAL</span><strong>Vilket material passar?</strong><small>Kompatibelt material och fallback</small></li>
       <li><span class="step">04 · KVITTO</span><strong>Vad spelades faktiskt?</strong><small>Uppspelning och visuell kontroll</small></li>
     </ol>
-    <nav class="page-nav" aria-label="V4-sidor">${navigation}</nav>
+    <nav class="page-nav" aria-label="V5-sidor">${navigation}</nav>
   </header>
   <main id="content" tabindex="-1">${pages.map(renderPage).join("\n")}</main>
-  <footer class="site-footer"><div class="footer-inner"><span>V4 · innehåll ${contentVersion} · <a href="archive/v3/">V3-historik</a> · <a href="archive/v2/">V2-historik</a> · <a href="${WIKI}animation-events/v4-8-days-mvp/DECISIONS">Beslutslogg</a> · <a href="${WIKI}animation-events/v4-8-days-mvp/RUNTIME-EVIDENCE">Tekniskt kvitto</a></span><span>Kodkontrollerat · labbprov · förslag · live ej verifierat</span></div></footer>
+  <footer class="site-footer"><div class="footer-inner"><span>V5 · innehåll ${contentVersion} · <a href="archive/v4/">V4-historik</a> · <a href="archive/v3/">V3-historik</a> · <a href="archive/v2/">V2-historik</a> · <a href="${WIKI}animation-events/v5-8-days-mvp/DECISIONS">Beslutslogg</a> · <a href="${WIKI}animation-events/v5-8-days-mvp/RUNTIME-EVIDENCE">Tekniskt kvitto</a></span><span>Kodkontrollerat · labbprov · förslag · live ej verifierat</span></div></footer>
   <script>${browserScript}</script>
 </body>
 </html>

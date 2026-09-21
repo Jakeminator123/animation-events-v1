@@ -1,44 +1,48 @@
-# Croupier · V4 · åtta arbetsdagar
+# Croupier · Presentationsplan V5
 
-> **Målet:** kunna följa vad spelet publicerar, hur en kompatibel presentation
-> väljs och vad spelaren faktiskt visar. Åtta dagar är Jakobs aktuella
-> planeringsram, inte ett tidigare mötesbeslut eller ett löfte om produktlansering.
+**21 september 2026 · åtta arbetsdagars planeringsram · Jakob, Kevin och Emil.**
 
-**Vad hände → vad ska presenteras → vilket material passar → vad spelades?**
+[Öppna webbsidan](https://animation-events-v1.vercel.app/) ·
+[Läs wikin](https://gitlab.com/scout-gg/croupier/-/wikis/animation-events) ·
+[Nästa åtta dagar](../s06-plan.md)
 
-V4 ersätter V3 som aktiv förklaring och plan. Den befintliga spelmotorn är
-grunden. Labbfunktioner, produktfunktioner och kommande arbete får egna etiketter:
-**Finns i kod · Finns i labbet · Föreslås · Inte liveverifierat**.
+Vi har nu en lokal kedja från mottagen presentationsinstruktion till
+variantbeslut och uppspelning av befintligt material. Nästa mål är att ansluta
+Jakobs OpenClaw-chatt som gemensam samtals- och talägare i produkten, med
+Kevin/Emils exakta läppsynkade material och Kevins gemensamma uppspelningskö.
+Spelservern behåller alla spelbeslut.
 
-## Läs på fem minuter
+## Börja där arbetet finns
 
-1. [Helheten](../s00-helheten.md) — fyra steg, tre ansvariga.
-2. [Systemkartan](../s01-kartan.md) — två klientvägar och rätt källa.
-3. [Signaler in och ut](../s02-spraket.md) — spel, text, kontext, media och konfiguration.
-4. [Urvalet](../s03-motorn.md) — från en verklig situation till rätt take.
-5. [Uppspelning och acceptans](../s04-openclaw.md) — vad som måste bevisas.
-6. [Ordlistan](../s05-ordlista.md) — de få ord vi behöver.
-7. [Åttadagarsplanen](../s06-plan.md) — en leverans och en kontrollpunkt per dag.
+- [Helheten och dagens leverans](../s00-helheten.md): byggt, beställt och kvar.
+- [System och mappar](../s01-kartan.md): labb, native, Partner, BO och manifest.
+- [Signaler och observation](../s02-spraket.md): RNG, events, beslut och kvitton.
+- [Lägg in video och koppla triggers](../s03-motorn.md): Kevin/Emils arbetsgång.
+- [OpenClaw, läppsynk och acceptans](../s04-openclaw.md): ägarskap och kontroll.
+- [Ordlista](../s05-ordlista.md): begrepp som annars lätt blandas ihop.
+- [Åttadagarsplan](../s06-plan.md): tydliga leveranser medan Jakob reser.
 
-## Gemensamma ytor
+## Så läser vi status
 
-- [Wikin](https://gitlab.com/scout-gg/croupier/-/wikis/home) är teamets läsbara dokumentation.
-- [Webbpresentationen](https://animation-events-v1.vercel.app/) visar samma V4 visuellt.
-- [GitHub-repot](https://github.com/Jakeminator123/animation-events-v1) bygger webbplatsen.
-- Croupier `docs/animation-events/v4-8-days-mvp/` är den redigerbara V4-källan.
+**Byggt lokalt** betyder att koden finns på `jakeminator123/work`.
+**Lokalt verifierat** anger ett daterat prov och dess omfattning.
+**Beställd integration** är Jakobs beslut om riktning, inte en färdig runtime.
+**Öppet** är en konkret återstående kontroll eller funktion.
 
-**Croupier · Presentationsplan** är presentationens namn. `animation-events-v1` i
-adresserna är ett historiskt projektnamn; det anger varken innehållsversion eller
-spelversion. Se [publiceringsflödet](CANVAS.md).
+Allt i labbet finns inte i backoffice. Push av arbetsgrenen är inte deploy
+av Bettalotto. Live-revisionen är ännu inte belagd; generations-API:t gav
+`revision: null`. V5 godkänner inga takes och stänger inga CAC-ärenden.
 
-## Fördjupning vid behov
+[Ändrat från V4](DECISIONS.md) · [Källor och prov](RUNTIME-EVIDENCE.md) ·
+[Publicering och historik](CANVAS.md)
 
-[Beslut och avgränsning](DECISIONS.md) · [Källor och verifieringsgräns](RUNTIME-EVIDENCE.md)
+## En källa, två läsytor
 
-V4 är kontrollerad mot lokal kod den 20 september 2026. Aktuell serverrevision,
-behörig testsession och aktiva backoffice-kopplingar återstår att kontrollera.
-V4-dokumentationen installerar ingen ny adapter och godkänner ingen media.
+Denna mapp är sakunderlaget. GitLab-wiki och GitHub/Vercel återger samma V5.
+`animation-events-v1` är det historiska repo- och domännamnet; innehållet är
+V5. V4 bevaras som daterad historik. Privata loggar, råa konversationer,
+personuppgifter och API-hemligheter publiceras inte.
 
 ---
 
-> Synkad presentationskopia. Redigera [källfilen i Croupier](https://gitlab.com/scout-gg/croupier/-/blob/jakeminator123/work/docs/animation-events/v4-8-days-mvp/README.md) och kör `tools/sync-docs.mjs` i canvas-repot. Denna kopia är inte en separat besluts- eller runtimekälla.
+> Synkad presentationskopia. Redigera [källfilen i Croupier](https://gitlab.com/scout-gg/croupier/-/blob/jakeminator123/work/docs/animation-events/v5-8-days-mvp/README.md) och kör `tools/sync-docs.mjs` i canvas-repot. Denna kopia är inte en separat besluts- eller runtimekälla.

@@ -1,0 +1,508 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Croupiers presentationsplan V4: åtta dagar, verkliga signaler, tydliga källor och verifierad uppspelning.">
+  <title>Croupier · Presentationsplan V4</title>
+  <style>
+:root {
+  color-scheme: light dark;
+  --bg: #f4f3ef;
+  --surface: #ffffff;
+  --surface-muted: #ebe9e3;
+  --text: #17211c;
+  --muted: #5d6962;
+  --line: #d4d7d2;
+  --accent: #135f46;
+  --accent-soft: #d9ebe3;
+  --proposal: #8a5a12;
+  --proposal-soft: #f5e8cf;
+  --reference: #315b7d;
+  --reference-soft: #dce9f2;
+  --code: #18241e;
+  --code-text: #e5eee9;
+  --max: 1180px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #111714;
+    --surface: #18201c;
+    --surface-muted: #202a25;
+    --text: #e7ede9;
+    --muted: #aebbb3;
+    --line: #34433b;
+    --accent: #72c7a4;
+    --accent-soft: #1f4838;
+    --proposal: #e0b36b;
+    --proposal-soft: #49391f;
+    --reference: #8db8d7;
+    --reference-soft: #233c4d;
+    --code: #0b100d;
+    --code-text: #dce8e1;
+  }
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font: 15px/1.58 Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+a { color: var(--accent); text-underline-offset: 3px; }
+button, input { font: inherit; }
+
+.site-header {
+  border-bottom: 1px solid var(--line);
+  background: var(--surface);
+}
+.header-inner {
+  max-width: var(--max);
+  margin: 0 auto;
+  padding: 28px 24px 20px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(260px, 370px);
+  gap: 28px;
+  align-items: end;
+}
+.kicker {
+  margin: 0 0 6px;
+  color: var(--accent);
+  font-size: 12px;
+  font-weight: 750;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+}
+.site-title { margin: 0; font-size: clamp(25px, 4vw, 42px); line-height: 1.08; letter-spacing: -.03em; }
+.site-lead { max-width: 720px; margin: 12px 0 0; color: var(--muted); font-size: 16px; }
+.source-line { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 15px; }
+.source-chip { padding: 5px 9px; border: 1px solid var(--line); color: var(--muted); font-size: 12px; }
+.source-chip strong { color: var(--text); }
+.overview-flow { max-width: var(--max); margin: 0 auto; padding: 0 24px 22px; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; list-style: none; }
+.overview-flow li { margin: 0; padding: 14px 16px; background: var(--bg); border: 1px solid var(--line); border-top: 3px solid var(--accent); }
+.overview-flow .step { display: block; color: var(--accent); font: 700 11px/1.2 ui-monospace, Consolas, monospace; letter-spacing: .07em; margin-bottom: 8px; }
+.overview-flow strong { display: block; font-size: 15px; }
+.overview-flow small { display: block; margin-top: 5px; color: var(--muted); font-size: 12px; }
+.skip-link { position: absolute; top: -50px; left: 16px; padding: 8px 12px; background: var(--surface); z-index: 1; }
+.skip-link:focus { top: 8px; }
+a:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+
+.search-box label { display: block; margin-bottom: 7px; color: var(--muted); font-size: 12px; font-weight: 700; }
+.search-row { display: flex; border: 1px solid var(--line); background: var(--bg); }
+.search-row:focus-within { outline: 2px solid var(--accent); outline-offset: 2px; }
+.search-row input { min-width: 0; flex: 1; border: 0; padding: 10px 12px; color: var(--text); background: transparent; outline: 0; }
+.search-row button { border: 0; border-left: 1px solid var(--line); padding: 0 12px; color: var(--muted); background: transparent; cursor: pointer; }
+.search-result { min-height: 20px; margin: 6px 0 0; color: var(--muted); font-size: 12px; }
+
+.page-nav {
+  max-width: var(--max);
+  margin: 0 auto;
+  padding: 12px 24px;
+  display: flex;
+  gap: 6px;
+  overflow-x: auto;
+}
+.page-link {
+  flex: 0 0 auto;
+  padding: 8px 11px;
+  border: 1px solid transparent;
+  color: var(--muted);
+  text-decoration: none;
+  white-space: nowrap;
+}
+.page-link span { margin-right: 6px; color: var(--accent); font-size: 11px; font-weight: 800; text-transform: uppercase; }
+.page-link:hover { border-color: var(--line); color: var(--text); }
+.page-link.is-active { border-color: var(--accent); background: var(--accent-soft); color: var(--text); }
+
+main { max-width: var(--max); margin: 0 auto; padding: 30px 24px 72px; }
+.page { display: none; }
+.page.is-active { display: block; }
+.page-header { max-width: 930px; }
+.eyebrow { margin-bottom: 6px; color: var(--accent); font-size: 12px; font-weight: 800; letter-spacing: .09em; text-transform: uppercase; }
+.title-row { display: flex; gap: 14px; align-items: center; flex-wrap: wrap; }
+h1 { margin: 0; font-size: 26px; line-height: 1.2; letter-spacing: -.02em; }
+h2 { margin: 0 0 18px; font-size: 21px; line-height: 1.25; }
+h3 { margin: 30px 0 10px; font-size: 17px; }
+h4 { margin: 24px 0 8px; font-size: 15px; }
+p { margin: 0 0 14px; }
+.intro { margin-top: 13px; color: var(--muted); font-size: 16px; }
+.intro .callout { color: var(--text); }
+.status { padding: 4px 8px; border: 1px solid currentColor; font-size: 11px; font-weight: 750; letter-spacing: .04em; text-transform: uppercase; }
+.status.decision { color: var(--accent); background: var(--accent-soft); }
+.status.proposal { color: var(--proposal); background: var(--proposal-soft); }
+.status.reference { color: var(--reference); background: var(--reference-soft); }
+
+.section-tabs { display: flex; gap: 7px; margin: 28px 0 20px; padding-bottom: 10px; overflow-x: auto; border-bottom: 1px solid var(--line); }
+.section-tabs[hidden] { display: none; }
+.section-tabs[hidden] + .sections { margin-top: 24px; }
+.section-tab { flex: 0 0 auto; border: 1px solid var(--line); padding: 7px 10px; color: var(--muted); background: var(--surface); cursor: pointer; }
+.section-tab:hover { color: var(--text); border-color: var(--accent); }
+.section-tab.is-active { color: var(--surface); border-color: var(--accent); background: var(--accent); }
+.doc-section { display: none; max-width: 1040px; }
+.doc-section.is-active { display: block; }
+.doc-section > p, .doc-section > ul, .doc-section > ol, .doc-section > .callout { max-width: 880px; }
+ul, ol { margin: 0 0 18px; padding-left: 23px; }
+li { margin: 5px 0; }
+hr { margin: 32px 0; border: 0; border-top: 1px solid var(--line); }
+.callout { margin: 16px 0 20px; padding: 12px 15px; border-left: 4px solid var(--accent); background: var(--accent-soft); }
+.callout p:last-child { margin-bottom: 0; }
+code { padding: 1px 5px; background: var(--surface-muted); font: .9em/1.5 ui-monospace, SFMono-Regular, Consolas, monospace; }
+pre { position: relative; margin: 16px 0 22px; padding: 30px 17px 16px; overflow-x: auto; border: 1px solid var(--line); background: var(--code); color: var(--code-text); }
+pre::before { content: attr(data-language); position: absolute; top: 7px; left: 17px; color: #9eb0a6; font: 10px/1.2 ui-monospace, SFMono-Regular, Consolas, monospace; letter-spacing: .08em; text-transform: uppercase; }
+pre code { padding: 0; background: transparent; color: inherit; }
+.table-scroll { margin: 14px 0 24px; overflow-x: auto; border: 1px solid var(--line); }
+table { width: 100%; border-collapse: collapse; background: var(--surface); font-size: 13px; }
+th, td { padding: 10px 11px; border-bottom: 1px solid var(--line); text-align: left; vertical-align: top; }
+th { color: var(--muted); background: var(--surface-muted); font-size: 11px; letter-spacing: .04em; text-transform: uppercase; }
+tr:last-child td { border-bottom: 0; }
+tbody tr:hover { background: var(--accent-soft); }
+
+.searching .doc-section { display: none; }
+.searching .doc-section.search-match { display: block; margin-bottom: 34px; }
+.searching .section-tabs { display: none; }
+.searching .doc-section.search-match h2::after { content: " · träff"; color: var(--accent); font-size: 11px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; }
+
+.site-footer { border-top: 1px solid var(--line); color: var(--muted); background: var(--surface); }
+.footer-inner { max-width: var(--max); margin: 0 auto; padding: 18px 24px 28px; display: flex; justify-content: space-between; gap: 20px; flex-wrap: wrap; font-size: 12px; }
+
+@media (max-width: 760px) {
+  .header-inner { grid-template-columns: 1fr; padding-top: 22px; }
+  .site-title { font-size: 28px; }
+  main { padding-top: 24px; }
+  th, td { min-width: 150px; }
+  .overview-flow { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+  .overview-flow li { padding: 11px 12px; }
+}
+
+@media print {
+  .search-box, .page-nav, .section-tabs { display: none !important; }
+  body { background: #fff; color: #000; }
+  .site-header, .site-footer { background: #fff; }
+  .page, .doc-section { display: block !important; break-inside: avoid; }
+  .page { margin-bottom: 48px; }
+  a { color: #000; }
+}
+</style>
+</head>
+<body data-content-version="b9d7fc5ddadc">
+<aside data-history="v4" style="padding:16px;text-align:center;border:2px solid currentColor">Historisk V4 från 20 september. <a href="https://animation-events-v1.vercel.app/">Öppna aktuell V5 och nästa arbetsuppgifter</a>.</aside>
+  <a class="skip-link" href="#content">Till innehållet</a>
+  <header class="site-header">
+    <div class="header-inner">
+      <div>
+        <p class="kicker">Croupier · Presentationsplan · V4</p>
+        <h1 class="site-title">Från verklig signal<br>till verifierad uppspelning.</h1>
+        <p class="site-lead">Åtta arbetsdagar. En gemensam karta över produkten, labbet och nästa steg. Spelmotorn äger utfallet; presentationen visar det.</p>
+        <div class="source-line">
+          <a class="source-chip" href="https://gitlab.com/scout-gg/croupier/-/tree/jakeminator123/work">Motor och kod · GitLab</a>
+          <a class="source-chip" href="https://gitlab.com/scout-gg/croupier/-/wikis/animation-events/v4-8-days-mvp/README">V4 i gemensamma wikin</a>
+          <a class="source-chip" href="https://gitlab.com/scout-gg/croupier/-/wikis/agent-inbox">Kevin · Jakob · Emil: inbox och agenter</a>
+          <a class="source-chip" href="https://github.com/Jakeminator123/animation-events-v1">Canvasens källkod · GitHub</a>
+          <span class="source-chip"><strong>Plan:</strong> 8 dagar · 7 korta kapitel</span>
+        </div>
+      </div>
+      <div class="search-box">
+        <label for="search">Sök på den öppna sidan</label>
+        <div class="search-row"><input id="search" type="search" autocomplete="off" placeholder="Till exempel: eventström, ljud, fallback"><button id="clear-search" type="button">Rensa</button></div>
+        <p class="search-result" id="search-result" role="status">Söker på den öppna sidan</p>
+      </div>
+    </div>
+    <ol class="overview-flow" aria-label="Från händelse till uppspelning">
+      <li><span class="step">01 · SIGNAL</span><strong>Vad hände?</strong><small>Spelfakta, text och kontext</small></li>
+      <li><span class="step">02 · BEHOV</span><strong>Vad ska visas?</strong><small>En tydlig presentationsuppgift</small></li>
+      <li><span class="step">03 · URVAL</span><strong>Vilket material passar?</strong><small>Kompatibelt material och fallback</small></li>
+      <li><span class="step">04 · KVITTO</span><strong>Vad spelades faktiskt?</strong><small>Uppspelning och visuell kontroll</small></li>
+    </ol>
+    <nav class="page-nav" aria-label="V4-sidor"><a class="page-link is-active" href="#s00" data-page="s00" aria-current="page"><span>s00</span>Helheten</a><a class="page-link" href="#s01" data-page="s01" aria-current="false"><span>s01</span>Kartan</a><a class="page-link" href="#s02" data-page="s02" aria-current="false"><span>s02</span>Signalerna</a><a class="page-link" href="#s03" data-page="s03" aria-current="false"><span>s03</span>Eventträdet</a><a class="page-link" href="#s04" data-page="s04" aria-current="false"><span>s04</span>Säker presentation</a><a class="page-link" href="#s05" data-page="s05" aria-current="false"><span>s05</span>Ordlistan</a><a class="page-link" href="#s06" data-page="s06" aria-current="false"><span>s06</span>8 dagar</a></nav>
+  </header>
+  <main id="content" tabindex="-1"><article class="page is-active" id="page-s00" data-page="s00">
+    <header class="page-header">
+      <div class="eyebrow">s00 · Helheten</div>
+      <div class="title-row">
+        <h1>S00 · helheten</h1>
+        <span class="status decision">V4 · 8 dagar</span>
+      </div>
+      <div class="intro"><aside class="callout"><p>Motorn avgör spelet. Presentationen visar det som redan har publicerats. Labbet provar hur presentationen kan väljas och förklaras.</p></aside></div>
+    </header>
+    <div class="section-tabs" role="tablist" aria-label="Avsnitt på Helheten"><button class="section-tab is-active" type="button" role="tab" aria-selected="true" data-section="en-kedja-att-folja">En kedja att följa</button><button class="section-tab" type="button" role="tab" aria-selected="false" data-section="vem-gor-vad">Vem gör vad?</button></div>
+    <div class="sections"><section class="doc-section is-active" id="s00-en-kedja-att-folja" data-section="en-kedja-att-folja" role="tabpanel">
+      <h2>En kedja att följa</h2>
+      <pre data-language="text"><code>Publicerade fakta → Presentationsbehov → Kompatibelt material → Faktisk uppspelning
+kort, tur, fas      dela, tala, visa     dealer, situation, take   start, slut, fel</code></pre>
+<p><strong>Finns i kod:</strong> serverägd shoe, regler, kort, turer och resultat; en vanlig spelklient; Partner-API med presentationslista och eventström; mediespelare. Vid extern wallet håller operatören pengarna och Croupier anropar dess wallet.</p>
+<p><strong>Finns i labbet:</strong> redigerbara standarder och alternativ, regel-/modellprov, videopreview samt ett separat socialt chatt- och talprov för Astrid. Eventproven använder sparade exempel och manuellt vald kontext.</p>
+<p><strong>Föreslås:</strong> en läsande anslutning till en vald spelväg, en spårbar koppling till produktspelaren och gemensam styrning av dealer-tal. Hela kedjan ovan är inte verifierad från verkligt bord genom labbet till produktspelaren.</p>
+    </section>
+<section class="doc-section" id="s00-vem-gor-vad" data-section="vem-gor-vad" role="tabpanel">
+      <h2>Vem gör vad?</h2>
+      <ul><li><strong>Kevin:</strong> motor, produktrepo och beslut om integration.</li><li><strong>Jakob:</strong> logik, kopplingar, prov, dokumentation och underlag till Kevin.</li><li><strong>Emil:</strong> video och variationer nära Kevin; leverans med metadata och acceptans.</li></ul>
+<p>De åtta dagarnas minsta leverans är <strong>en avgränsad, spårbar kedja med tydliga bevis och kvarvarande gap</strong>. Fler varianter, dealers och AI-funktioner följer först när den kedjan håller.</p>
+<p>Nästa: <a href="#s01">Systemkartan</a>. Källor: <a href="https://gitlab.com/scout-gg/croupier/-/wikis/animation-events/v4-8-days-mvp/RUNTIME-EVIDENCE" target="_blank" rel="noreferrer">tekniskt kvitto</a>.</p>
+<hr>
+<aside class="callout"><p>Synkad presentationskopia. Redigera <a href="https://gitlab.com/scout-gg/croupier/-/blob/jakeminator123/work/docs/animation-events/v4-8-days-mvp/s00-helheten.md" target="_blank" rel="noreferrer">källfilen i Croupier</a> och kör <code>tools/sync-docs.mjs</code> i canvas-repot. Denna kopia är inte en separat besluts- eller runtimekälla.</p></aside>
+    </section></div>
+  </article>
+<article class="page" id="page-s01" data-page="s01">
+    <header class="page-header">
+      <div class="eyebrow">s01 · Kartan</div>
+      <div class="title-row">
+        <h1>S01 · systemkartan</h1>
+        <span class="status reference">Karta</span>
+      </div>
+      <div class="intro"></div>
+    </header>
+    <div class="section-tabs" role="tablist" aria-label="Avsnitt på Kartan"><button class="section-tab is-active" type="button" role="tab" aria-selected="true" data-section="tva-klientvagar-finns-redan">Två klientvägar finns redan</button><button class="section-tab" type="button" role="tab" aria-selected="false" data-section="vilken-yta-svarar-pa-vilken-fraga">Vilken yta svarar på vilken fråga?</button></div>
+    <div class="sections"><section class="doc-section is-active" id="s01-tva-klientvagar-finns-redan" data-section="tva-klientvagar-finns-redan" role="tabpanel">
+      <h2>Två klientvägar finns redan</h2>
+      <pre data-language="text"><code>Vanliga spelet  → /api/table    → serverns spelmotor → publik spelstatus
+                                                    → klientens presentation
+
+Partnerklient  → /api/v1/table → samma spelmotor    → publik spelstatus
+                                                    + presentation[]
+                                                    → /api/v1/events (SSE)</code></pre>
+<p><strong>Partner-API är ett gränssnitt i båda riktningarna.</strong> Partnern skickar kommandon in; Croupier lämnar spelstatus, presentationshändelser och mediereferenser ut. Med seamless wallet skickar Croupier även wallet-anrop till operatören och tar emot dess svar.</p>
+<p>Partnerns ström avgränsas av API-nyckel och partnerns spelar-id. I den granskade koden publicerar vanliga <code>/api/table</code> inte till den strömmen. En inloggning på Bettalotto visar därför inte automatiskt alla spelhändelser i labbet. Backoffice-inloggning är inte signerad Partner-åtkomst.</p>
+    </section>
+<section class="doc-section" id="s01-vilken-yta-svarar-pa-vilken-fraga" data-section="vilken-yta-svarar-pa-vilken-fraga" role="tabpanel">
+      <h2>Vilken yta svarar på vilken fråga?</h2>
+      <ul><li><strong>Bettalotto spelet:</strong> det spelaren ser. <strong>Backoffice:</strong> administration av bland annat dealers, media och API-nycklar. Det är olika ytor.</li><li><strong>Croupiers kod och tester:</strong> vad respektive kodväg gör på en angiven revision.</li><li><strong><code>lab/</code>:</strong> lokal studio för exempel, regler, val och preview. Den prenumererar ännu inte på ett verkligt bord och sparande publicerar inget till produkten.</li><li><strong><code>open-claw/</code>:</strong> Director, Gateway och deras drift. En fungerande labbmodell visar inte att produktspelaren är integrerad.</li><li><strong>Wiki och webbplats:</strong> samma förklaring och plan. GitHub-repot är dokumentation; Vercel visar den byggda webbplatsen.</li></ul>
+<p><strong>Nästa kontroll:</strong> välj vanlig klient eller Partner-klient för det första provet, och dokumentera den valda vägen. En läsande monitor är ett förslag, inte en redan införd labbfunktion.</p>
+<p>Nästa: <a href="#s02">Signalerna</a>. Källor: <a href="https://gitlab.com/scout-gg/croupier/-/wikis/animation-events/v4-8-days-mvp/RUNTIME-EVIDENCE" target="_blank" rel="noreferrer">API, labb och spelare</a>.</p>
+<hr>
+<aside class="callout"><p>Synkad presentationskopia. Redigera <a href="https://gitlab.com/scout-gg/croupier/-/blob/jakeminator123/work/docs/animation-events/v4-8-days-mvp/s01-kartan.md" target="_blank" rel="noreferrer">källfilen i Croupier</a> och kör <code>tools/sync-docs.mjs</code> i canvas-repot. Denna kopia är inte en separat besluts- eller runtimekälla.</p></aside>
+    </section></div>
+  </article>
+<article class="page" id="page-s02" data-page="s02">
+    <header class="page-header">
+      <div class="eyebrow">s02 · Signalerna</div>
+      <div class="title-row">
+        <h1>S02 · signaler in och ut</h1>
+        <span class="status reference">Kodkontrollerat</span>
+      </div>
+      <div class="intro"><aside class="callout"><p>Fråga alltid: <strong>in till vilken del?</strong> Ett svar från motorn är ut från servern men in till presentationen. Det gör det inte till ett nytt spelbeslut.</p></aside></div>
+    </header>
+    <div class="section-tabs" role="tablist" aria-label="Avsnitt på Signalerna"><button class="section-tab is-active" type="button" role="tab" aria-selected="true" data-section="fem-slags-underlag-for-presentationen">Fem slags underlag för presentationen</button><button class="section-tab" type="button" role="tab" aria-selected="false" data-section="fran-underlag-till-utdata">Från underlag till utdata</button></div>
+    <div class="sections"><section class="doc-section is-active" id="s02-fem-slags-underlag-for-presentationen" data-section="fem-slags-underlag-for-presentationen" role="tabpanel">
+      <h2>Fem slags underlag för presentationen</h2>
+      <ol><li><strong>Spelfakta:</strong> publicerade kort, destination, hand, tur, fas och resultat. RNG är en del av motorn; allt detta är inte RNG. Dolda kort och framtida sko får inte lämnas till ett presentationsval.</li><li><strong>Spelartext:</strong> kan ge underlag för ett socialt svar. Produktens chatt och Astrids sociala labbprov är separata vägar. De är inte en gemensam talkö.</li><li><strong>Kontext:</strong> exempelvis språk, återbesök, avgjord historik och dealerns framtoning. Eventlabbet använder manuella testvärden; dessa bevisar inte insamlat spelarminne eller levande signaler från spelet.</li><li><strong>Ljud och video:</strong> beredskap, uppspelningstid, slut, fel och kalibrerade kontaktögonblick. Ljudet kan styra synk och avslut utan att styra kort eller resultat. Ingen mikrofon-/taligenkänningsingång är belagd i de granskade vägarna.</li><li><strong>Konfiguration:</strong> vald dealer, regler, tillåtna alternativ och mediekopplingar. Det styr vad som får väljas; det är inte i sig en spelhändelse.</li></ol>
+    </section>
+<section class="doc-section" id="s02-fran-underlag-till-utdata" data-section="fran-underlag-till-utdata" role="tabpanel">
+      <h2>Från underlag till utdata</h2>
+      <p><strong>Situation → tillåten standard/variant → kompatibel take → uppspelningsresultat.</strong></p>
+<p>I Partner-vägen heter presentationstyperna <code>speak</code>, <code>deal</code>, <code>reveal</code>, <code>settle</code>, <code>turn</code> och <code>idle</code>. Labbets <strong>16 grupper</strong> är redigeringsgenvägar över dessa sex typer. De beskriver inte alla inkommande signaler och skapar inga nya motor-events.</p>
+<p>Håll också isär <strong>settle</strong> och <strong>speak</strong>: ett resultat ersätter inte motorns exakta talrad. En gruppering av flera repliker får inte använda samma inspelade talvideo för alla orden.</p>
+<p>Nästa: <a href="#s03">Urvalet</a>. Källor: <a href="https://gitlab.com/scout-gg/croupier/-/wikis/animation-events/v4-8-days-mvp/RUNTIME-EVIDENCE" target="_blank" rel="noreferrer">källförteckningen</a>.</p>
+<hr>
+<aside class="callout"><p>Synkad presentationskopia. Redigera <a href="https://gitlab.com/scout-gg/croupier/-/blob/jakeminator123/work/docs/animation-events/v4-8-days-mvp/s02-spraket.md" target="_blank" rel="noreferrer">källfilen i Croupier</a> och kör <code>tools/sync-docs.mjs</code> i canvas-repot. Denna kopia är inte en separat besluts- eller runtimekälla.</p></aside>
+    </section></div>
+  </article>
+<article class="page" id="page-s03" data-page="s03">
+    <header class="page-header">
+      <div class="eyebrow">s03 · Eventträdet</div>
+      <div class="title-row">
+        <h1>S03 · urvalet</h1>
+        <span class="status proposal">Arbetsförslag</span>
+      </div>
+      <div class="intro"></div>
+    </header>
+    <div class="section-tabs" role="tablist" aria-label="Avsnitt på Eventträdet"><button class="section-tab is-active" type="button" role="tab" aria-selected="true" data-section="behall-ett-litet-trad">Behåll ett litet träd</button><button class="section-tab" type="button" role="tab" aria-selected="false" data-section="det-labbet-faktiskt-kan">Det labbet faktiskt kan</button><button class="section-tab" type="button" role="tab" aria-selected="false" data-section="foreslagen-forsta-produktkoppling">Föreslagen första produktkoppling</button></div>
+    <div class="sections"><section class="doc-section is-active" id="s03-behall-ett-litet-trad" data-section="behall-ett-litet-trad" role="tabpanel">
+      <h2>Behåll ett litet träd</h2>
+      <pre data-language="text"><code>Publicerad situation
+  → rätt dealer och presentationsbehov
+    → standard eller alternativ vars villkor stämmer
+      → en take som matchar exakt handling, mål eller talrad
+        → uppspelning, annars verifierad reserv</code></pre>
+<p>Det här är en förklaringsmodell. Den inför inga nya event-id:n eller runtimefält. <code>rng</code>/<code>show</code>, linje, variant, trigger och take är användbara gemensamma ord; de är inte automatiskt exakta servernamn.</p>
+    </section>
+<section class="doc-section" id="s03-det-labbet-faktiskt-kan" data-section="det-labbet-faktiskt-kan" role="tabpanel">
+      <h2>Det labbet faktiskt kan</h2>
+      <p><strong>Spela vald variant</strong> är manuell preview. <strong>Testa event</strong> använder det sparade exemplet och vald testkontext. Standard, regler, presentationsslump, shadow och aktivt modellråd är olika sätt att prova ett urval. Presentationsslump är skild från spelmotorns RNG.</p>
+<p>En kopplad video har ett exakt <code>videoGenerationId</code>. En kompatibilitetskontroll kan neka video för fel exempel och visa variantens 2D-reserv. Den kontrollen ersätter inte visuell granskning av innehållet.</p>
+    </section>
+<section class="doc-section" id="s03-foreslagen-forsta-produktkoppling" data-section="foreslagen-forsta-produktkoppling" role="tabpanel">
+      <h2>Föreslagen första produktkoppling</h2>
+      <p>Välj <strong>en klientväg och ett litet presentationsbehov</strong> med Kevin. Börja med en läsande vy som visar källhändelse, vald regel, kandidat, faktiskt val och uppspelningsresultat. Koppla sedan en avgränsad take till befintlig spelare i en isolerad testmiljö.</p>
+<p>Godkända kandidater måste matcha dealer, handling/mål eller exakt talrad. Om rätt material saknas används befintlig verifierad presentation eller en tydlig reserv utan dealer-video. Byt aldrig till en inspelad mening bara för att den har ungefär rätt längd.</p>
+<p>Ett manifest beskriver tillgängligt material. Det visar inte ensamt aktiv backoffice-bindning, spelarens slutliga val eller visuell acceptans.</p>
+<p>Nästa: <a href="#s04">Acceptans</a>. Källor: <a href="https://gitlab.com/scout-gg/croupier/-/wikis/animation-events/v4-8-days-mvp/RUNTIME-EVIDENCE" target="_blank" rel="noreferrer">kontrakt och labbprov</a>.</p>
+<hr>
+<aside class="callout"><p>Synkad presentationskopia. Redigera <a href="https://gitlab.com/scout-gg/croupier/-/blob/jakeminator123/work/docs/animation-events/v4-8-days-mvp/s03-eventtradet.md" target="_blank" rel="noreferrer">källfilen i Croupier</a> och kör <code>tools/sync-docs.mjs</code> i canvas-repot. Denna kopia är inte en separat besluts- eller runtimekälla.</p></aside>
+    </section></div>
+  </article>
+<article class="page" id="page-s04" data-page="s04">
+    <header class="page-header">
+      <div class="eyebrow">s04 · Säker presentation</div>
+      <div class="title-row">
+        <h1>S04 · uppspelning och acceptans</h1>
+        <span class="status decision">Gräns</span>
+      </div>
+      <div class="intro"><aside class="callout"><p>Ett godkänt urval är inte bevis på godkänd uppspelning.</p></aside></div>
+    </header>
+    <div class="section-tabs" role="tablist" aria-label="Avsnitt på Säker presentation"><button class="section-tab is-active" type="button" role="tab" aria-selected="true" data-section="tre-skilda-kvitton">Tre skilda kvitton</button><button class="section-tab" type="button" role="tab" aria-selected="false" data-section="foreslas-en-agare-av-dealer-talet">Föreslås: en ägare av dealer-talet</button><button class="section-tab" type="button" role="tab" aria-selected="false" data-section="gransen-som-galler-hela-tiden">Gränsen som gäller hela tiden</button></div>
+    <div class="sections"><section class="doc-section is-active" id="s04-tre-skilda-kvitton" data-section="tre-skilda-kvitton" role="tabpanel">
+      <h2>Tre skilda kvitton</h2>
+      <ol><li><strong>Källan stämmer:</strong> rätt kodväg, publicerade fält, dealer och situation.</li><li><strong>Materialet stämmer:</strong> exakt take, rätt status, bytes/hash, text/ljud och nödvändig kalibrering. <code>want</code> och katalogförekomst är inte livegodkännande.</li><li><strong>Uppspelningen stämmer:</strong> verklig spelare, rätt ord och mål, synk, avslut, återgång och nästa uppspelning. Anteckna resultat och kvarvarande fel.</li></ol>
+<p>En taländring är ett sammanhängande paket: <strong>exakt text + inspelat ljud + video + frame-index + kalibrering + acceptansanteckning</strong>. Nya ljud- eller videobytes ogiltigförklarar tidigare visuell acceptans. Varken hash, vågform eller testpass bevisar korrekt läppsynk.</p>
+<p>Vid media-/spelarändring gäller repots befintliga kontroller: <code>node pipeline/audit-dealer-sync.mjs --probe</code>, testerna i <code>.githooks/pre-commit</code> och rehearsal för <strong>Astrid, Vera, Amira och Mei</strong>, med två på varandra följande uppspelningar. Alla fyra ska behålla den gemensamma spelvägen.</p>
+    </section>
+<section class="doc-section" id="s04-foreslas-en-agare-av-dealer-talet" data-section="foreslas-en-agare-av-dealer-talet" role="tabpanel">
+      <h2>Föreslås: en ägare av dealer-talet</h2>
+      <p>Spelrepliker och sociala svar behöver en gemensam styrning av start, avbrott och avslut så att ljud och bild inte konkurrerar. Produktens befintliga chatt och det nya sociala labbprovet är ännu separata. V4 beskriver samordningen som ett integrationsförslag, inte en färdig talkö.</p>
+<p>Dynamiskt labbtal tillsammans med en 2D-gest är ett uttrycksprov. Det är inte en godkänd kombination med produktens inspelade talvideo.</p>
+    </section>
+<section class="doc-section" id="s04-gransen-som-galler-hela-tiden" data-section="gransen-som-galler-hela-tiden" role="tabpanel">
+      <h2>Gränsen som gäller hela tiden</h2>
+      <p>Presentation och modellråd får inte ändra kort, regler, tur, wallet eller utbetalning. Fel och sena modellsvar ska ge en kontrollerad reserv; detta ska provas i vald integration. Testa i isolerad server/databas med annan hostname. Öppna fynd följs i Jira CAC; en grön dokumentationssida stänger dem inte.</p>
+<p>Nästa: <a href="#s05">Ordlistan</a>. Källor: <a href="https://gitlab.com/scout-gg/croupier/-/wikis/animation-events/v4-8-days-mvp/RUNTIME-EVIDENCE" target="_blank" rel="noreferrer">acceptans och kända gap</a>.</p>
+<hr>
+<aside class="callout"><p>Synkad presentationskopia. Redigera <a href="https://gitlab.com/scout-gg/croupier/-/blob/jakeminator123/work/docs/animation-events/v4-8-days-mvp/s04-saker-presentation.md" target="_blank" rel="noreferrer">källfilen i Croupier</a> och kör <code>tools/sync-docs.mjs</code> i canvas-repot. Denna kopia är inte en separat besluts- eller runtimekälla.</p></aside>
+    </section></div>
+  </article>
+<article class="page" id="page-s05" data-page="s05">
+    <header class="page-header">
+      <div class="eyebrow">s05 · Ordlistan</div>
+      <div class="title-row">
+        <h1>S05 · liten ordlista</h1>
+        <span class="status reference">Referens</span>
+      </div>
+      <div class="intro"></div>
+    </header>
+    <div class="section-tabs" role="tablist" aria-label="Avsnitt på Ordlistan" hidden><button class="section-tab is-active" type="button" role="tab" aria-selected="true" data-section="oversikt">Översikt</button></div>
+    <div class="sections"><section class="doc-section is-active" id="s05-oversikt" data-section="oversikt" role="tabpanel">
+      <h2>Översikt</h2>
+      <ul><li><strong>Motor:</strong> serverns auktoritet över spelet. RNG är dess slumpdel, inte ett samlingsnamn för all logik eller alla signaler.</li><li><strong>Publik spelstatus:</strong> den del av tillståndet som mottagaren får se.</li><li><strong>Presentationsevent:</strong> instruktion om vad klienten ska presentera. Partner-vägen har sex typer; vanlig webbklient använder sin egen väg från status.</li><li><strong>SSE:</strong> serverns löpande eventström till anslutna Partner-prenumeranter. Den granskade strömmen har ingen återspelningsbuffert efter avbrott.</li><li><strong>Situation:</strong> de relevanta publicerade omständigheterna, exempelvis dealer, målbox, handling och exakt replik. Ett förklaringsord, inte ett nytt API.</li><li><strong>Linje / standard:</strong> grundpresentationen för ett behov. Partnerfältet <code>speak.line</code> betyder däremot en exakt talrads identifierare.</li><li><strong>Variant:</strong> ett tillåtet alternativ för samma behov.</li><li><strong>Trigger:</strong> ett kontrollerbart villkor som måste stämma för alternativet.</li><li><strong>Generation:</strong> inkommande råmaterial. Ett intake-val som <code>want</code> betyder att det får arbetas vidare med.</li><li><strong>Take:</strong> identifierad medieprestation med text/ljud där det behövs, metadata, kalibrering och granskningsstatus.</li><li><strong>Manifest / index:</strong> register över material och egenskaper. Det är inte i sig bevis på rätt innehåll eller AI-indexering av filmernas innehåll.</li><li><strong>Reserv / fallback:</strong> ett säkert presentationsval när det önskade inte fungerar.</li><li><strong>Rehearsal:</strong> granskning i produktens riktiga spelare. <strong>Baseline:</strong> skydd mot oavsiktliga assetändringar. Det ena ersätter inte det andra.</li></ul>
+<p><strong>Statusetiketterna är enkla:</strong> <em>Finns i kod</em> är källkodsbelagt; <em>Finns i labbet</em> är ett avgränsat prov; <em>Föreslås</em> återstår att genomföra; <em>Inte liveverifierat</em> saknar aktuellt driftbevis. Inget av orden betyder automatiskt visuellt godkänd.</p>
+<p>Nästa: <a href="#s06">Åttadagarsplanen</a>. Källor: <a href="https://gitlab.com/scout-gg/croupier/-/wikis/animation-events/v4-8-days-mvp/RUNTIME-EVIDENCE" target="_blank" rel="noreferrer">tekniskt kvitto</a>.</p>
+<hr>
+<aside class="callout"><p>Synkad presentationskopia. Redigera <a href="https://gitlab.com/scout-gg/croupier/-/blob/jakeminator123/work/docs/animation-events/v4-8-days-mvp/s05-ordlista.md" target="_blank" rel="noreferrer">källfilen i Croupier</a> och kör <code>tools/sync-docs.mjs</code> i canvas-repot. Denna kopia är inte en separat besluts- eller runtimekälla.</p></aside>
+    </section></div>
+  </article>
+<article class="page" id="page-s06" data-page="s06">
+    <header class="page-header">
+      <div class="eyebrow">s06 · 8 dagar</div>
+      <div class="title-row">
+        <h1>S06 · åtta arbetsdagar</h1>
+        <span class="status proposal">Arbetsplan</span>
+      </div>
+      <div class="intro"><aside class="callout"><p><strong>Planeringsram från Jakob:</strong> åtta återstående arbetsdagar. Dag 1 börjar när arbetet tas upp. Planen är ett arbetsförslag med kontrollpunkter, inte ett daterat lanseringslöfte. Kevin äger integrationen.</p></aside></div>
+    </header>
+    <div class="section-tabs" role="tablist" aria-label="Avsnitt på 8 dagar"><button class="section-tab is-active" type="button" role="tab" aria-selected="true" data-section="dag-1-ratt-karta">Dag 1 · rätt karta</button><button class="section-tab" type="button" role="tab" aria-selected="false" data-section="dag-2-valj-en-anslutning">Dag 2 · välj en anslutning</button><button class="section-tab" type="button" role="tab" aria-selected="false" data-section="dag-3-se-vad-som-kommer-in">Dag 3 · se vad som kommer in</button><button class="section-tab" type="button" role="tab" aria-selected="false" data-section="dag-4-sparbart-urval">Dag 4 · spårbart urval</button><button class="section-tab" type="button" role="tab" aria-selected="false" data-section="dag-5-media-och-spelare">Dag 5 · media och spelare</button><button class="section-tab" type="button" role="tab" aria-selected="false" data-section="dag-6-fel-och-aterhamtning">Dag 6 · fel och återhämtning</button><button class="section-tab" type="button" role="tab" aria-selected="false" data-section="dag-7-sammanhangande-qa">Dag 7 · sammanhängande QA</button><button class="section-tab" type="button" role="tab" aria-selected="false" data-section="dag-8-granskbar-overlamning">Dag 8 · granskbar överlämning</button><button class="section-tab" type="button" role="tab" aria-selected="false" data-section="om-tiden-eller-underlaget-inte-racker">Om tiden eller underlaget inte räcker</button></div>
+    <div class="sections"><section class="doc-section is-active" id="s06-dag-1-ratt-karta" data-section="dag-1-ratt-karta" role="tabpanel">
+      <h2>Dag 1 · rätt karta</h2>
+      <p><strong>Leverans:</strong> aktuell kodrevision, valda källor och en kort lista över öppna frågor. Skilj produkt, labb och förslag; synka V4:s wiki och webbplats. <strong>Klart när:</strong> varje påstående har källa och gamla V3-antaganden är märkta.</p>
+    </section>
+<section class="doc-section" id="s06-dag-2-valj-en-anslutning" data-section="dag-2-valj-en-anslutning" role="tabpanel">
+      <h2>Dag 2 · välj en anslutning</h2>
+      <p><strong>Leverans:</strong> Kevin-avstämd första klientväg och ett presentationsbehov. Dokumentera testsession, behörig åtkomst och vilket material som finns. <strong>Klart när:</strong> native-status respektive Partner-lista/SSE inte blandas ihop. Saknad liveåtkomst ger ett uttryckligt gap och ett separat isolerat prov.</p>
+    </section>
+<section class="doc-section" id="s06-dag-3-se-vad-som-kommer-in" data-section="dag-3-se-vad-som-kommer-in" role="tabpanel">
+      <h2>Dag 3 · se vad som kommer in</h2>
+      <p><strong>Leverans:</strong> ett litet läsande prov för vald väg, med källa, tid/ordning och avbrott synliga. Spara ett begränsat, avidentifierat testunderlag. <strong>Klart när:</strong> riktig data och sparade exempel är tydligt åtskilda. För SSE provas avbrott/återanslutning; luckor får inte visas som komplett historik.</p>
+    </section>
+<section class="doc-section" id="s06-dag-4-sparbart-urval" data-section="dag-4-sparbart-urval" role="tabpanel">
+      <h2>Dag 4 · spårbart urval</h2>
+      <p><strong>Leverans:</strong> den minsta kopplingen från situation till standard/variant och kompatibel take. Visa villkor, kandidat och orsak till eventuell reserv. <strong>Klart när:</strong> fel dealer, mål, handling eller talrad inte kan väljas; spelstatus förblir oförändrad.</p>
+    </section>
+<section class="doc-section" id="s06-dag-5-media-och-spelare" data-section="dag-5-media-och-spelare" role="tabpanel">
+      <h2>Dag 5 · media och spelare</h2>
+      <p><strong>Leverans:</strong> Kevin/Emils avgränsade takepaket kopplat till befintlig spelare i isolerat prov. Dokumentera hur spelreplik och socialt tal ska samordnas. <strong>Klart när:</strong> källmaterial, aktiv koppling och faktisk uppspelning går att följa var för sig. Saknad godkänd take ger reserv, inte ett provisoriskt godkännande.</p>
+    </section>
+<section class="doc-section" id="s06-dag-6-fel-och-aterhamtning" data-section="dag-6-fel-och-aterhamtning" role="tabpanel">
+      <h2>Dag 6 · fel och återhämtning</h2>
+      <p><strong>Leverans:</strong> prov för saknad media, fel status/hash, sen respons, avbrott och två uppspelningar i följd. <strong>Klart när:</strong> ingen fastlåst presentation, överlappande tal eller ändrat spelutfall; fel lämnar ett begripligt spår. Nya fel tillbaka till arbete.</p>
+    </section>
+<section class="doc-section" id="s06-dag-7-sammanhangande-qa" data-section="dag-7-sammanhangande-qa" role="tabpanel">
+      <h2>Dag 7 · sammanhängande QA</h2>
+      <p><strong>Leverans:</strong> relevant testkörning och visuell rehearsal med resultat per take. Vid media-/spelarändring omfattas alla fyra dealers av repots kontrollkrav. <strong>Klart när:</strong> full förväntad effekt är verifierad och kvarvarande gap är synliga. Automatiska testpass räknas inte som visuell acceptans.</p>
+    </section>
+<section class="doc-section" id="s06-dag-8-granskbar-overlamning" data-section="dag-8-granskbar-overlamning" role="tabpanel">
+      <h2>Dag 8 · granskbar överlämning</h2>
+      <p><strong>Leverans:</strong> liten diff/MR, bevis, kända begränsningar och uppdaterad handoff, wiki och webbpresentation. Kevin väljer integrera, justera eller håll separat. <strong>Klart när:</strong> underlaget går att förstå utan chattlogg; faktiskt publicerad dokumentation är kontrollerad. Produktmerge/deploy följer integrationsbeslutet.</p>
+    </section>
+<section class="doc-section" id="s06-om-tiden-eller-underlaget-inte-racker" data-section="om-tiden-eller-underlaget-inte-racker" role="tabpanel">
+      <h2>Om tiden eller underlaget inte räcker</h2>
+      <p>Behåll källkartan, det läsande provet och verifierad reserv. Minska antalet varianter och skjut på produktkopplingen när dess bevis saknas. Redovisa blockerande åtkomst eller media konkret; kalla inte ett isolerat prov liveklart.</p>
+<p>Jira CAC är arbetets statuskälla: <strong>In Dev → Ready for QA → In Testing → Done</strong>, med aktuella tillgängliga övergångar. Misslyckad QA går tillbaka till <strong>In Dev</strong>. Denna plan anger inga genomförda dagar eller nya QA-godkännanden.</p>
+<hr>
+<aside class="callout"><p>Synkad presentationskopia. Redigera <a href="https://gitlab.com/scout-gg/croupier/-/blob/jakeminator123/work/docs/animation-events/v4-8-days-mvp/s06-plan.md" target="_blank" rel="noreferrer">källfilen i Croupier</a> och kör <code>tools/sync-docs.mjs</code> i canvas-repot. Denna kopia är inte en separat besluts- eller runtimekälla.</p></aside>
+    </section></div>
+  </article></main>
+  <footer class="site-footer"><div class="footer-inner"><span>V4 · innehåll b9d7fc5ddadc · <a href="archive/v3/">V3-historik</a> · <a href="archive/v2/">V2-historik</a> · <a href="https://gitlab.com/scout-gg/croupier/-/wikis/animation-events/v4-8-days-mvp/DECISIONS">Beslutslogg</a> · <a href="https://gitlab.com/scout-gg/croupier/-/wikis/animation-events/v4-8-days-mvp/RUNTIME-EVIDENCE">Tekniskt kvitto</a></span><span>Kodkontrollerat · labbprov · förslag · live ej verifierat</span></div></footer>
+  <script>
+(function () {
+  var pageLinks = Array.prototype.slice.call(document.querySelectorAll(".page-link"));
+  var pages = Array.prototype.slice.call(document.querySelectorAll(".page"));
+  var search = document.getElementById("search");
+  var clear = document.getElementById("clear-search");
+  var result = document.getElementById("search-result");
+
+  function currentPage() {
+    return document.querySelector(".page.is-active");
+  }
+
+  function showSection(page, sectionId) {
+    var sections = Array.prototype.slice.call(page.querySelectorAll(".doc-section"));
+    var tabs = Array.prototype.slice.call(page.querySelectorAll(".section-tab"));
+    var chosen = sections.find(function (section) { return section.dataset.section === sectionId; }) || sections[0];
+    sections.forEach(function (section) { section.classList.toggle("is-active", section === chosen); });
+    tabs.forEach(function (tab) {
+      var active = chosen && tab.dataset.section === chosen.dataset.section;
+      tab.classList.toggle("is-active", active);
+      tab.setAttribute("aria-selected", String(active));
+    });
+  }
+
+  function showFromHash() {
+    if (location.hash === "#content") { document.getElementById("content").focus(); return; }
+    var raw = (location.hash || "#s00").slice(1);
+    var parts = raw.split("/");
+    var pageId = parts[0];
+    var page = pages.find(function (candidate) { return candidate.dataset.page === pageId; }) || pages[0];
+    pages.forEach(function (candidate) { candidate.classList.toggle("is-active", candidate === page); });
+    pageLinks.forEach(function (link) {
+      var active = link.dataset.page === page.dataset.page;
+      link.classList.toggle("is-active", active);
+      link.setAttribute("aria-current", active ? "page" : "false");
+    });
+    search.value = "";
+    applySearch();
+    showSection(page, parts[1]);
+    document.title = "Croupier · V4 · " + page.querySelector(".eyebrow").textContent;
+    window.scrollTo({ top: 0, behavior: "auto" });
+  }
+
+  function applySearch() {
+    var page = currentPage();
+    if (!page) return;
+    var query = search.value.trim().toLocaleLowerCase("sv");
+    var sections = Array.prototype.slice.call(page.querySelectorAll(".doc-section"));
+    page.classList.toggle("searching", Boolean(query));
+    var matches = 0;
+    sections.forEach(function (section) {
+      var matched = Boolean(query) && section.textContent.toLocaleLowerCase("sv").includes(query);
+      section.classList.toggle("search-match", matched);
+      if (matched) matches += 1;
+    });
+    result.textContent = query ? (matches + (matches === 1 ? " avsnitt matchar" : " avsnitt matchar")) : "Söker på den öppna sidan";
+  }
+
+  pages.forEach(function (page) {
+    page.querySelectorAll(".section-tab").forEach(function (tab) {
+      tab.addEventListener("click", function () {
+        showSection(page, tab.dataset.section);
+        history.replaceState(null, "", "#" + page.dataset.page + "/" + tab.dataset.section);
+      });
+    });
+  });
+  search.addEventListener("input", applySearch);
+  clear.addEventListener("click", function () { search.value = ""; applySearch(); search.focus(); });
+  window.addEventListener("hashchange", showFromHash);
+  showFromHash();
+}());
+</script>
+</body>
+</html>
